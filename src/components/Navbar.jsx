@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom';
 
 function Navbar() {
 
-    const auth = localStorage.getItem('auth')
+    const auth = useState(localStorage.getItem('auth'));
 
-    if(!auth){
+    const location = useLocation()
+
+    if(!auth || location.pathname==="/login"){
         return null
     }else{
         return (

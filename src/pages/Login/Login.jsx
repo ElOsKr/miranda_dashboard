@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { 
+  MainContainer,
+  Form,
+  Label,
+  Input,
+  Button,
+  Message
+} from './LoginStyle';
 
 function Login(props) {
 
@@ -13,7 +21,7 @@ function Login(props) {
     event.preventDefault();
 
     if(mail==='admin@admin.com' && pass==='admin'){
-      localStorage.setItem("auth",true);
+      localStorage.setItem("auth",[true]);
       props.setAuth(true)
       navigate('/')
     }else{
@@ -30,14 +38,18 @@ function Login(props) {
   }
 
   return (
-    <form onSubmit={handleForm}>
-      <label htmlFor="mail">Email</label>
-      <input type="text" name="mail" id="mail" onChange={handleMail}/>
-      <br/>
-      <label htmlFor="password">Password</label>
-      <input type="password" name="password" id="password" onChange={handlePass}/>
-      <input type="submit" value="Check" onClick={handleForm}/>
-    </form>
+    <MainContainer>
+      <Form onSubmit={handleForm}>
+        <Message>Email: admin@admin.com</Message>
+        <Message>Password: admin</Message>
+        <Label htmlFor="mail">Email</Label>
+        <Input type="text" name="mail" id="mail" onChange={handleMail}/>
+        <br/>
+        <Label htmlFor="password">Password</Label>
+        <Input type="password" name="password" id="password" onChange={handlePass}/>
+        <Button type="submit" value="Enter" onClick={handleForm}/>
+      </Form>
+    </MainContainer>
   )
 }
 
