@@ -8,7 +8,7 @@ function Header() {
     const navigate = useNavigate()
 
     const handleLogOut = () => {
-        localStorage.setItem('auth','')
+        localStorage.removeItem('auth')
         navigate('/login')
     }
 
