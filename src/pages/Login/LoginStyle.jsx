@@ -18,6 +18,10 @@ const Form = styled.form`
     flex-direction: column;
     text-align: center;
     margin-bottom: 100px;
+
+    @media (max-width: 850px){
+        width: 90%;
+    }
 `
 
 const Message = styled.h2`
