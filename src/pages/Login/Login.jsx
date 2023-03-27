@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login(props) {
 
   const [mail, setMail] = useState("");
 
@@ -14,6 +14,7 @@ function Login() {
 
     if(mail==='admin@admin.com' && pass==='admin'){
       localStorage.setItem("auth",true);
+      props.setAuth(true)
       navigate('/')
     }else{
       alert("Wrong user / password");
