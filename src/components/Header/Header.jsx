@@ -33,7 +33,7 @@ function Header(props) {
         case "/":
           setPath("Dashboard");
           break;
-        case "/booking":
+        case "/bookings":
           setPath("Bookings");
           break;
         case "/contact":
