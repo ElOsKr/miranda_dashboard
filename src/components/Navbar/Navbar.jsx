@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import { NavbarMain } from './NavbarStyle';
 
 function Navbar() {
 
@@ -9,11 +10,15 @@ function Navbar() {
 
     if(!auth || location.pathname==="/login"){
         return null
-    }else{
-        return (
-            <div>Navbar</div>
-        )        
     }
+
+
+    return (
+        <NavbarMain >
+            Navbar
+        </NavbarMain>
+    )        
+    
 
 }
 
