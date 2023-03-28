@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
-import { CircleLink, ListLinks, LogoContainer, LogoLetter, NavbarMain, TitleLogo } from './NavbarStyle';
+import { CircleLink, CompanyName, Copyright, ListLinks, LogoContainer, LogoLetter, MadeBy, NavbarMain, TitleLogo } from './NavbarStyle';
 import{
     BsGrid1X2,
     BsCalendarCheckFill
@@ -14,14 +14,15 @@ import{
 import{
     AiFillContacts
 } from 'react-icons/ai'
+import UserLogged from './UserLogged';
 
 function Navbar() {
 
     const auth = useState(localStorage.getItem('auth'));
 
-    const location = useLocation()
+    const currentLocation = useLocation()
 
-    if(!auth || location.pathname==="/login"){
+    if(!auth || currentLocation.pathname==="/login"){
         return null
     }
 
@@ -70,7 +71,7 @@ function Navbar() {
                 {locations.map((location,i) => {
                     return (
                     <li key={i}>
-                        <CircleLink className= { ( { isActive}) => `${isActive? 'active': ''}`}/>
+                        <CircleLink location={location.locationString} currentLocation={currentLocation.pathname}/>
                         <NavLink to={location.locationString} 
                             className= { ( { isActive}) => `${isActive? 'active': ''}`}
                         >
@@ -80,6 +81,16 @@ function Navbar() {
                     </li>)
                 })}
             </ListLinks>
+            <UserLogged />
+            <CompanyName>
+                Hotel Miranda Admin Dashboard
+            </CompanyName>
+            <Copyright>
+                © 2023 All Rights Reserved
+            </Copyright>
+            <MadeBy>
+                Made with ♥ by Oscar Alcivar
+            </MadeBy>
         </NavbarMain>
     )        
     

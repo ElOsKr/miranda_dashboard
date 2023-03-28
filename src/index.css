@@ -18,19 +18,19 @@
 }
 
 .navbar{
-  width: 250px;
+  width: 320px;
 }
 
 .navbar.close{
-  transform: translateX(-250px);
+  transform: translateX(-320px);
   width: 0;
   min-width: 0;
   transition: all .3s;
 }
 
 .navbar.open{
-  width: 250px;
-  min-width: 250px;
+  width: 320px;
+  min-width: 320px;
   transform: translateX(0);
   transition: all .4s;
 }

@@ -36,7 +36,7 @@ const LogoLetter = styled.div`
 `
 
 const ListLinks = styled.ul`
-    padding-left: 30px;
+    padding-left: 50px;
     padding-top: 80px;
     list-style: none;
     text-align: start;
@@ -49,7 +49,7 @@ const ListLinks = styled.ul`
             text-decoration: none;
             gap: 20px;
             font-size: 18px;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
 
             &.active{
                 color: red;
@@ -58,18 +58,43 @@ const ListLinks = styled.ul`
     }
 `
 const CircleLink = styled.span`
-    &.active{
-        overflow: visible;
-        position: absolute;
-        left: -80px;
-        top: -20px;
-        border-radius: 30px;
-        display: inline-block;
-        height: 60px;
-        width: 40px;
-        background-color: red;        
-    }
+    
+    ${props => {
+        if(props.location===props.currentLocation){
+            return{
+                overflow: "visible",
+                position: "absolute",
+                left: "-105px",
+                top: "-20px",
+                borderRadius: "30px",
+                display: "inline-block",
+                height: "60px",
+                width: "40px",
+                backgroundColor: "red",        
+            }
+        }
+    }}
 `;
+
+const CompanyName = styled.p`
+    color: #212121;
+    font-size: 16px;
+    font-family: var(--font-Poppins);
+    font-weight: 600;
+    margin-top: 60px;
+`
+
+const Copyright = styled.p`
+    color: #799283;
+    font-size: 14px;
+    margin-top: 5px;
+`
+
+const MadeBy = styled.p`
+    color: #799283;
+    font-size: 14px;
+    margin-top: 15px;
+`
 
 
 export {
@@ -78,5 +103,8 @@ export {
     LogoContainer,
     LogoLetter,
     ListLinks,
-    CircleLink
+    CircleLink,
+    CompanyName,
+    Copyright,
+    MadeBy
 }

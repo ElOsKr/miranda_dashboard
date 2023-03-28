@@ -62,10 +62,8 @@ function Header(props) {
     const handleCloseNavbar = () => {
       if(props.close===true){
         props.setClose(false)
-        console.log(props.close)
       }else{
         props.setClose(true)
-        console.log(props.close)
       }
       
     }
