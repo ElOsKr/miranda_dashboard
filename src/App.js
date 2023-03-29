@@ -24,14 +24,14 @@ function App() {
     <div className='App'>
       <BrowserRouter basename='/'>
         {auth && 
-          <div className={`navbar ${close?'close':"open"}`}>
+          <div className={`navbar ${close ?'close':"open"}`}>
             <Navbar/>
             </div>
           }          
         <div className='app-container'>
           {auth && <Header setClose={setClose} close={close}/>}
           <Routes>
-            <Route path='/login' element={<Login setAuth={setAuth}/>} />        
+            <Route path='/login' element={<Login setAuth={setAuth} setClose={setClose}/>} />        
             <Route path='/' element={<RequiredAuth><Dashboard /></RequiredAuth>} />
             <Route path='/bookings' element={<RequiredAuth><Bookings /></RequiredAuth>} />
             <Route path='/bookings/:bookingId' element={<RequiredAuth><BookingDescription /></RequiredAuth>} />

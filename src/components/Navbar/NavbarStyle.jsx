@@ -5,7 +5,7 @@ const NavbarMain = styled.div`
     position: relative;
     background-color: white;
     text-align: center;
-    padding: 40px 30px;
+    padding: 30px;
     font-family: var(--font-Poppins);
 `;
 

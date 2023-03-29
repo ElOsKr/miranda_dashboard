@@ -23,6 +23,7 @@ function Login(props) {
     if(mail==='admin@admin.com' && pass==='admin'){
       localStorage.setItem("auth",[true]);
       props.setAuth(true)
+      props.setClose(false)
       navigate('/')
     }else{
       alert("Wrong user / password");

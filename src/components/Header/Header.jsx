@@ -53,6 +53,7 @@ function Header(props) {
     const handleLogOut = () => {
         localStorage.removeItem('auth')
         navigate('/login')
+        props.setClose(true)
     }
 
     if(!auth || location.pathname==='/login'){
