@@ -31,6 +31,7 @@ const MessagesContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
+    gap: 20px;
 `
 
 export{

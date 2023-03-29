@@ -48,6 +48,22 @@ function Dashboard() {
         name: 'Obama',
         time: '4m ago'
       }
+    },
+    {
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+      user: {
+        photo: '../../assets/header/user_photo.jpg',
+        name: 'Obama',
+        time: '4m ago'
+      }
+    },
+    {
+      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
+      user: {
+        photo: '../../assets/header/user_photo.jpg',
+        name: 'Obama',
+        time: '4m ago'
+      }
     }
   ]
 
