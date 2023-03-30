@@ -8,7 +8,7 @@ const BookingContainer = styled.div`
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
-    min-width: 830px;
+    min-width: 800px;
 `
 
 const DataContainer = styled.div`
@@ -53,6 +53,7 @@ const UserContact = styled.div`
 `
 
 const TelephoneButton = styled.button`
+    cursor: pointer;
     background: none;
     color: #135846;
     border: 1px solid #E8F2EF;
@@ -65,12 +66,16 @@ const TelephoneButton = styled.button`
 `
 
 const MessageButton = styled.button`
+    cursor: pointer;
     color: white;
     padding: 5px 10px;
     background-color: #135846;
     border-radius: 12px;
     border: none;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
     svg{
         font-size: 30px;
     }
@@ -95,6 +100,81 @@ const PhotoContainer = styled.div`
     }
 `
 
+const DateContainer = styled.div`
+    display: flex;
+    margin-top: 20px;
+    gap: 50px;
+    border-bottom: 1px solid #C5C5C5;
+`
+
+const DateDiv = styled.div`
+
+    margin-bottom: 30px;
+
+    p:first-child{
+        font-size: 14px;
+        color: #6E6E6E;
+    }
+
+    p:nth-child(2n){
+        font-size: 16px;
+        color: #212121;
+        font-weight: 500;
+    }
+`
+
+const InfoContainer = styled.div`
+    
+`
+
+const RoomInfo = styled.div`
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+`
+
+const Info = styled.div`
+    color: #212121;
+    font-size: 24px;
+    font-weight: 500;
+
+    p:first-child{
+        font-size: 14px;
+        color: #6E6E6E;
+        font-weight: 400;
+    }
+
+    span{
+        font-size: 14px;
+        color: #799283;
+        font-weight: 400;
+    }
+`
+
+const RoomDescription = styled.p`
+    font-size: 14px;
+    color: #363636;
+    margin-top: 30px;
+`
+
+const RoomFacilities = styled.div`
+    margin-top: 20px;
+    p:first-child{
+        font-size: 14px;
+        color: #6E6E6E;
+        font-weight: 400;
+        margin-bottom: 10px;
+    }
+`
+
+const Facilitie = styled.span`
+    padding: 5px 20px;
+    background-color: #EEF9F2;
+    color: #119240;
+    margin: 0 10px;
+    border-radius: 12px;
+`
+
 export {
     MainContainer,
     BookingContainer,
@@ -106,5 +186,13 @@ export {
     TelephoneButton,
     MessageButton,
     UserOptions,
+    DateContainer,
+    DateDiv,
+    InfoContainer,
+    RoomInfo,
+    Info,
+    RoomDescription,
+    RoomFacilities,
+    Facilitie,
     PhotoContainer
 }

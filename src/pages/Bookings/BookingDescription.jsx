@@ -4,8 +4,16 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { 
   BookingContainer, 
   DataContainer, 
+  DateContainer, 
+  DateDiv, 
+  Facilitie, 
+  Info, 
+  InfoContainer, 
   MessageButton, 
   PhotoContainer, 
+  RoomDescription, 
+  RoomFacilities, 
+  RoomInfo, 
   TelephoneButton, 
   UserContact, 
   UserContainer, 
@@ -65,6 +73,37 @@ function BookingDescription() {
             <SlOptionsVertical />
             </UserOptions>
           </UserContainer>
+          <DateContainer>
+            <DateDiv>
+              <p>Check In</p>
+              <p>{booking.checkin.date} | {booking.checkin.hour}</p>
+            </DateDiv>
+            <DateDiv>
+              <p>Check Out</p>
+              <p>{booking.checkout.date} | {booking.checkout.hour}</p>
+            </DateDiv>
+          </DateContainer>
+          <InfoContainer>
+            <RoomInfo>
+              <Info>
+                <p>Room Info</p>
+                <p>{booking.typeRoom}</p>
+              </Info>
+              <Info>
+                <p>Price</p>
+                <p>$ {booking.price} <span>/night</span></p>
+              </Info>
+            </RoomInfo>
+            <RoomDescription>
+              {booking.description}
+            </RoomDescription>
+            <RoomFacilities>
+              <p>Facilities</p>
+              {booking.amenities.map((item, i)=>{
+                return <Facilitie key={i}>{item}</Facilitie>
+              })}
+            </RoomFacilities>
+          </InfoContainer>
         </DataContainer>
         <PhotoContainer>
           <img src={booking.photo} alt="roomPhoto" />
