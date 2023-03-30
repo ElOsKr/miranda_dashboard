@@ -21,6 +21,13 @@ const TableStyled = styled.table`
             color: black;
             text-decoration: none;
         }
+
+        tr:hover{
+            background-color: white;
+            transform: scale(1.04);
+            transition: all .5s;
+            box-shadow: 0px 4px 30px #0000001A;
+        }
         td{
             padding: 5px 20px;
             border-top: 1px solid #F5F5F5;

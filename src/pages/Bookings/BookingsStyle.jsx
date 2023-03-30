@@ -39,16 +39,61 @@ const RequestButtonEmpty = styled.button`
     border: 1px solid #799283;
     font-family: var(--font-Poppins);
     font-weight: 600;
+    width: 90%;
+    border-radius: 12px;
+    padding: 10px 0;
 `
 
 const RequestButton = styled.button`
     background-color: #EEF9F2;
     border: none;
-    width: 100%;
+    width: 90%;
     border-radius: 12px;
     padding: 10px 0;
     font-family: var(--font-Poppins);
     font-weight: 600;
+    cursor: pointer;
+`
+
+const CheckIn = styled.p`
+    text-align: center;
+    background-color: #E8FFEE;
+    color: #5AD07A;
+    border: none;
+    width: 90%;
+    border-radius: 12px;
+    font-family: var(--font-Poppins);
+    font-weight: 400;
+    padding: 10px 0;
+`
+
+const CheckOut = styled.p`
+    text-align: center;
+    background-color: #FFEDEC;
+    color: #E23428;
+    border: none;
+    width: 90%;
+    border-radius: 12px;
+    font-family: var(--font-Poppins);
+    font-weight: 400;
+    padding: 10px 0;
+`
+
+const InProgress = styled.p`
+    text-align: center;
+    background-color: #feffec;
+    color: #e2df28;
+    border: none;
+    width: 90%;
+    border-radius: 12px;
+    font-family: var(--font-Poppins);
+    font-weight: 400;
+    padding: 10px 0;
+`
+
+const HourMini = styled.p`
+    font-size: 14px;
+    font-weight: 300;
 `
 
 export {
@@ -58,5 +103,9 @@ export {
     BookingRoomImg,
     GuestInfo,
     RequestButtonEmpty,
-    RequestButton
+    RequestButton,
+    CheckIn,
+    CheckOut,
+    InProgress,
+    HourMini
 }

@@ -29,20 +29,23 @@ function Header(props) {
     const location = useLocation();
 
     useEffect(() => {
-      switch(location.pathname){
-        case "/":
+      switch(true){
+        case location.pathname==="/":
           setPath("Dashboard");
           break;
-        case "/bookings":
+        case location.pathname==="/bookings":
           setPath("Bookings");
           break;
-        case "/contact":
+        case /\/bookings\/[0-9]/.test(location.pathname):
+          setPath("Room Details");
+          break;
+        case location.pathname==="/contact":
           setPath("Contact");
           break;
-        case "/rooms":
+        case location.pathname==="/rooms":
           setPath("Rooms");
           break;
-        case "/users":
+        case location.pathname==="/users":
           setPath("Users");
           break;
         default:

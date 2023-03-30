@@ -4,7 +4,19 @@ import Select from '../../components/Select/Select'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Table from '../../components/Table/Table'
-import { BookingRoom, BookingRoomImg, GuestInfo, MainContainer, OptionsContainer, RequestButton, RequestButtonEmpty } from './BookingsStyle'
+import { 
+  BookingRoom, 
+  BookingRoomImg, 
+  CheckIn, 
+  CheckOut, 
+  GuestInfo, 
+  HourMini, 
+  InProgress, 
+  MainContainer, 
+  OptionsContainer, 
+  RequestButton, 
+  RequestButtonEmpty 
+} from './BookingsStyle'
 
 function Bookings() {
 
@@ -15,26 +27,7 @@ function Bookings() {
     "In Progress"
   ]
 
-  const data = [
-      {
-        photo: "https://www.riazorhotel.com/wp-content/blogs.dir/1623/files/home/HOME_SLIDER_1-1.jpg",
-        id: 1,
-        guest: "Obama",
-        orderDate: "29/3/2023",
-        checkin: "29/3/2023",
-        checkout: "30/3/2023",
-        roomId: 45,
-        price: 483,
-        specialRequest: "Test",
-        amenities: [
-            "Tv",
-            "Minibar"
-        ],
-        typeRoom: "Double Superior",
-        description: "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat.",
-        state: "checkin"
-    }
-  ]
+  const data = require('../../data/bookings/bookings.json')
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (
@@ -54,11 +47,23 @@ function Bookings() {
         </BookingRoom>
       </Link>
       )},
-      { property: 'orderDate', label: 'Order Date' },
-      { property: 'checkin', label: 'Check In' },
-      { property: 'checkout', label: 'Check Out' },
+      { property: 'orderDate', label: 'Order Date', display: (row) =>
+        <p>{row.orderDate.date} {row.orderDate.hour}</p>
+      },
+      { property: 'checkin', label: 'Check In', display: (row) =>
+        <>
+          <p>{row.checkin.date}</p>
+          <HourMini>{row.checkin.hour}</HourMini>
+        </>
+      },
+      { property: 'checkout', label: 'Check Out', display: (row) => 
+        <>
+          <p>{row.checkout.date}</p>
+          <HourMini>{row.checkout.hour}</HourMini>
+        </>
+      },
       { property: 'specialRequest', label: 'Special Request', display: (row) => 
-          row.specialRequest!== ''?
+          row.specialRequest?
             <RequestButton>
               View Notes
             </RequestButton>
@@ -68,7 +73,15 @@ function Bookings() {
             </RequestButtonEmpty>
       },
       { property: 'typeRoom', label: 'Room Type' },
-      { property: 'state', label: 'Status',},
+      { property: 'state', label: 'Status', display: (row) => 
+        row.status === 'checkIn' ? 
+          <CheckIn>Check In</CheckIn>
+        :
+        row.status === 'checkOut' ?
+          <CheckOut>Check Out</CheckOut> 
+        :
+          <InProgress>In Progress</InProgress>   
+      },
   ]
   return (
     <MainContainer>
