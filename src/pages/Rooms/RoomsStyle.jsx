@@ -23,6 +23,10 @@ const AddRoom = styled.button`
     color: white;
     font-family: var(--font-Poppins);
     cursor: pointer;
+    a{
+        color: white;
+        text-decoration: none;
+    }
 `
 const RoomName = styled.div`
     display: flex;

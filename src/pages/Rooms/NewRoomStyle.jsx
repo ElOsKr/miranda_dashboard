@@ -6,7 +6,7 @@ const MainContainer = styled.div`
     color: #393939;
 `
 
-const FormUserContainer = styled.div`
+const FormRoomContainer = styled.div`
     max-width: 850px;
     background-color: white;
     border-radius: 8px;
@@ -30,6 +30,10 @@ const FormUserContainer = styled.div`
         border-radius: 5px;
         border: 1px solid #7c7c7c
     }
+
+    input[type="file"]{
+        border: none
+    }
 `
 
 const FormHeader = styled.div`
@@ -37,13 +41,10 @@ const FormHeader = styled.div`
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    input[type="file"]{
-        border: none
-    }
 `
 
 const FormPhoto = styled.div`
-    width: 150px;
+    width: 180px;
     height: 150px;
     border: 1px solid black;
     margin-bottom: 10px;
@@ -59,14 +60,22 @@ const FormPhoto = styled.div`
     }
 `
 
-const FormMain = styled.div`
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
+const ImgInput = styled.input`
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
 `
 
-const StatusContainer = styled.div`
+const FormMain = styled.div`
+    display: flex;
+    justify-content: space-evenly;
+`
+
+const OfferContainer = styled.div`
     label{
+        &:first-child{
+            font-weight: 600;
+        }
         font-weight: 400;
         display: inline;
     }
@@ -74,7 +83,6 @@ const StatusContainer = styled.div`
     input{
         display: inline;
     }
-    
 `
 
 const FormBtn = styled.button`
@@ -100,11 +108,12 @@ const FormFooter = styled.div`
 
 export {
     MainContainer,
-    FormUserContainer,
+    FormRoomContainer,
     FormHeader,
     FormPhoto,
+    ImgInput,
     FormMain,
-    StatusContainer,
+    OfferContainer,
     FormBtn,
     FormFooter
 }

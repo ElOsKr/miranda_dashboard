@@ -17,6 +17,7 @@ import {
   NoData
 } from './RoomsStyle'
 import Table from '../../components/Table/Table'
+import { Link } from 'react-router-dom'
 
 function Rooms() {
 
@@ -81,7 +82,9 @@ function Rooms() {
         </FilterContainer>
         <ButtonsContainer>
           <AddRoom>
-            + New Room
+            <Link to='/rooms/newRoom'>
+              + New Room
+            </Link>
           </AddRoom>
           <Select />          
         </ButtonsContainer>

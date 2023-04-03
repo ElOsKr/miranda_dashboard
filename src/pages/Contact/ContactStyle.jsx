@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const MainContainer = styled.div`
-    padding: 50px;
+    padding: 50px 20px;
     font-family: var(--font-Poppins);
     color: #393939;
 `
