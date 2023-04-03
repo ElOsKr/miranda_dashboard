@@ -7,6 +7,7 @@ import Table from '../../components/Table/Table'
 import {
   BsFillTelephoneFill
 } from 'react-icons/bs'
+import { Link } from 'react-router-dom'
 
 function Users() {
 
@@ -62,7 +63,9 @@ function Users() {
         </FilterContainer>
         <ButtonsContainer>
           <AddEmployee>
-            + New Employee
+          <Link to="/users/newUser">
+              + New Employee
+            </Link>
           </AddEmployee>
           <Select />          
         </ButtonsContainer>

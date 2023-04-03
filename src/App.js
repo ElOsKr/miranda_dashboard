@@ -9,6 +9,7 @@ import Bookings from './pages/Bookings/Bookings';
 import Contact from './pages/Contact/Contact';
 import Rooms from './pages/Rooms/Rooms';
 import Users from './pages/Users/Users';
+import NewUser from './pages/Users/NewUser';
 import BookingDescription from './pages/Bookings/BookingDescription';
 
 
@@ -36,6 +37,7 @@ function App() {
             <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />
             <Route path='/rooms' element={<RequiredAuth><Rooms /></RequiredAuth>} />
             <Route path='/users' element={<RequiredAuth><Users /></RequiredAuth>} />
+            <Route path='/users/newUser' element={<RequiredAuth><NewUser /></RequiredAuth>} />
             <Route path='*' element={<Login setAuth={setAuth} />} />
           </Routes>  
         </div>            

@@ -21,6 +21,10 @@ const AddEmployee = styled.button`
     color: white;
     font-family: var(--font-Poppins);
     cursor: pointer;
+    a{
+        text-decoration: none;
+        color: white
+    }
 `
 
 const UserContainer = styled.div`
