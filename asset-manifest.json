@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/miranda_dashboard/static/css/main.b60af958.css",
-    "main.js": "/miranda_dashboard/static/js/main.936167a8.js",
+    "main.js": "/miranda_dashboard/static/js/main.5c035782.js",
     "static/js/787.7cca6840.chunk.js": "/miranda_dashboard/static/js/787.7cca6840.chunk.js",
     "static/media/user_photo.jpg": "/miranda_dashboard/static/media/user_photo.436ac01cb1b634949688.jpg",
     "index.html": "/miranda_dashboard/index.html",
     "main.b60af958.css.map": "/miranda_dashboard/static/css/main.b60af958.css.map",
-    "main.936167a8.js.map": "/miranda_dashboard/static/js/main.936167a8.js.map",
+    "main.5c035782.js.map": "/miranda_dashboard/static/js/main.5c035782.js.map",
     "787.7cca6840.chunk.js.map": "/miranda_dashboard/static/js/787.7cca6840.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b60af958.css",
-    "static/js/main.936167a8.js"
+    "static/js/main.5c035782.js"
   ]
 }
