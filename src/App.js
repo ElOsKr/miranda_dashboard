@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div className='App'>
-      <BrowserRouter basename='/'>
+      <BrowserRouter basename='/miranda_dashboard'>
         {auth && 
           <div className={`navbar ${close ?'close':"open"}`}>
             <Navbar/>
