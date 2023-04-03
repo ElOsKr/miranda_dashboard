@@ -22,8 +22,8 @@ function Rooms() {
 
   const tableFilters = [
     "All Rooms",
-    "Active Employee",
-    "Inactive Employee",
+    "Available Rooms",
+    "Booked Rooms",
   ]
 
   const data = require('../../data/rooms/rooms.json')

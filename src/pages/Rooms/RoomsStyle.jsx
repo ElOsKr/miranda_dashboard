@@ -82,7 +82,7 @@ const Booked = styled.p`
     background-color: #E23428;
     padding: 10px 7px;
     text-align: center;
-    border-radius: 12px
+    border-radius: 12px;
 `
 
 const Price = styled.p`

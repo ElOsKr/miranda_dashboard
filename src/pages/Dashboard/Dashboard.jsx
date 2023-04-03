@@ -40,32 +40,7 @@ function Dashboard() {
     }
   ]
 
-  const messages = [
-    {
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-      user: {
-        photo: '../../assets/header/user_photo.jpg',
-        name: 'Obama',
-        time: '4m ago'
-      }
-    },
-    {
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-      user: {
-        photo: '../../assets/header/user_photo.jpg',
-        name: 'Obama',
-        time: '4m ago'
-      }
-    },
-    {
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam',
-      user: {
-        photo: '../../assets/header/user_photo.jpg',
-        name: 'Obama',
-        time: '4m ago'
-      }
-    }
-  ]
+  const messages = require('../../data/dashboard/messages.json')
 
   return (
     <MainContainer>
@@ -77,10 +52,10 @@ function Dashboard() {
         <ReviewsContainer>
           <h3>Latest Review by Customers</h3>
           <MessagesContainer>
-          {messages.map((message, i)=>{
-            return <Message props={message} key={i}/>
-          })}
-        </MessagesContainer>
+            {messages.map((message, i)=>{
+              return <Message props={message} key={i}/>
+            })}
+          </MessagesContainer>
         </ReviewsContainer>
     </MainContainer>
   )

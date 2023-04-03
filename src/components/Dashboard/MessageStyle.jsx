@@ -5,11 +5,12 @@ const MessagesCard = styled.div`
     border: 1px solid #EBEBEB;
     max-width: 431px;
     padding: 20px;
+    background-color: white;
 
     &:hover{
         box-shadow: 0px 16px 30px #00000014;
-        transform: scale(1.05);
-        transition: all .5s;
+        transform: scale(1.02);
+        transition: all .2s;
     }
 `
 

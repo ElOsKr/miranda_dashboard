@@ -10,7 +10,6 @@ import Contact from './pages/Contact/Contact';
 import Rooms from './pages/Rooms/Rooms';
 import Users from './pages/Users/Users';
 import BookingDescription from './pages/Bookings/BookingDescription';
-import UserDescription from './pages/Users/UserDescription';
 
 
 function App() {
@@ -37,7 +36,6 @@ function App() {
             <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />
             <Route path='/rooms' element={<RequiredAuth><Rooms /></RequiredAuth>} />
             <Route path='/users' element={<RequiredAuth><Users /></RequiredAuth>} />
-            <Route path='/users:/userId' element={<RequiredAuth><UserDescription /></RequiredAuth>} />
             <Route path='*' element={<Login setAuth={setAuth} />} />
           </Routes>  
         </div>            

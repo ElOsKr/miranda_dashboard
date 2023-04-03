@@ -24,8 +24,8 @@ const TableStyled = styled.table`
 
         tr:hover{
             background-color: white;
-            transform: scale(1.04);
-            transition: all .5s;
+            transform: scale(1.02);
+            transition: all .2s;
             box-shadow: 0px 4px 30px #0000001A;
         }
         td{

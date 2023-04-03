@@ -10,8 +10,8 @@ const KpiBox = styled.div`
     min-width: 300px;
 
     &:hover{
-        transform: scale(1.05);
-        transition: all .5s;
+        transform: scale(1.02);
+        transition: all .2s;
         box-shadow: 0px 16px 30px #00000014;
         div:first-child{
             background-color: red;
