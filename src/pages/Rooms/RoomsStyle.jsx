@@ -19,13 +19,14 @@ const AddRoom = styled.button`
     border: none;
     border-radius: 12px;
     background-color: #135846;
-    padding: 10px 35px;
     color: white;
     font-family: var(--font-Poppins);
     cursor: pointer;
     a{
         color: white;
         text-decoration: none;
+        display: block;
+        padding: 10px 35px;
     }
 `
 const RoomName = styled.div`

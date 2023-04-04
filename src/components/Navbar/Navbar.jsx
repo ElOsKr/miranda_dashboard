@@ -71,7 +71,7 @@ function Navbar() {
                 {locations.map((location,i) => {
                     return (
                     <li key={i}>
-                        <CircleLink location={location.locationString} currentLocation={currentLocation.pathname}/>
+                        <CircleLink location={location.locationString.split("/",2)[1]} currentLocation={currentLocation.pathname.split("/",2)[1]}/>
                         <NavLink to={location.locationString} 
                             className= { ( { isActive}) => `${isActive? 'active': ''}`}
                         >
