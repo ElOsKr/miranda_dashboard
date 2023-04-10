@@ -17,12 +17,15 @@ import{
 import {
   AiOutlineArrowLeft
 } from 'react-icons/ai'
+import { useLogin } from '../LoginProvider';
 
 function Header(props) {
 
+    const login = useLogin();
+
     const [ path, setPath ] = useState("");
 
-    const auth = localStorage.getItem('auth');
+    const auth = login.user.isLogged;
 
     const navigate = useNavigate();
 
@@ -60,9 +63,9 @@ function Header(props) {
     },[location])
 
     const handleLogOut = () => {
-        localStorage.removeItem('auth')
-        navigate('/login')
+        login.dispatch({type: 'logout'})
         props.setClose(true)
+        navigate('/login')
     }
 
     if(!auth || location.pathname==='/login'){

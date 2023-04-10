@@ -8,8 +8,11 @@ import {
   Button,
   Message
 } from './LoginStyle';
+import { useLogin } from '../../components/LoginProvider';
 
 function Login(props) {
+
+  const login = useLogin()
 
   const [mail, setMail] = useState("");
 
@@ -19,15 +22,13 @@ function Login(props) {
 
   const handleForm = (event) =>{
     event.preventDefault();
-
-    if(mail==='admin@admin.com' && pass==='admin'){
-      localStorage.setItem("auth",[true]);
-      props.setAuth(true)
-      props.setClose(false)
-      navigate('/')
-    }else{
-      alert("Wrong user / password");
-    }
+    login.dispatch({type: 'login', user: {mail,pass}})
+    setTimeout(() => {
+      if(localStorage.getItem("user")){
+        props.setClose(false)
+      }
+    },100)
+    setTimeout(() => navigate('/'), 100)
   }
 
   const handleMail = (event) => {

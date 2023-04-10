@@ -15,10 +15,13 @@ import{
     AiFillContacts
 } from 'react-icons/ai'
 import UserLogged from './UserLogged';
+import { useLogin } from '../LoginProvider';
 
 function Navbar() {
 
-    const auth = useState(localStorage.getItem('auth'));
+    const login = useLogin()
+
+    const auth = useState(login.user.isLogged);
 
     const currentLocation = useLocation()
 

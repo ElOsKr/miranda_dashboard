@@ -12,39 +12,41 @@ import NewRoom from './pages/Rooms/NewRoom';
 import Users from './pages/Users/Users';
 import NewUser from './pages/Users/NewUser';
 import BookingDescription from './pages/Bookings/BookingDescription';
+import LoginProvider from './components/LoginProvider';
 
 
 function App() {
-
-  const [ auth, setAuth ] = useState(localStorage.getItem('auth'));
   
-  const [ close, setClose ] = useState(false);
+  const [ close, setClose ] = useState(true);
 
   return (
-    <div className='App'>
-      <BrowserRouter basename='/miranda_dashboard'>
-        {auth && 
-          <div className={`navbar ${close ?'close':"open"}`}>
-            <Navbar/>
-            </div>
-          }          
-        <div className='app-container'>
-          {auth && <Header setClose={setClose} close={close}/>}
-          <Routes>
-            <Route path='/login' element={<Login setAuth={setAuth} setClose={setClose}/>} />        
-            <Route path='/' element={<RequiredAuth><Dashboard /></RequiredAuth>} />
-            <Route path='/bookings' element={<RequiredAuth><Bookings /></RequiredAuth>} />
-            <Route path='/bookings/:bookingId' element={<RequiredAuth><BookingDescription /></RequiredAuth>} />
-            <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />
-            <Route path='/rooms' element={<RequiredAuth><Rooms /></RequiredAuth>} />
-            <Route path='/rooms/newRoom' element={<RequiredAuth><NewRoom /></RequiredAuth>} />
-            <Route path='/users' element={<RequiredAuth><Users /></RequiredAuth>} />
-            <Route path='/users/newUser' element={<RequiredAuth><NewUser /></RequiredAuth>} />
-            <Route path='*' element={<Login setAuth={setAuth} />} />
-          </Routes>  
-        </div>            
-      </BrowserRouter>
-    </div>
+    <LoginProvider>
+      <div className='App'>
+        <BrowserRouter basename='/miranda_dashboard'>
+          {
+            <div className={`navbar ${close ?'close':"open"}`}>
+              <Navbar/>
+              </div>
+            }          
+          <div className='app-container'>
+            {<Header setClose={setClose} close={close}/>}
+            <Routes>
+              <Route path='/login' element={<Login setClose={setClose}/>} />        
+              <Route path='/' element={<RequiredAuth><Dashboard /></RequiredAuth>} />
+              <Route path='/bookings' element={<RequiredAuth><Bookings /></RequiredAuth>} />
+              <Route path='/bookings/:bookingId' element={<RequiredAuth><BookingDescription /></RequiredAuth>} />
+              <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />
+              <Route path='/rooms' element={<RequiredAuth><Rooms /></RequiredAuth>} />
+              <Route path='/rooms/newRoom' element={<RequiredAuth><NewRoom /></RequiredAuth>} />
+              <Route path='/users' element={<RequiredAuth><Users /></RequiredAuth>} />
+              <Route path='/users/newUser' element={<RequiredAuth><NewUser /></RequiredAuth>} />
+              <Route path='*' element={<Login />} />
+            </Routes>  
+          </div>            
+        </BrowserRouter>
+      </div>      
+    </LoginProvider>
+
   );
 }
 
