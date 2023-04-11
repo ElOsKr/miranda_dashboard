@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
 import { CircleLink, CompanyName, Copyright, ListLinks, LogoContainer, LogoLetter, MadeBy, NavbarMain, TitleLogo } from './NavbarStyle';
 import{
@@ -17,13 +17,19 @@ import{
 import UserLogged from './UserLogged';
 import { useLogin } from '../LoginProvider';
 
-function Navbar() {
+function Navbar(props) {
 
     const login = useLogin()
 
     const auth = useState(login.user.isLogged);
 
-    const currentLocation = useLocation()
+    useEffect(()=>{
+        if(login.user.isLogged){
+            props.setClose(false)
+        }
+    })
+
+    const currentLocation = useLocation();
 
     if(!auth || currentLocation.pathname==="/login"){
         return null

@@ -25,14 +25,14 @@ function App() {
         <BrowserRouter basename='/miranda_dashboard'>
           {
             <div className={`navbar ${close ?'close':"open"}`}>
-              <Navbar/>
+              <Navbar setClose={setClose} />
               </div>
             }          
           <div className='app-container'>
             {<Header setClose={setClose} close={close}/>}
             <Routes>
               <Route path='/login' element={<Login setClose={setClose}/>} />        
-              <Route path='/' element={<RequiredAuth><Dashboard /></RequiredAuth>} />
+              <Route path='/' element={<RequiredAuth><Dashboard/></RequiredAuth>} />
               <Route path='/bookings' element={<RequiredAuth><Bookings /></RequiredAuth>} />
               <Route path='/bookings/:bookingId' element={<RequiredAuth><BookingDescription /></RequiredAuth>} />
               <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />

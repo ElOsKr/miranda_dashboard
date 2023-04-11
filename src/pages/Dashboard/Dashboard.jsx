@@ -15,7 +15,7 @@ import Message from '../../components/Dashboard/Message';
 
 
 
-function Dashboard() {
+function Dashboard(props) {
 
   const kpis = [
     {
