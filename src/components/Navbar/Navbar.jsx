@@ -27,7 +27,7 @@ function Navbar(props) {
         if(login.user.isLogged){
             props.setClose(false)
         }
-    })
+    },[])
 
     const currentLocation = useLocation();
 

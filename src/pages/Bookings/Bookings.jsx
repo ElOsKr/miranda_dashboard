@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Select from '../../components/Select/Select'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Table from '../../components/Table/Table'
+import { useSelector, useDispatch } from 'react-redux'
 import { 
   BookingRoom, 
   BookingRoomImg, 
@@ -17,6 +18,7 @@ import {
   RequestButton, 
   RequestButtonEmpty 
 } from './BookingsStyle'
+import { bookingsCall } from '../../features/bookings/bookingsSlice'
 
 function Bookings() {
 
@@ -27,7 +29,14 @@ function Bookings() {
     "In Progress"
   ]
 
-  const data = require('../../data/bookings/bookings.json')
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.bookings.bookings)
+
+  useEffect(()=>{
+    dispatch(bookingsCall());
+  },[]);
+
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (
