@@ -10,6 +10,7 @@ import {
   BookingRoomImg, 
   CheckIn, 
   CheckOut, 
+  DeleteButton, 
   GuestInfo, 
   HourMini, 
   InProgress, 
@@ -18,7 +19,7 @@ import {
   RequestButton, 
   RequestButtonEmpty 
 } from './BookingsStyle'
-import { bookingsCall } from '../../features/bookings/bookingsSlice'
+import { bookingDelete, bookingsCall } from '../../features/bookings/bookingsSlice'
 
 function Bookings() {
 
@@ -34,8 +35,12 @@ function Bookings() {
   const data = useSelector(state => state.bookings.bookings)
 
   useEffect(()=>{
-    dispatch(bookingsCall());
+      dispatch(bookingsCall());
   },[]);
+
+  const handleDeleteRoom = (id) => {
+    dispatch(bookingDelete(id))
+  }
 
 
   const cols = [
@@ -91,6 +96,9 @@ function Bookings() {
         :
           <InProgress>In Progress</InProgress>   
       },
+      { property: 'deleteRoom', label: '', display: (row) =>
+        <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
+      }
   ]
   return (
     <MainContainer>

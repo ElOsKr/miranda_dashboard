@@ -22,12 +22,17 @@ const TableStyled = styled.table`
             text-decoration: none;
         }
 
-        tr:hover{
-            background-color: white;
-            transform: scale(1.02);
+        tr{
             transition: all .2s;
-            box-shadow: 0px 4px 30px #0000001A;
+
+            &:hover{
+                background-color: white;
+                transform: scale(1.02);
+                transition: all .2s;
+                box-shadow: 0px 4px 30px #0000001A;
+            }
         }
+
         td{
             padding: 5px 20px;
             border-top: 1px solid #F5F5F5;

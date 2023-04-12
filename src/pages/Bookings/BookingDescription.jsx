@@ -31,22 +31,27 @@ import {
 import {
   SlOptionsVertical
 } from 'react-icons/sl'
+import { useDispatch, useSelector } from 'react-redux';
+import { bookingCall, bookingDelete } from '../../features/bookings/bookingsSlice';
 
 function BookingDescription() {
 
-  const bookingId = useParams()
+  const navigate = useNavigate()
 
-  const bookingList = require('../../data/bookings/bookings.json');
+  const bookingId = useParams();
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const booking = bookingList.find(booking => booking.id === parseInt(bookingId.bookingId))
+  let booking = useSelector(state => state.bookings.booking);
   
   useEffect(()=>{
-    if(!booking){
-      navigate("/bookings")
-    }
+    dispatch(bookingCall(parseInt(bookingId.bookingId)));
   },[])
+
+  const handleDeleteRoom = (id) => {
+    dispatch(bookingDelete(id))
+    navigate('/bookings')
+  }
 
   return (
     <MainContainer>
@@ -58,7 +63,7 @@ function BookingDescription() {
             </UserPhoto>
             <UserData>
               <h2>Aritos20</h2>
-              <p>ID {booking.id}</p>
+              <p>ID {booking?.id}</p>
               <UserContact>
               <TelephoneButton>
                 <BsFillTelephoneFill />
@@ -70,36 +75,36 @@ function BookingDescription() {
             </UserContact>
             </UserData>
             <UserOptions>
-            <SlOptionsVertical />
+            <SlOptionsVertical onClick={() => handleDeleteRoom(booking.id)} />
             </UserOptions>
           </UserContainer>
           <DateContainer>
             <DateDiv>
               <p>Check In</p>
-              <p>{booking.checkin.date} | {booking.checkin.hour}</p>
+              <p>{booking.checkin?.date} | {booking.checkin?.hour}</p>
             </DateDiv>
             <DateDiv>
               <p>Check Out</p>
-              <p>{booking.checkout.date} | {booking.checkout.hour}</p>
+              <p>{booking.checkout?.date} | {booking.checkout?.hour}</p>
             </DateDiv>
           </DateContainer>
           <InfoContainer>
             <RoomInfo>
               <Info>
                 <p>Room Info</p>
-                <p>{booking.typeRoom}</p>
+                <p>{booking?.typeRoom}</p>
               </Info>
               <Info>
                 <p>Price</p>
-                <p>$ {booking.price} <span>/night</span></p>
+                <p>$ {booking?.price} <span>/night</span></p>
               </Info>
             </RoomInfo>
             <RoomDescription>
-              {booking.description}
+              {booking?.description}
             </RoomDescription>
             <RoomFacilities>
               <p>Facilities</p>
-              {booking.amenities.map((item, i)=>{
+              {booking.amenities?.map((item, i)=>{
                 return <Facilitie key={i}>{item}</Facilitie>
               })}
             </RoomFacilities>
