@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import { MainContainer } from '../Users/NewUserStyle'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormRoomContainer, ImgInput, OfferContainer } from './NewRoomStyle'
+import { useDispatch } from 'react-redux';
+import { roomCreate } from '../../features/rooms/roomsSlice';
 
 function NewRoom() {
+
+    const dispatch = useDispatch()
 
     const [img, setImg] = useState([]);
 
@@ -72,9 +76,33 @@ function NewRoom() {
         setDiscount(e.target.value)
     }
 
+    const handleSubmit = (e) => {
+        
+        e.preventDefault();
+
+        const newRoom = {
+            type: type,
+            price: price,
+            number: number,
+            discount: discount,
+            description: description,
+            offer: offer,
+            cancellation: cancellation,
+            amenities: amenities
+        }
+
+        for(let key in newRoom){
+            if(!newRoom[key]){
+                return alert("Something empty")
+            } 
+        }
+
+        dispatch(roomCreate(newRoom))
+    }
+
   return (
     <MainContainer>
-        <FormRoomContainer>
+        <FormRoomContainer onSubmit={handleSubmit}>
             <FormHeader>
                 {
                     img.length>=3?
@@ -151,16 +179,16 @@ function NewRoom() {
                     </div>
                     <div>
                         <label htmlFor="amenities">Amenities</label>
-                        <select name="amenities" id="amenities" onChange={handleAmenitiesChange}>
+                        <select name="amenities" id="amenities" onChange={handleAmenitiesChange} defaultValue="">
+                            <option value="" disabled>Select an option</option>
                             <option value="tv">TV</option>
+                            <option value="bar">Bar</option>
                         </select>
                     </div>
                 </div>
             </FormMain>
             <FormFooter>
-                <FormBtn>
-                    Create Room
-                </FormBtn>
+                <FormBtn type='submit' value="Create Room" style={{padding: "10px 20px"}} onSubmit={handleSubmit}/>
             </FormFooter>
         </FormRoomContainer>
     </MainContainer>

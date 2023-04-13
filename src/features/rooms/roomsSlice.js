@@ -9,7 +9,7 @@ function delay(data) {
     });
   }
 
-//Funtions for bookings
+//Funtions for rooms
 
 export const getRooms = async () => {
     try{
@@ -22,7 +22,7 @@ export const getRooms = async () => {
     };
 };
 
-//functions for booking
+//functions for room
 
 export const getRoom = async (roomId) => {
     try{
@@ -64,6 +64,7 @@ export const updateRoom = async (roomId) => {
 export const createRoom = async (dataRoom) => {
     try{
         console.log(dataRoom)
+        return (dataRoom)
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
@@ -72,6 +73,7 @@ export const createRoom = async (dataRoom) => {
 const initialState = {
     rooms: [],
     room: {},
+    roomCreated: {},
     isLoading: false,
     hasError: false
 }
@@ -100,6 +102,15 @@ export const roomDelete = createAsyncThunk(
         // const data = await deleteRoom(id);
         // return data;
         return id
+    }
+);
+
+export const roomCreate = createAsyncThunk(
+    'room/createRoom',
+    async (data) => {
+        // const data = await createRoom(data);
+        // return data;
+        return await delay(createRoom(data))
     }
 );
 
@@ -147,7 +158,21 @@ export const roomsSlice = createSlice({
             state.rooms = state.rooms.filter(room => room.id!==action.payload)
             console.log("ID Deleted Room: "+action.payload)
         },
-        [roomDelete.rejected]: (state, action) => {
+        [roomCreate.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.hasError = true;
+        },
+
+        [roomCreate.pending]: (state, action) => {
+            state.isLoading = true;
+            state.hasError = false;
+        },
+        [roomCreate.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            state.hasError = false;
+            state.roomCreated = action.payload; 
+        },
+        [roomCreate.rejected]: (state, action) => {
             state.isLoading = false;
             state.hasError = true;
         }

@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Select from '../../components/Select/Select'
-import { AddEmployee, ButtonsContainer, MainContainer, OptionsContainer, UserActive, UserContainer, UserImg, UserInactive, UserInfo } from './UsersStyle'
+import { AddEmployee, ButtonsContainer, DeleteButton, MainContainer, OptionsContainer, UserActive, UserContainer, UserImg, UserInactive, UserInfo } from './UsersStyle'
 import Table from '../../components/Table/Table'
 import {
   BsFillTelephoneFill
 } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userDelete, usersCall } from '../../features/users/usersSlice'
+import CharginProgress from '../../components/CharginProgress'
 
 function Users() {
 
@@ -17,7 +20,19 @@ function Users() {
     "Inactive Employee",
   ]
 
-  const data = require('../../data/users/users.json')
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.users.users)
+
+  const isLoading = useSelector(state => state.users.isLoading)
+
+  useEffect(() => {
+    dispatch(usersCall())
+  },[])
+
+  const handleDeleteUser = (id) => {
+    dispatch(userDelete(id))
+  }
 
   const cols = [
     {property: 'image', label: 'Name', display: (row) => (
@@ -52,25 +67,34 @@ function Users() {
             <UserInactive>
               Inactive
             </UserInactive>
+      },
+      { property: 'deleteRoom', label: '', display: (row) =>
+        <DeleteButton onClick={()=>handleDeleteUser(parseInt(row.id))}>Delete</DeleteButton>
       }
   ]
 
   return (
     <MainContainer>
-      <OptionsContainer>
-        <FilterContainer>
-          <FilterTable filters={tableFilters}/>
-        </FilterContainer>
-        <ButtonsContainer>
-          <AddEmployee>
-          <Link to="/users/newUser">
-              + New Employee
-            </Link>
-          </AddEmployee>
-          <Select />          
-        </ButtonsContainer>
-      </OptionsContainer>
-      <Table data={data} cols={cols} />
+      {isLoading?
+          <CharginProgress />
+        :
+          <>
+            <OptionsContainer>
+              <FilterContainer>
+                <FilterTable filters={tableFilters}/>
+              </FilterContainer>
+              <ButtonsContainer>
+                <AddEmployee>
+                <Link to="/users/newUser">
+                    + New Employee
+                  </Link>
+                </AddEmployee>
+                <Select />          
+              </ButtonsContainer>
+            </OptionsContainer>
+            <Table data={data} cols={cols} />          
+          </>
+      }
     </MainContainer>
   )
 }

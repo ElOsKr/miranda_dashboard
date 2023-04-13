@@ -2,12 +2,32 @@ import React from 'react'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormUserContainer, MainContainer, StatusContainer } from './NewUserStyle'
 import { useState } from 'react'
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { userCreate } from '../../features/users/usersSlice';
 
 function NewUser() {
+
+    const dispatch = useDispatch();
 
     const [img, setImg] = useState();
 
     const [imgURL, setImgURL] = useState(null)
+
+    const [name, setName] = useState();
+
+    const [password, setPassword] = useState();
+
+    const [email, setEmail] = useState();
+
+    const [phone, setPhone] = useState();
+
+    const [startDate, setStartDate] = useState();
+
+    const [job, setJob] = useState();
+
+    const [functions , setFunctions] = useState();
+
+    const [status, setStatus] = useState();
 
     useEffect(() => {
         if(img){
@@ -21,15 +41,71 @@ function NewUser() {
         setImg(event.target.files[0])
     }
 
+    const handleNameChange = (event) => {
+        setName(event.target.value)
+    }
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value)
+    }
+
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value)
+    }
+
+    const handlePhoneChange = (event) => {
+        setPhone(event.target.value)
+    }
+
+    const handleStartDateChange = (event) => {
+        setStartDate(event.target.value)
+    }
+
+    const handleJobChange = (event) => {
+        setJob(event.target.value)
+    }
+
+    const handleFunctionsChange = (event) => {
+        setFunctions(event.target.value)
+    }
+
+    const handleStatusChange = (event) => {
+        setStatus(event.target.value)
+    }
+
+    const handleSubmit = (e) => {
+        
+        e.preventDefault();
+
+        const newUser = {
+            name: name,
+            password: password,
+            email: email,
+            phone: phone,
+            startDate: startDate,
+            job: job,
+            functions: functions,
+            status: status
+        }
+
+        for(let key in newUser){
+            if(!newUser[key]){
+                return alert("Something empty")
+            } 
+        }
+
+        dispatch(userCreate(newUser))
+    }
+
   return (
     <MainContainer>
-        <FormUserContainer>
+        <FormUserContainer onSubmit={handleSubmit}>
             <FormHeader>
                 <div>
                     <label htmlFor="name">Name</label>
-                    <input type="text" name="name" id="name" />
+                    <input type="text" name="name" id="name" onChange={handleNameChange}/>
                     <label htmlFor="password">Password</label> 
-                    <input type="password" name="password" id="password" />
+                    <input type="password" name="password" id="password" onChange={handlePasswordChange}/>
                 </div>    
                 <div>
                     <FormPhoto>
@@ -45,23 +121,24 @@ function NewUser() {
             <FormMain>
                 <div>
                     <label htmlFor="email">Email</label>
-                    <input type='email' name="email" id="email" />
+                    <input type='email' name="email" id="email" onChange={handleEmailChange}/>
                     <label htmlFor="phone">Phone</label>
-                    <input type='tel' name="phone" id="phone" />
+                    <input type='tel' name="phone" id="phone" onChange={handlePhoneChange}/>
                     <label htmlFor="startDate">Start Date</label>
-                    <input type="datetime-local" name="startDate" id="startDate" />
+                    <input type="datetime-local" name="startDate" id="startDate" onChange={handleStartDateChange}/>
                 </div>
                 <div style={{marginRight: "75px"}}>
                     <label htmlFor="job">Job</label> 
-                    <select name="job" id="job">
+                    <select name="job" id="job" onChange={handleJobChange} defaultValue="">
+                        <option value="" disabled>Select an option</option>
                         <option value="manager">Manager</option>
                         <option value="receptionist">Receptionist</option>
                         <option value="roomService">Room Service</option>
                     </select>  
                     <label htmlFor="Description">Functions description</label>
-                    <textarea style={{resize: 'none'}}></textarea>
+                    <textarea style={{resize: 'none'}} onChange={handleFunctionsChange}></textarea>
                     <label htmlFor="status">Status</label>
-                    <StatusContainer>
+                    <StatusContainer onChange={handleStatusChange}>
                         <div>
                            <label htmlFor="status">Active</label>
                             <input type="radio" name="status" id="active" /> 
@@ -74,9 +151,7 @@ function NewUser() {
                 </div>
             </FormMain>
             <FormFooter>
-                <FormBtn>
-                    Create User
-                </FormBtn>
+                <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit}/>
             </FormFooter>
         </FormUserContainer>
     </MainContainer>
