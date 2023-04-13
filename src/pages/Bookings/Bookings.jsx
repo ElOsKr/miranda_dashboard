@@ -19,7 +19,8 @@ import {
   RequestButton, 
   RequestButtonEmpty 
 } from './BookingsStyle'
-import { bookingDelete, bookingsCall } from '../../features/bookings/bookingsSlice'
+import { bookingDelete, bookingsCall } from '../../features/bookings/bookingsSlice';
+import CharginProgress from '../../components/CharginProgress'
 
 function Bookings() {
 
@@ -33,6 +34,8 @@ function Bookings() {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.bookings.bookings)
+
+  const isLoading = useSelector(state => state.bookings.isLoading);
 
   useEffect(()=>{
       dispatch(bookingsCall());
@@ -102,14 +105,21 @@ function Bookings() {
   ]
   return (
     <MainContainer>
-      <OptionsContainer>
-        <FilterContainer>
-          <FilterTable filters={tableFilters}/>
-        </FilterContainer>
-        <Select />
-      </OptionsContainer>
-      <Table data={data} cols={cols} />
+      {isLoading?
+        <CharginProgress />   
+        :
+        <>
+          <OptionsContainer>
+            <FilterContainer>
+              <FilterTable filters={tableFilters}/>
+            </FilterContainer>
+            <Select />
+          </OptionsContainer>
+          <Table data={data} cols={cols} />
+        </>       
+      }
     </MainContainer>
+
   )
 }
 

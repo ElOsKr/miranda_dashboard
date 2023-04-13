@@ -1,6 +1,14 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import bookings from '../../data/bookings/bookings.json'
 
+function delay(data) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(data);
+      }, 500);
+    });
+  }
+
 //Funtions for bookings
 
 export const getBookings = async () => {
@@ -73,8 +81,7 @@ const initialState = {
 export const bookingsCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        const data = await getBookings()
-        return data;
+        return await delay(getBookings())
     }
 );
 
@@ -83,8 +90,7 @@ export const bookingsCall = createAsyncThunk(
 export const bookingCall = createAsyncThunk(
     'booking/getBooking',
     async (id) => {
-        const data = await getBooking(id)
-        return data;
+        return await delay(getBooking(id))
     }
 );
 
