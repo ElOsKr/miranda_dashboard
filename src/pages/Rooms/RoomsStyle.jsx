@@ -101,6 +101,15 @@ const Price = styled.p`
     }
 `
 
+const DeleteButton = styled.button`
+    padding: 5px 10px;
+    color: red;
+    background-color: #FFEDEC;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+`
+
 
 
 export {
@@ -115,5 +124,6 @@ export {
     Available,
     Booked,
     Price,
-    AddRoom
+    AddRoom,
+    DeleteButton
 }

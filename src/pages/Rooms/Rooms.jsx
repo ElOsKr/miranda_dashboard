@@ -14,12 +14,14 @@ import {
   Available,
   Booked,
   Price,
-  NoData
+  NoData,
+  DeleteButton
 } from './RoomsStyle'
 import Table from '../../components/Table/Table'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { roomDelete, roomsCall } from '../../features/rooms/roomsSlice'
+import CharginProgress from '../../components/CharginProgress'
 
 function Rooms() {
 
@@ -32,6 +34,8 @@ function Rooms() {
   const dispatch = useDispatch();
 
   const data = useSelector(state => state.rooms.rooms)
+
+  const isLoading = useSelector(state => state.rooms.isLoading)
 
   useEffect(() => {
     dispatch(roomsCall())
@@ -84,24 +88,33 @@ function Rooms() {
         :
           <Booked>Booked</Booked>  
       },
+      { property: 'deleteRoom', label: '', display: (row) =>
+        <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
+      }
   ]
 
   return (
     <MainContainer>
-      <OptionsContainer>
-        <FilterContainer>
-          <FilterTable filters={tableFilters}/>
-        </FilterContainer>
-        <ButtonsContainer>
-          <AddRoom>
-            <Link to='/rooms/newRoom'>
-              + New Room
-            </Link>
-          </AddRoom>
-          <Select />          
-        </ButtonsContainer>
-      </OptionsContainer>
-      <Table data={data} cols={cols} />
+      {isLoading?
+          <CharginProgress />
+        :
+        <>
+          <OptionsContainer>
+            <FilterContainer>
+              <FilterTable filters={tableFilters}/>
+            </FilterContainer>
+            <ButtonsContainer>
+              <AddRoom>
+                <Link to='/rooms/newRoom'>
+                  + New Room
+                </Link>
+              </AddRoom>
+              <Select />          
+            </ButtonsContainer>
+          </OptionsContainer>
+          <Table data={data} cols={cols} />
+        </>
+      }
     </MainContainer>
   )
 }
