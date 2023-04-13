@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { 
   MainContainer,
@@ -20,6 +20,12 @@ function Login(props) {
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if(localStorage.getItem("user")){
+      navigate("/")
+    }
+  },[])
+
   const handleForm = (event) =>{
     event.preventDefault();
     login.dispatch({type: 'login', user: {mail,pass}})
@@ -30,6 +36,7 @@ function Login(props) {
     },100)
     setTimeout(() => navigate('/'), 100)
   }
+  
 
   const handleMail = (event) => {
     setMail(event.target.value);

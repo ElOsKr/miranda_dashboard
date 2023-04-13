@@ -30,18 +30,20 @@ function App() {
             }          
           <div className='app-container'>
             {<Header setClose={setClose} close={close}/>}
-            <Routes>
-              <Route path='/login' element={<Login setClose={setClose}/>} />        
-              <Route path='/' element={<RequiredAuth><Dashboard/></RequiredAuth>} />
-              <Route path='/bookings' element={<RequiredAuth><Bookings /></RequiredAuth>} />
-              <Route path='/bookings/:bookingId' element={<RequiredAuth><BookingDescription /></RequiredAuth>} />
-              <Route path='/contact' element={<RequiredAuth><Contact /></RequiredAuth>} />
-              <Route path='/rooms' element={<RequiredAuth><Rooms /></RequiredAuth>} />
-              <Route path='/rooms/newRoom' element={<RequiredAuth><NewRoom /></RequiredAuth>} />
-              <Route path='/users' element={<RequiredAuth><Users /></RequiredAuth>} />
-              <Route path='/users/newUser' element={<RequiredAuth><NewUser /></RequiredAuth>} />
-              <Route path='*' element={<Login />} />
-            </Routes>  
+            <RequiredAuth>
+              <Routes>
+                <Route path='/login' element={<Login setClose={setClose}/>} />        
+                <Route path='/' element={<Dashboard/>}/>
+                <Route path='/bookings' element={<Bookings />} />
+                <Route path='/bookings/:bookingId' element={<BookingDescription />} />
+                <Route path='/contact' element={<Contact />} />
+                <Route path='/rooms' element={<Rooms />} />
+                <Route path='/rooms/newRoom' element={<NewRoom />} />
+                <Route path='/users' element={<Users />} />
+                <Route path='/users/newUser' element={<NewUser />} />
+                <Route path='*' element={<Login />} />
+              </Routes>
+            </RequiredAuth>
           </div>            
         </BrowserRouter>
       </div>      

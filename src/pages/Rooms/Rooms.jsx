@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Select from '../../components/Select/Select'
@@ -18,6 +18,8 @@ import {
 } from './RoomsStyle'
 import Table from '../../components/Table/Table'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { roomDelete, roomsCall } from '../../features/rooms/roomsSlice'
 
 function Rooms() {
 
@@ -27,7 +29,17 @@ function Rooms() {
     "Booked Rooms",
   ]
 
-  const data = require('../../data/rooms/rooms.json')
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.rooms.rooms)
+
+  useEffect(() => {
+    dispatch(roomsCall())
+  },[])
+
+  const handleDeleteRoom = (id) => {
+    dispatch(roomDelete(id))
+  }
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (
