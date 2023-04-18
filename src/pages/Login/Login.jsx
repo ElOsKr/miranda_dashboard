@@ -56,7 +56,7 @@ function Login(props) {
         <br/>
         <Label htmlFor="password">Password</Label>
         <Input type="password" name="password" id="password" onChange={handlePass}/>
-        <Button type="submit" value="Enter" onClick={handleForm}/>
+        <Button type="submit" value="Enter" onClick={handleForm} name='submit'/>
       </Form>
     </MainContainer>
   )
