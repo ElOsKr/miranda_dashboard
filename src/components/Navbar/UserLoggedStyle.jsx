@@ -33,14 +33,16 @@ const UserEmail = styled.p`
 `
 
 const UserEdit = styled.button`
-    background-color: #EBF1EF;
+    background-color: ${props => props.variant? "#f1ebeb" : "#EBF1EF"};
     border: none;
-    color: #135846;
+    color: ${props => props.variant? "#581313": "#135846"} ;
     font-size: 14px;
     font-weight: 600;
     padding: 10px 30px;
     border-radius: 8px;
     cursor: pointer;
+
+    
 `
 
 export{
