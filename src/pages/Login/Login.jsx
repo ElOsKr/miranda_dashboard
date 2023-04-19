@@ -52,11 +52,11 @@ function Login(props) {
         <Message>Email: admin@admin.com</Message>
         <Message>Password: admin</Message>
         <Label htmlFor="mail">Email</Label>
-        <Input type="text" name="mail" id="mail" onChange={handleMail}/>
+        <Input type="text" name="mail" id="mail" onChange={handleMail} data-cy="mail"/>
         <br/>
         <Label htmlFor="password">Password</Label>
-        <Input type="password" name="password" id="password" onChange={handlePass}/>
-        <Button type="submit" value="Enter" onClick={handleForm} name='submit'/>
+        <Input type="password" name="password" id="password" onChange={handlePass} data-cy="password"/>
+        <Button type="submit" value="Enter" onClick={handleForm} name='submit' data-cy="submit"/>
       </Form>
     </MainContainer>
   )
