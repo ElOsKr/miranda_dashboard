@@ -117,65 +117,39 @@ export const roomCreate = createAsyncThunk(
 export const roomsSlice = createSlice({
     name: 'rooms',
     initialState,
-    extraReducers: {
-        //rooms
-        [roomsCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [roomsCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.rooms = action.payload;
-        },
-        [roomsCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            (action) => action.type.endsWith('/pending'),
+            (state) => {
+                state.isLoading = true;
+                state.hasError = false;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/rejected'),
+            (state) => {
+                state.isLoading = false;
+                state.hasError = true;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/fulfilled'),
+            (state,action) => {
+                state.isLoading = false;
+                state.hasError = false;
 
-        //room
-        [roomCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [roomCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.room = action.payload;
-        },
-        [roomCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
-
-        [roomDelete.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [roomDelete.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.rooms = state.rooms.filter(room => room.id!==action.payload)
-            console.log("ID Deleted Room: "+action.payload)
-        },
-        [roomCreate.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
-
-        [roomCreate.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [roomCreate.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.roomCreated = action.payload; 
-        },
-        [roomCreate.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        }
+                if(action.type === roomsCall.fulfilled.type){
+                    state.rooms = action.payload;
+                }else if(action.type === roomCall.fulfilled.type){
+                    state.room = action.payload;
+                }else if(action.type === roomDelete.fulfilled.type){
+                    state.rooms = state.rooms.filter(room => room.id!==action.payload)
+                    console.log("ID Deleted Room: "+action.payload)
+                }else if(action.type === roomCreate.fulfilled.type){
+                    state.roomCreated = action.payload; 
+                }              
+            }
+        )
     }
 })
 

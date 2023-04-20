@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Select from '../../components/Select/Select'
@@ -13,6 +13,9 @@ import {
 } from './ContactStyle'
 import Message from '../../components/Dashboard/Message';
 import Table from '../../components/Table/Table'
+import { useDispatch, useSelector } from 'react-redux'
+import { contactsCall } from '../../features/contact/contactSlice'
+import CharginProgress from '../../components/CharginProgress'
 
 function Contact() {
 
@@ -23,7 +26,15 @@ function Contact() {
     "Archived",
   ]
 
-  const data = require('../../data/contact/contact.json')
+  const dispatch = useDispatch();
+
+  const data = useSelector(state => state.contacts.contacts)
+
+  const isLoading = useSelector(state => state.contacts.isLoading);
+
+  useEffect(()=>{
+      dispatch(contactsCall());
+  },[]);
 
   const cols = [
       { property: 'id', label: 'Id'},
@@ -55,6 +66,14 @@ function Contact() {
           </ButtonArchived>  
       },
   ]
+
+  if(isLoading){
+    return(
+      <MainContainer>
+        <CharginProgress />
+      </MainContainer>
+    )
+  }
 
   return (
     <MainContainer>

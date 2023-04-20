@@ -117,65 +117,39 @@ export const userCreate = createAsyncThunk(
 export const usersSlice = createSlice({
     name: 'users',
     initialState,
-    extraReducers: {
-        //users
-        [usersCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [usersCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.users = action.payload;
-        },
-        [usersCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            (action) => action.type.endsWith('/pending'),
+            (state) => {
+                state.isLoading = true;
+                state.hasError = false;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/rejected'),
+            (state) => {
+                state.isLoading = false;
+                state.hasError = true;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/fulfilled'),
+            (state,action) => {
+                state.isLoading = false;
+                state.hasError = false;
 
-        //user
-        [userCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [userCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.user = action.payload;
-        },
-        [userCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
-
-        [userDelete.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [userDelete.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.users = state.users.filter(room => room.id!==action.payload)
-            console.log("ID Deleted User: "+action.payload)
-        },
-        [userDelete.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
-
-        [userCreate.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [userCreate.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.userCreated = action.payload; 
-        },
-        [userCreate.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        }
+                if(action.type === usersCall.fulfilled.type){
+                    state.users = action.payload;
+                }else if(action.type === userCall.fulfilled.type){
+                    state.user = action.payload;
+                }else if(action.type === userDelete.fulfilled.type){
+                    state.users = state.users.filter(room => room.id!==action.payload)
+                    console.log("ID Deleted User: "+action.payload)
+                }else if(action.type === userCreate.fulfilled.type){
+                    state.userCreated = action.payload;
+                }              
+            }
+        )
     }
 })
 

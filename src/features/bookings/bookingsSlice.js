@@ -106,51 +106,37 @@ export const bookingDelete = createAsyncThunk(
 export const bookingsSlice = createSlice({
     name: 'bookings',
     initialState,
-    extraReducers: {
-        //bookings
-        [bookingsCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [bookingsCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.bookings = action.payload;
-        },
-        [bookingsCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            (action) => action.type.endsWith('/pending'),
+            (state) => {
+                state.isLoading = true;
+                state.hasError = false;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/rejected'),
+            (state) => {
+                state.isLoading = false;
+                state.hasError = true;                
+            }
+        );
+        builder.addMatcher(
+            (action) => action.type.endsWith('/fulfilled'),
+            (state,action) => {
+                state.isLoading = false;
+                state.hasError = false;
 
-        //booking
-        [bookingCall.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [bookingCall.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.booking = action.payload;
-        },
-        [bookingCall.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        },
-
-        [bookingDelete.pending]: (state, action) => {
-            state.isLoading = true;
-            state.hasError = false;
-        },
-        [bookingDelete.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = false;
-            state.bookings = state.bookings.filter(booking => booking.id!==action.payload)
-            console.log("ID Deleted Booking: "+action.payload)
-        },
-        [bookingDelete.rejected]: (state, action) => {
-            state.isLoading = false;
-            state.hasError = true;
-        }
+                if(action.type === bookingsCall.fulfilled.type){
+                    state.bookings = action.payload;
+                }else if(action.type === bookingCall.fulfilled.type){
+                    state.booking = action.payload;
+                }else if(action.type === bookingDelete.fulfilled.type){
+                    state.bookings = state.bookings.filter(booking => booking.id!==action.payload)
+                    console.log("ID Deleted Booking: "+action.payload)
+                }              
+            }
+        )
     }
 })
 
