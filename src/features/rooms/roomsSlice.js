@@ -22,6 +22,31 @@ export const getRooms = async () => {
     };
 };
 
+export const getAvailableRooms = async () => {
+    try{
+        // const response = await fetch(rooms);
+        // const data = await response.json();
+        const data = rooms
+        const availableRooms = data.filter((room) => room.status === true)
+        return availableRooms;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+    };
+}
+
+export const getBookedRooms = async () => {
+    try{
+        // const response = await fetch(rooms);
+        // const data = await response.json();
+        const data = rooms
+        const bookedRooms = data.filter((room) => room.status === false)
+        return bookedRooms;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+    };
+}
+
+
 //functions for room
 
 export const getRoom = async (roomId) => {
@@ -87,6 +112,20 @@ export const roomsCall = createAsyncThunk(
     }
 );
 
+export const roomsAvailableCall = createAsyncThunk(
+    'rooms/getAvailableRooms',
+    async () => {
+        return await delay(getAvailableRooms())
+    }
+);
+
+export const roomsBookedCall = createAsyncThunk(
+    'rooms/getBookedRooms',
+    async () => {
+        return await delay(getBookedRooms())
+    }
+);
+
 //Thunks for room
 
 export const roomCall = createAsyncThunk(
@@ -139,6 +178,10 @@ export const roomsSlice = createSlice({
                 state.hasError = false;
 
                 if(action.type === roomsCall.fulfilled.type){
+                    state.rooms = action.payload;
+                }else if(action.type === roomsAvailableCall.fulfilled.type){
+                    state.rooms = action.payload;
+                }else if(action.type === roomsBookedCall.fulfilled.type){
                     state.rooms = action.payload;
                 }else if(action.type === roomCall.fulfilled.type){
                     state.room = action.payload;

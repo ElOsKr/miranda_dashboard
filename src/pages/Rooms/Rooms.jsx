@@ -20,16 +20,10 @@ import {
 import Table from '../../components/Table/Table'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { roomDelete, roomsCall } from '../../features/rooms/roomsSlice'
+import { roomDelete, roomsAvailableCall, roomsBookedCall, roomsCall } from '../../features/rooms/roomsSlice'
 import CharginProgress from '../../components/CharginProgress'
 
 function Rooms() {
-
-  const tableFilters = [
-    "All Rooms",
-    "Available Rooms",
-    "Booked Rooms",
-  ]
 
   const dispatch = useDispatch();
 
@@ -44,6 +38,24 @@ function Rooms() {
   const handleDeleteRoom = (id) => {
     dispatch(roomDelete(id))
   }
+
+  const handleAllRooms = () => {
+    dispatch(roomsCall())
+  }
+
+  const handleAvailableRooms = () => {
+    dispatch(roomsAvailableCall())
+  }
+
+  const handleBookedRooms = () => {
+    dispatch(roomsBookedCall())
+  }
+
+  const tableFilters = [
+    {name: "All Rooms", action: handleAllRooms},
+    {name: "Available Rooms", action: (handleAvailableRooms)},
+    {name: "Booked Rooms", action: (handleBookedRooms)},
+  ]
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (

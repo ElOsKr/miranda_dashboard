@@ -13,7 +13,7 @@ function UserLogged() {
         <UserEmail>
             obama@obama.obama
         </UserEmail>
-        <UserEdit variant>
+        <UserEdit>
             Edit
         </UserEdit>
     </UserCard>

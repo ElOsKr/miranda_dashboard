@@ -9,16 +9,10 @@ import {
 } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { userDelete, usersCall } from '../../features/users/usersSlice'
+import { userDelete, usersActiveCall, usersCall, usersInactiveCall } from '../../features/users/usersSlice'
 import CharginProgress from '../../components/CharginProgress'
 
 function Users() {
-
-  const tableFilters = [
-    "All Employee",
-    "Active Employee",
-    "Inactive Employee",
-  ]
 
   const dispatch = useDispatch();
 
@@ -33,6 +27,24 @@ function Users() {
   const handleDeleteUser = (id) => {
     dispatch(userDelete(id))
   }
+
+  const handleAllUsers = () => {
+    dispatch(usersCall())
+  }
+
+  const handleActiveUsers = () => {
+    dispatch(usersActiveCall())
+  }
+
+  const handleInactiveUsers = () => {
+    dispatch(usersInactiveCall())
+  }
+
+  const tableFilters = [
+    {name: "All Employee", action: handleAllUsers},
+    {name: "Active Employee", action: (handleActiveUsers)},
+    {name: "Inactive Employee", action: (handleInactiveUsers)},
+  ]
 
   const cols = [
     {property: 'image', label: 'Name', display: (row) => (

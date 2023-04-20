@@ -22,11 +22,35 @@ export const getUsers = async () => {
     };
 };
 
+export const getActiveUsers = async () => {
+    try{
+        // const response = await fetch(users);
+        // const data = await response.json();
+        const data = users
+        const activeUsers = data.filter((user) => user.status === true)
+        return activeUsers;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+    };
+}
+
+export const getInactiveUsers = async () => {
+    try{
+        // const response = await fetch(users);
+        // const data = await response.json();
+        const data = users
+        const inactiveUsers = data.filter((user) => user.status === false)
+        return inactiveUsers;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+    };
+}
+
 //functions for user
 
 export const getUser = async (userId) => {
     try{
-        // const response = await fetch(rooms);
+        // const response = await fetch(users);
         // const data = await response.json();
         const data = users;
         let user = data.find(({id}) => id===userId);
@@ -87,6 +111,20 @@ export const usersCall = createAsyncThunk(
     }
 );
 
+export const usersActiveCall = createAsyncThunk(
+    'users/getActiveUsers',
+    async () => {
+        return await delay(getActiveUsers())
+    }
+);
+
+export const usersInactiveCall = createAsyncThunk(
+    'users/getInactiveUsers',
+    async () => {
+        return await delay(getInactiveUsers())
+    }
+);
+
 //Thunks for user
 
 export const userCall = createAsyncThunk(
@@ -139,6 +177,10 @@ export const usersSlice = createSlice({
                 state.hasError = false;
 
                 if(action.type === usersCall.fulfilled.type){
+                    state.users = action.payload;
+                }else if(action.type === usersActiveCall.fulfilled.type){
+                    state.users = action.payload;
+                }else if(action.type === usersInactiveCall.fulfilled.type){
                     state.users = action.payload;
                 }else if(action.type === userCall.fulfilled.type){
                     state.user = action.payload;

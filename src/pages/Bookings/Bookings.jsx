@@ -19,17 +19,10 @@ import {
   RequestButton, 
   RequestButtonEmpty 
 } from './BookingsStyle'
-import { bookingDelete, bookingsCall } from '../../features/bookings/bookingsSlice';
+import { bookingDelete, bookingsCall, bookingsCheckInCall, bookingsCheckOutCall, bookingsInProgressCall } from '../../features/bookings/bookingsSlice';
 import CharginProgress from '../../components/CharginProgress'
 
 function Bookings() {
-
-  const tableFilters = [
-    "All Bookings",
-    "Checking In",
-    "Checking Out",
-    "In Progress"
-  ]
 
   const dispatch = useDispatch();
 
@@ -45,6 +38,28 @@ function Bookings() {
     dispatch(bookingDelete(id))
   }
 
+  const handleAllBookings = () => {
+    dispatch(bookingsCall())
+  }
+
+  const handleCheckIn = () => {
+    dispatch(bookingsCheckInCall())
+  }
+
+  const handleCheckOut = () => {
+    dispatch(bookingsCheckOutCall())
+  }
+
+  const handleInProgress = () => {
+    dispatch(bookingsInProgressCall())
+  }
+
+  const tableFilters = [
+    {name: "All Bookings", action: handleAllBookings},
+    {name: "Checking In", action: (handleCheckIn)},
+    {name: "Checking out", action: (handleCheckOut)},
+    {name: "In Progress", action: (handleInProgress)}
+  ]
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (

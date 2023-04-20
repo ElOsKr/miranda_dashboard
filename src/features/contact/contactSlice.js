@@ -22,6 +22,18 @@ export const getContacts = async () => {
     };
 };
 
+export const getArchivedContacts = async () => {
+    try{
+        // const response = await fetch(contacts);
+        // const data = await response.json();
+        const data = contacts
+        const archivedContacts = data.filter((contact) => contact.status === "archived")
+        return archivedContacts;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+    };
+}
+
 //functions for contact
 
 export const getContact = async (contactId) => {
@@ -85,6 +97,13 @@ export const contactsCall = createAsyncThunk(
     }
 );
 
+export const contactsArchivedCall = createAsyncThunk(
+    'contacts/getContacts',
+    async () => {
+        return await delay(getArchivedContacts())
+    }
+);
+
 //Thunks for contact
 
 export const contactCall = createAsyncThunk(
@@ -128,6 +147,8 @@ export const contactsSlice = createSlice({
                 state.hasError = false;
 
                 if(action.type === contactsCall.fulfilled.type){
+                    state.contacts = action.payload;
+                }else if(action.type === contactsArchivedCall.fulfilled.type){
                     state.contacts = action.payload;
                 }else if(action.type === contactCall.fulfilled.type){
                     state.contact = action.payload;

@@ -14,17 +14,12 @@ import {
 import Message from '../../components/Dashboard/Message';
 import Table from '../../components/Table/Table'
 import { useDispatch, useSelector } from 'react-redux'
-import { contactsCall } from '../../features/contact/contactSlice'
+import { contactsArchivedCall, contactsCall } from '../../features/contact/contactSlice'
 import CharginProgress from '../../components/CharginProgress'
 
 function Contact() {
 
   const messages = require('../../data/dashboard/messages.json')
-
-  const tableFilters = [
-    "All Contacts",
-    "Archived",
-  ]
 
   const dispatch = useDispatch();
 
@@ -35,6 +30,19 @@ function Contact() {
   useEffect(()=>{
       dispatch(contactsCall());
   },[]);
+
+  const handleAllContacts = () => {
+    dispatch(contactsCall())
+  }
+
+  const handleArchived = () => {
+    dispatch(contactsArchivedCall())
+  }
+
+  const tableFilters = [
+    {name: "All Contacts", action: handleAllContacts},
+    {name: "Archived", action: (handleArchived)},
+  ]
 
   const cols = [
       { property: 'id', label: 'Id'},

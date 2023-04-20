@@ -7,8 +7,8 @@ function FilterTable(props) {
         {props.filters.map((filter, i)=>{
             return (
                 <Filter key={i}>
-                    <p>
-                        {filter}
+                    <p onClick={filter.action}>
+                        {filter.name}
                     </p>
                 </Filter>
             )
