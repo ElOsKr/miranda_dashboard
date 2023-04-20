@@ -103,9 +103,9 @@ function NewUser() {
             <FormHeader>
                 <div>
                     <label htmlFor="name">Name</label>
-                    <input type="text" name="name" id="name" onChange={handleNameChange}/>
+                    <input type="text" name="name" id="name" onChange={handleNameChange} data-cy="name"/>
                     <label htmlFor="password">Password</label> 
-                    <input type="password" name="password" id="password" onChange={handlePasswordChange}/>
+                    <input type="password" name="password" id="password" onChange={handlePasswordChange} data-cy="password"/>
                 </div>    
                 <div>
                     <FormPhoto>
@@ -121,27 +121,27 @@ function NewUser() {
             <FormMain>
                 <div>
                     <label htmlFor="email">Email</label>
-                    <input type='email' name="email" id="email" onChange={handleEmailChange}/>
+                    <input type='email' name="email" id="email" onChange={handleEmailChange} data-cy="email"/>
                     <label htmlFor="phone">Phone</label>
-                    <input type='tel' name="phone" id="phone" onChange={handlePhoneChange}/>
+                    <input type='tel' name="phone" id="phone" onChange={handlePhoneChange} data-cy="phone"/>
                     <label htmlFor="startDate">Start Date</label>
-                    <input type="datetime-local" name="startDate" id="startDate" onChange={handleStartDateChange}/>
+                    <input type="datetime-local" name="startDate" id="startDate" onChange={handleStartDateChange} data-cy="startDate"/>
                 </div>
                 <div style={{marginRight: "75px"}}>
                     <label htmlFor="job">Job</label> 
-                    <select name="job" id="job" onChange={handleJobChange} defaultValue="">
+                    <select name="job" id="job" onChange={handleJobChange} defaultValue="" data-cy="job">
                         <option value="" disabled>Select an option</option>
                         <option value="manager">Manager</option>
                         <option value="receptionist">Receptionist</option>
                         <option value="roomService">Room Service</option>
                     </select>  
                     <label htmlFor="Description">Functions description</label>
-                    <textarea style={{resize: 'none'}} onChange={handleFunctionsChange}></textarea>
+                    <textarea style={{resize: 'none'}} onChange={handleFunctionsChange} data-cy="functions"></textarea>
                     <label htmlFor="status">Status</label>
                     <StatusContainer onChange={handleStatusChange}>
                         <div>
                            <label htmlFor="status">Active</label>
-                            <input type="radio" name="status" id="active" /> 
+                            <input type="radio" name="status" id="active" data-cy="active"/> 
                         </div>
                         <div>
                             <label htmlFor="status">Inactive</label> 
@@ -151,7 +151,7 @@ function NewUser() {
                 </div>
             </FormMain>
             <FormFooter>
-                <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit}/>
+                <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit} data-cy="submit"/>
             </FormFooter>
         </FormUserContainer>
     </MainContainer>

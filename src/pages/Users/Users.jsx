@@ -84,7 +84,7 @@ function Users() {
                 <FilterTable filters={tableFilters}/>
               </FilterContainer>
               <ButtonsContainer>
-                <AddEmployee>
+                <AddEmployee data-cy="addEmployee">
                 <Link to="/users/newUser">
                     + New Employee
                   </Link>

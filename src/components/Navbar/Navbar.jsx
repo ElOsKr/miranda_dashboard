@@ -83,6 +83,7 @@ function Navbar(props) {
                         <CircleLink location={location.locationString.split("/",2)[1]} currentLocation={currentLocation.pathname.split("/",2)[1]}/>
                         <NavLink to={location.locationString} 
                             className= { ( { isActive}) => `${isActive? 'active': ''}`}
+                            data-cy={location.name}
                         >
                             {location.component}
                             {location.name}
