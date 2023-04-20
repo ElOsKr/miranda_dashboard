@@ -29,6 +29,8 @@ function NewUser() {
 
     const [status, setStatus] = useState();
 
+    const [ aux , setAux ] = useState(false)
+
     useEffect(() => {
         if(img){
             setImgURL(URL.createObjectURL(img))
@@ -95,6 +97,7 @@ function NewUser() {
         }
 
         dispatch(userCreate(newUser))
+        setAux(true)
     }
 
   return (
@@ -153,6 +156,11 @@ function NewUser() {
             <FormFooter>
                 <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit} data-cy="submit"/>
             </FormFooter>
+                {!aux?
+                    null
+                    :
+                    <p data-cy="done" style={{textAlign: 'center'}}>User created</p>
+                }
         </FormUserContainer>
     </MainContainer>
   )

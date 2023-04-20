@@ -16,7 +16,7 @@ root.render(
 );
 
 if (window.Cypress) {
-  window.store = store.getState().users.userCreated
+  window.store = store
 }
 
 // If you want to start measuring performance in your app, pass a function

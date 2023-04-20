@@ -19,6 +19,18 @@ describe('Test login', () => {
     cy.url().should('eq','http://localhost:3000/miranda_dashboard/login')
   })
 
+  it("Check logout succesful", () => {
+    cy.get('[data-cy="mail"]').type('admin@admin.com')
+    cy.get('[data-cy="password"]').type('admin')
+    cy.get('[data-cy="submit"]').click().then(() => {
+      expect(window.localStorage.getItem('user')).to.equal(JSON.stringify({mail: 'admin@admin.com', isLogged: true}))
+    })
+    cy.url().should('eq','http://localhost:3000/miranda_dashboard')
+    cy.get('[data-cy="logout"]').click().then(() => {
+      expect(localStorage.getItem('user') === null)
+    cy.url().should('eq','http://localhost:3000/miranda_dashboard/login')
+    })
+  })
   it("Check user created succesfully", () => {
     cy.get('[data-cy="mail"]').type('admin@admin.com')
     cy.get('[data-cy="password"]').type('admin')
@@ -36,16 +48,16 @@ describe('Test login', () => {
     cy.get('[data-cy="functions"]').type('a')
     cy.get('[data-cy="active"]').check()
     cy.get('[data-cy="submit"]').click()
-    cy.wait(1000)
-    cy.window().its('store').should('deep.equal', {
-        name: "oscar",
-        password: "oscar",
-        email: 'a@a.com',
-        phone: '123456789',
-        startDate: '2023-04-20T00:00',
-        job: "manager",
-        functions: "a",
-        status: "on"           
+    cy.get('[data-cy="done"]').contains("User created")
+    cy.window().its('store').invoke('getState').its('users').its("userCreated").should('deep.equal', {
+      name: "oscar",
+      password: "oscar",
+      email: 'a@a.com',
+      phone: '123456789',
+      startDate: '2023-04-20T00:00',
+      job: "manager",
+      functions: "a",
+      status: "on"           
     })
   })
 })

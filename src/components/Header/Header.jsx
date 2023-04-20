@@ -92,7 +92,7 @@ function Header(props) {
         <IconsContainer>
           <HiOutlineMail />
           <BiBell />
-          <TbLogout onClick={handleLogOut} />
+          <TbLogout onClick={handleLogOut} data-cy="logout"/>
         </IconsContainer>
     </HeaderStyled>
   )
