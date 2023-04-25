@@ -19,35 +19,35 @@ import {
 } from './RoomsStyle'
 import Table from '../../components/Table/Table'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import { roomDelete, roomsAvailableCall, roomsBookedCall, roomsCall } from '../../features/rooms/roomsSlice'
 import CharginProgress from '../../components/CharginProgress'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
 function Rooms() {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const data = useSelector(state => state.rooms.rooms)
+  const data = useAppSelector(state => state.rooms.rooms)
 
-  const isLoading = useSelector(state => state.rooms.isLoading)
+  const isLoading = useAppSelector(state => state.rooms.isLoading)
 
   useEffect(() => {
     dispatch(roomsCall())
   },[])
 
-  const handleDeleteRoom = (id) => {
+  const handleDeleteRoom = (id: number) => {
     dispatch(roomDelete(id))
   }
 
-  const handleAllRooms = () => {
+  const handleAllRooms = (): void => {
     dispatch(roomsCall())
   }
 
-  const handleAvailableRooms = () => {
+  const handleAvailableRooms = (): void => {
     dispatch(roomsAvailableCall())
   }
 
-  const handleBookedRooms = () => {
+  const handleBookedRooms = (): void => {
     dispatch(roomsBookedCall())
   }
 
@@ -58,7 +58,7 @@ function Rooms() {
   ]
 
   const cols = [
-    {property: 'image', label: 'Room', display: (row) => (
+    {property: 'image', label: 'Room', display: (row: any) => (
         <RoomName>
           <RoomImg>
             <img src={row.photo} alt={row.id} />
@@ -74,16 +74,16 @@ function Rooms() {
         </RoomName>
       )},
       { property: 'type', label: 'Room Type' },
-      { property: 'amenities', label: 'Amenities', display: (row) =>
+      { property: 'amenities', label: 'Amenities', display: (row: any) =>
         row.amenities?
           <p>{row.amenities}</p>
         :  
           <NoData>No amenities</NoData>
       },
-      { property: 'price', label: 'Price', display: (row) => 
+      { property: 'price', label: 'Price', display: (row: any) => 
         <Price>${row.price} <span>/night</span></Price>
       },
-      { property: 'offer', label: 'Offer Price', display: (row) => 
+      { property: 'offer', label: 'Offer Price', display: (row: any) => 
           row.offer?
             <OfferPrice>
               <p>{row.offer}%</p>
@@ -94,13 +94,13 @@ function Rooms() {
               No offer
             </NoData>
       },
-      { property: 'status', label: 'Status', display: (row) => 
+      { property: 'status', label: 'Status', display: (row: any) => 
         row.status? 
           <Available>Available</Available>
         :
           <Booked>Booked</Booked>  
       },
-      { property: 'deleteRoom', label: '', display: (row) =>
+      { property: 'deleteRoom', label: '', display: (row: any) =>
         <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
       }
   ]

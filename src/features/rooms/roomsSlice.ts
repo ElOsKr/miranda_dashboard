@@ -1,7 +1,27 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import rooms from '../../data/rooms/rooms.json'
 
-function delay(data) {
+interface IRoom{
+    type: string,
+    number: number,
+    description: string,
+    offer: string,
+    price: number,
+    discount: number,
+    cancellation: string,
+    amenities: string
+}
+
+interface IExistenRoom{
+    photo: string,
+    number: number,
+    id: number,
+    type: string
+    price: number
+    amenities: Array<string>
+}
+
+function delay(data: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(data);
@@ -49,7 +69,7 @@ export const getBookedRooms = async () => {
 
 //functions for room
 
-export const getRoom = async (roomId) => {
+export const getRoom = async (roomId: number) => {
     try{
         // const response = await fetch(rooms);
         // const data = await response.json();
@@ -61,7 +81,7 @@ export const getRoom = async (roomId) => {
     };
 };
 
-export const updateRoom = async (roomId) => {
+export const updateRoom = async (roomId: number) => {
     try{
         // const response = await fetch(rooms);
         // const data = await response.json();
@@ -86,7 +106,7 @@ export const updateRoom = async (roomId) => {
 //     };
 // }
 
-export const createRoom = async (dataRoom) => {
+export const createRoom = async (dataRoom: IRoom) => {
     try{
         console.log(dataRoom)
         return (dataRoom)
@@ -95,7 +115,15 @@ export const createRoom = async (dataRoom) => {
     };
 }
 
-const initialState = {
+interface RoomState{
+    rooms: IExistenRoom[],
+    room: IExistenRoom | {},
+    roomCreated: IRoom| {},
+    isLoading: boolean,
+    hasError: boolean
+}
+
+const initialState: RoomState = {
     rooms: [],
     room: {},
     roomCreated: {},
@@ -130,14 +158,14 @@ export const roomsBookedCall = createAsyncThunk(
 
 export const roomCall = createAsyncThunk(
     'room/getRoom',
-    async (id) => {
+    async (id: number) => {
         return await delay(getRoom(id))
     }
 );
 
 export const roomDelete = createAsyncThunk(
     'room/deleteRoom',
-    async (id) => {
+    async (id: number) => {
         // const data = await deleteRoom(id);
         // return data;
         return id
@@ -146,7 +174,7 @@ export const roomDelete = createAsyncThunk(
 
 export const roomCreate = createAsyncThunk(
     'room/createRoom',
-    async (data) => {
+    async (data: IRoom) => {
         // const data = await createRoom(data);
         // return data;
         return await delay(createRoom(data))
@@ -156,6 +184,7 @@ export const roomCreate = createAsyncThunk(
 export const roomsSlice = createSlice({
     name: 'rooms',
     initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addMatcher(
             (action) => action.type.endsWith('/pending'),
