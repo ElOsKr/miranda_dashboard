@@ -12,3 +12,6 @@ export const store = configureStore({
     contacts: contactSlice
   },
 });
+
+export type StateRoot = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

@@ -14,8 +14,23 @@ import Kpi from '../../components/Dashboard/Kpi';
 import Message from '../../components/Dashboard/Message';
 
 
+interface IKpiProps{
+  name: string,
+  number: string,
+  icon: JSX.Element
+}
 
-function Dashboard(props) {
+interface IMessage{
+  text: string,
+  user:{
+    photo: string,
+    name: string,
+    time: string
+  }
+}
+
+
+const Dashboard = () => {
 
   const kpis = [
     {
@@ -45,14 +60,14 @@ function Dashboard(props) {
   return (
     <MainContainer>
         <KpisContainer>
-          {kpis.map((kpi,i)=>{
+          {kpis.map((kpi: IKpiProps, i: number)=>{
             return <Kpi props={kpi} key={i}/>
           })}
         </KpisContainer>
         <ReviewsContainer>
           <h3>Latest Review by Customers</h3>
           <MessagesContainer>
-            {messages.map((message, i)=>{
+            {messages.map((message: IMessage , i: number)=>{
               return <Message props={message} key={i}/>
             })}
           </MessagesContainer>

@@ -19,7 +19,7 @@ import {
 } from 'react-icons/ai'
 import { useLogin } from '../LoginProvider';
 
-function Header(props) {
+const Header = (props: { setClose: (arg0: boolean) => void; close: boolean; }) => {
 
     const login = useLogin();
 

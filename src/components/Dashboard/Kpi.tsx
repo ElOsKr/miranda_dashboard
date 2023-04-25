@@ -1,8 +1,15 @@
 import React from 'react'
 import { DataContainer, IconContainer, KpiBox } from './KpiStyle'
 
-function Kpi({props}) {
+interface IKpiProps{
+  props:{
+    name: string,
+    number: string,
+    icon: JSX.Element    
+  }
+}
 
+const Kpi: React.FC<IKpiProps> = ({props}: IKpiProps) => {
 
   return (
     <KpiBox>

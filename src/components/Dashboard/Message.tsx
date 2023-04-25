@@ -1,7 +1,18 @@
 import React from 'react'
 import { MessagesCard, MessageText, OptionsContainer, PhotoContainer, UserContainer, UserData, Actions } from './MessageStyle'
 
-function Message({ props }) {
+interface IMessage{
+  props:{
+    text: string,
+    user:{
+      photo: string,
+      name: string,
+      time: string
+    }    
+  }
+}
+
+function Message( {props}: IMessage ) {
 
   return (
     <MessagesCard>
