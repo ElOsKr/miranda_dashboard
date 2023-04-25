@@ -1,38 +1,50 @@
 import React, {useEffect, useState} from 'react'
 import { MainContainer } from '../Users/NewUserStyle'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormRoomContainer, ImgInput, OfferContainer } from './NewRoomStyle'
-import { useDispatch } from 'react-redux';
 import { roomCreate } from '../../features/rooms/roomsSlice';
+import { useAppDispatch } from '../../hooks/hooks';
 
-function NewRoom() {
+interface IRoom{
+    type: string,
+    price: string,
+    number: string,
+    discount: string,
+    description: string,
+    offer: string,
+    cancellation: string,
+    amenities: string
+}
 
-    const dispatch = useDispatch()
+const NewRoom = () => {
+
+    const dispatch = useAppDispatch()
 
     const [img, setImg] = useState([]);
 
-    const [imgURL, setImgURL] = useState([]);
+    const [imgURL, setImgURL] = useState<string[]>([]);
 
-    const [type,setType] = useState();
+    const [type,setType] = useState<string>();
 
-    const [price,setPrice] = useState();
+    const [price,setPrice] = useState<string>();
 
-    const [number,setNumber] = useState();
+    const [number,setNumber] = useState<string>();
 
-    const [discount,setDiscount] = useState();
+    const [discount,setDiscount] = useState<string>();
 
-    const [description,setDescription] = useState();
+    const [description,setDescription] = useState<string>();
 
-    const [offer,setOffer] = useState();
+    const [offer,setOffer] = useState<string>();
 
-    const [cancellation,setCancellation] = useState();
+    const [cancellation,setCancellation] = useState<string>();
 
-    const [amenities,setAmenities] = useState();
+    const [amenities,setAmenities] = useState<string>();
 
     useEffect(() => {
         if(img.length>0){
-            let arrAux = [];
+            let arrAux: string[] = [];
             for(let i = 0; i<img.length;i++){
-                arrAux.push(URL.createObjectURL(img[i]))
+                let objectImg : string = URL.createObjectURL(img[i])
+                arrAux.push(objectImg)
             }
             setImgURL(arrAux)
         }else{
@@ -40,61 +52,55 @@ function NewRoom() {
         }
     },[img])
 
-    const handleImageChange = (event) => {
+    const handleImageChange = (event: any) => {
         setImg(event.target.files)
     }
 
-    const handleTypeChange = (e) => {
+    const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setType(e.target.value)
     }
 
-    const handlePriceChange = (e) => {
+    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPrice(e.target.value)
     }
 
-    const handleNumberChange = (e) => {
+    const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setNumber(e.target.value)
     }
 
-    const handleDescriptionChange = (e) => {
+    const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.target.value)
     }
 
-    const handleOfferChange = (e) => {
+    const handleOfferChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setOffer(e.target.value)
     }
 
-    const handleCancellationChange = (e) => {
+    const handleCancellationChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setCancellation(e.target.value)
     }
 
-    const handleAmenitiesChange = (e) => {
+    const handleAmenitiesChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setAmenities(e.target.value)
     }
 
-    const handleDiscountChange = (e) => {
+    const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDiscount(e.target.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.ChangeEvent<HTMLInputElement & HTMLFormElement>) => {
         
         e.preventDefault();
 
-        const newRoom = {
-            type: type,
-            price: price,
-            number: number,
-            discount: discount,
-            description: description,
-            offer: offer,
-            cancellation: cancellation,
-            amenities: amenities
-        }
-
-        for(let key in newRoom){
-            if(!newRoom[key]){
-                return alert("Something empty")
-            } 
+        const newRoom: IRoom = {
+            type: type!,
+            price: price!,
+            number: number!,
+            discount: discount!,
+            description: description!,
+            offer: offer!,
+            cancellation: cancellation!,
+            amenities: amenities!
         }
 
         dispatch(roomCreate(newRoom))

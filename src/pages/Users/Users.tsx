@@ -8,23 +8,23 @@ import {
   BsFillTelephoneFill
 } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import { userDelete, usersActiveCall, usersCall, usersInactiveCall } from '../../features/users/usersSlice'
 import CharginProgress from '../../components/CharginProgress'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
 function Users() {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const data = useSelector(state => state.users.users)
+  const data = useAppSelector(state => state.users.users)
 
-  const isLoading = useSelector(state => state.users.isLoading)
+  const isLoading = useAppSelector(state => state.users.isLoading)
 
   useEffect(() => {
     dispatch(usersCall())
   },[])
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = (id: number) => {
     dispatch(userDelete(id))
   }
 
@@ -47,7 +47,7 @@ function Users() {
   ]
 
   const cols = [
-    {property: 'image', label: 'Name', display: (row) => (
+    {property: 'image', label: 'Name', display: (row: any) => (
       <UserContainer>
         <UserImg>
           <img src={row.photo} alt={row.id} />
@@ -67,10 +67,10 @@ function Users() {
       )},
       { property: 'email', label: 'Email' },
       { property: 'description', label: 'Description' },
-      { property: 'contact', label: 'Contact', display: (row) => 
+      { property: 'contact', label: 'Contact', display: (row: any) => 
           <p><BsFillTelephoneFill /> {row.contact}</p>
       },
-      { property: 'status', label: 'Status', display: (row) => 
+      { property: 'status', label: 'Status', display: (row: any) => 
           row.status?
             <UserActive>
               Active
@@ -80,7 +80,7 @@ function Users() {
               Inactive
             </UserInactive>
       },
-      { property: 'deleteRoom', label: '', display: (row) =>
+      { property: 'deleteRoom', label: '', display: (row: any) =>
         <DeleteButton onClick={()=>handleDeleteUser(parseInt(row.id))}>Delete</DeleteButton>
       }
   ]

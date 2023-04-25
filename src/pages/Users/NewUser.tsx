@@ -2,32 +2,43 @@ import React from 'react'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormUserContainer, MainContainer, StatusContainer } from './NewUserStyle'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { userCreate } from '../../features/users/usersSlice';
+import { useAppDispatch } from '../../hooks/hooks';
 
-function NewUser() {
+interface IUser {
+    name: string,
+    password: string,
+    email: string,
+    phone: string,
+    startDate: string,
+    job: string,
+    description: string,
+    status: string
+}
 
-    const dispatch = useDispatch();
+const NewUser = () => {
+
+    const dispatch = useAppDispatch();
 
     const [img, setImg] = useState();
 
-    const [imgURL, setImgURL] = useState(null)
+    const [imgURL, setImgURL] = useState<string>()
 
-    const [name, setName] = useState();
+    const [name, setName] = useState<string>();
 
-    const [password, setPassword] = useState();
+    const [password, setPassword] = useState<string>();
 
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState<string>();
 
-    const [phone, setPhone] = useState();
+    const [phone, setPhone] = useState<string>();
 
-    const [startDate, setStartDate] = useState();
+    const [startDate, setStartDate] = useState<string>();
 
-    const [job, setJob] = useState();
+    const [job, setJob] = useState<string>();
 
-    const [functions , setFunctions] = useState();
+    const [functions , setFunctions] = useState<string>();
 
-    const [status, setStatus] = useState();
+    const [status, setStatus] = useState<string>();
 
     const [ aux , setAux ] = useState(false)
 
@@ -35,65 +46,59 @@ function NewUser() {
         if(img){
             setImgURL(URL.createObjectURL(img))
         }else{
-            setImgURL(null)
+            setImgURL("")
         }
     },[img])
 
-    const handleImageChange = (event) => {
+    const handleImageChange = (event: any) => {
         setImg(event.target.files[0])
     }
 
-    const handleNameChange = (event) => {
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value)
     }
 
-    const handlePasswordChange = (event) => {
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value)
     }
 
-    const handleEmailChange = (event) => {
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(event.target.value)
     }
 
-    const handlePhoneChange = (event) => {
+    const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPhone(event.target.value)
     }
 
-    const handleStartDateChange = (event) => {
+    const handleStartDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStartDate(event.target.value)
     }
 
-    const handleJobChange = (event) => {
+    const handleJobChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setJob(event.target.value)
     }
 
-    const handleFunctionsChange = (event) => {
+    const handleFunctionsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setFunctions(event.target.value)
     }
 
-    const handleStatusChange = (event) => {
+    const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStatus(event.target.value)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e : React.ChangeEvent<HTMLInputElement & HTMLFormElement>) => {
         
         e.preventDefault();
 
-        const newUser = {
-            name: name,
-            password: password,
-            email: email,
-            phone: phone,
-            startDate: startDate,
-            job: job,
-            functions: functions,
-            status: status
-        }
-
-        for(let key in newUser){
-            if(!newUser[key]){
-                return alert("Something empty")
-            } 
+        const newUser: IUser = {
+            name: name!,
+            password: password!,
+            email: email!,
+            phone: phone!,
+            startDate: startDate!,
+            job: job!,
+            description: functions!,
+            status: status!
         }
 
         dispatch(userCreate(newUser))

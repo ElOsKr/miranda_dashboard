@@ -41,7 +41,7 @@ function App() {
                 <Route path='/rooms/newRoom' element={<NewRoom />} />
                 <Route path='/users' element={<Users />} />
                 <Route path='/users/newUser' element={<NewUser />} />
-                <Route path='*' element={<Login />} />
+                <Route path='*' element={<Login  setClose={setClose}/>} />
               </Routes>
             </RequiredAuth>
           </div>            

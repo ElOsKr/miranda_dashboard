@@ -3,11 +3,11 @@ import rooms from '../../data/rooms/rooms.json'
 
 interface IRoom{
     type: string,
-    number: number,
+    number: string,
     description: string,
     offer: string,
-    price: number,
-    discount: number,
+    price: string,
+    discount: string,
     cancellation: string,
     amenities: string
 }

@@ -23,7 +23,7 @@ interface ILocation {
     locationString: string
 }
 
-function Navbar(props: any) {
+function Navbar(props: { setClose: (arg0: boolean) => void; }) {
 
     const login = useLogin()
 

@@ -13,19 +13,28 @@ import {
 } from './ContactStyle'
 import Message from '../../components/Dashboard/Message';
 import Table from '../../components/Table/Table'
-import { useDispatch, useSelector } from 'react-redux'
 import { contactsArchivedCall, contactsCall } from '../../features/contact/contactSlice'
 import CharginProgress from '../../components/CharginProgress'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
+
+interface IMessage{
+  text: string,
+  user:{
+    photo: string,
+    name: string,
+    time: string
+  }
+}
 
 function Contact() {
 
   const messages = require('../../data/dashboard/messages.json')
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const data = useSelector(state => state.contacts.contacts)
+  const data = useAppSelector(state => state.contacts.contacts)
 
-  const isLoading = useSelector(state => state.contacts.isLoading);
+  const isLoading = useAppSelector(state => state.contacts.isLoading);
 
   useEffect(()=>{
       dispatch(contactsCall());
@@ -46,23 +55,23 @@ function Contact() {
 
   const cols = [
       { property: 'id', label: 'Id'},
-      { property: 'date', label: 'Date', display: (row) =>
+      { property: 'date', label: 'Date', display: () =>
         <p>{new Date().toLocaleString()}</p>
       },
-      { property: 'custome', label: 'Customer', display: (row) =>
+      { property: 'custome', label: 'Customer', display: (row: any) =>
           <p>{row.customer.name}</p>
       },
-      { property: 'email', label: 'Email', display: (row) => 
+      { property: 'email', label: 'Email', display: (row: any) => 
         <p>{row.customer.email}</p>
       },
-      { property: 'number', label: 'Number', display: (row) => 
+      { property: 'number', label: 'Number', display: (row: any) => 
         <p>{row.customer.phone}</p>
       },
       { property: 'subject', label: 'Subject' },
-      { property: 'comment', label: 'Comment', display: (row) =>
+      { property: 'comment', label: 'Comment', display: (row: any) =>
         <Comment>{row.comment}</Comment>
       },
-      { property: 'status', label: 'Action', display: (row) => 
+      { property: 'status', label: 'Action', display: (row: any) => 
         row.status?
           <Archived>
             <p>Archive</p>
@@ -86,7 +95,7 @@ function Contact() {
   return (
     <MainContainer>
       <ReviewsContainer>
-        {messages.map((message, i)=>{
+        {messages.map((message: IMessage, i: number)=>{
           return <Message props={message} key={i}/>
         })} 
       </ReviewsContainer>

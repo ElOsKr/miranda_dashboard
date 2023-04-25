@@ -10,7 +10,9 @@ import {
 } from './LoginStyle';
 import { useLogin } from '../../components/LoginProvider';
 
-function Login(props) {
+
+
+function Login(props: { setClose: (arg0: boolean) => void; }) {
 
   const login = useLogin()
 
@@ -26,7 +28,7 @@ function Login(props) {
     }
   },[])
 
-  const handleForm = (event) =>{
+  const handleForm = (event: React.ChangeEvent<HTMLInputElement & HTMLFormElement>) =>{
     event.preventDefault();
     login.dispatch({type: 'login', user: {mail,pass}})
     setTimeout(() => {
@@ -38,11 +40,11 @@ function Login(props) {
   }
   
 
-  const handleMail = (event) => {
+  const handleMail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setMail(event.target.value);
   }
 
-  const handlePass = (event) => {
+  const handlePass = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPass(event.target.value);
   }
 
@@ -56,7 +58,7 @@ function Login(props) {
         <br/>
         <Label htmlFor="password">Password</Label>
         <Input type="password" name="password" id="password" onChange={handlePass} data-cy="password"/>
-        <Button type="submit" value="Enter" onClick={handleForm} name='submit' data-cy="submit"/>
+        <Button type="submit" value="Enter" onSubmit={handleForm} name='submit' data-cy="submit"/>
       </Form>
     </MainContainer>
   )

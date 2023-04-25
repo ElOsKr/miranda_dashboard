@@ -1,7 +1,16 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import contacts from '../../data/contact/contact.json'
 
-function delay(data) {
+interface IContact{
+    id: number,
+    customer:{
+        name: string,
+        email: string,
+        phone: number
+    }
+}
+
+function delay(data: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(data);
@@ -36,7 +45,7 @@ export const getArchivedContacts = async () => {
 
 //functions for contact
 
-export const getContact = async (contactId) => {
+export const getContact = async (contactId: number) => {
     try{
         // const response = await fetch(contacts);
         // const data = await response.json();
@@ -48,7 +57,7 @@ export const getContact = async (contactId) => {
     };
 };
 
-export const updateContact = async (contactId) => {
+export const updateContact = async (contactId: number) => {
     try{
         // const response = await fetch(contacts);
         // const data = await response.json();
@@ -73,7 +82,7 @@ export const updateContact = async (contactId) => {
 //     };
 // }
 
-export const createContact = async (dataContact) => {
+export const createContact = async (dataContact: IContact) => {
     try{
         console.log(dataContact)
     }catch(err){
@@ -81,7 +90,14 @@ export const createContact = async (dataContact) => {
     };
 }
 
-const initialState = {
+interface ContactState {
+    contacts: IContact[],
+    contact: IContact | {},
+    isLoading: boolean,
+    hasError: boolean
+}
+
+const initialState: ContactState = {
     contacts: [],
     contact: {},
     isLoading: false,
@@ -108,14 +124,14 @@ export const contactsArchivedCall = createAsyncThunk(
 
 export const contactCall = createAsyncThunk(
     'contact/getContact',
-    async (id) => {
+    async (id: number) => {
         return await delay(getContact(id))
     }
 );
 
 export const contactDelete = createAsyncThunk(
     'contact/deleteContact',
-    async (id) => {
+    async (id: number) => {
         // const data = await deletecontact(id);
         // return data;
         return id
@@ -125,6 +141,7 @@ export const contactDelete = createAsyncThunk(
 export const contactsSlice = createSlice({
     name: 'contacts',
     initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addMatcher(
             (action) => action.type.endsWith('/pending'),

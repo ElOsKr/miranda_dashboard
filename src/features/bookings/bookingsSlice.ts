@@ -1,7 +1,7 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import bookings from '../../data/bookings/bookings.json'
 
-function delay(data) {
+function delay(data: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(data);
@@ -60,7 +60,7 @@ export const getInProgressBookings = async () => {
 
 //functions for booking
 
-export const getBooking = async (bookingId) => {
+export const getBooking = async (bookingId: number) => {
     try{
         // const response = await fetch(bookings);
         // const data = await response.json();
@@ -72,7 +72,7 @@ export const getBooking = async (bookingId) => {
     };
 };
 
-export const updateBooking = async (bookingId) => {
+export const updateBooking = async (bookingId: number) => {
     try{
         // const response = await fetch(bookings);
         // const data = await response.json();

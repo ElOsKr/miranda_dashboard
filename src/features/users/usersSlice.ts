@@ -1,7 +1,28 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import users from '../../data/users/users.json'
 
-function delay(data) {
+interface IUser {
+    name: string,
+    password: string,
+    email: string,
+    phone: string,
+    startDate: string,
+    job: string,
+    description: string,
+    status: string
+}
+
+interface IExistenUser {
+    id: number,
+    name: string,
+    photo: string,
+    email: string,
+    description: string,
+    contact: number,
+    status: boolean
+}
+
+function delay(data: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(data);
@@ -48,7 +69,7 @@ export const getInactiveUsers = async () => {
 
 //functions for user
 
-export const getUser = async (userId) => {
+export const getUser = async (userId: number) => {
     try{
         // const response = await fetch(users);
         // const data = await response.json();
@@ -60,7 +81,7 @@ export const getUser = async (userId) => {
     };
 };
 
-export const updateUser = async (userId) => {
+export const updateUser = async (userId: number) => {
     try{
         // const response = await fetch(users);
         // const data = await response.json();
@@ -85,7 +106,7 @@ export const updateUser = async (userId) => {
 //     };
 // }
 
-export const createUser = async (dataUser) => {
+export const createUser = async (dataUser: IUser) => {
     try{
         console.log(dataUser)
         return (dataUser)
@@ -94,7 +115,15 @@ export const createUser = async (dataUser) => {
     };
 }
 
-const initialState = {
+interface UserState {
+    users: IExistenUser[],
+    user: IExistenUser | {},
+    userCreated: IExistenUser | {},
+    isLoading: boolean,
+    hasError: boolean
+}
+
+const initialState: UserState = {
     users: [],
     user: {},
     userCreated: {},
@@ -129,14 +158,14 @@ export const usersInactiveCall = createAsyncThunk(
 
 export const userCall = createAsyncThunk(
     'user/getUser',
-    async (id) => {
+    async (id: number) => {
         return await delay(getUser(id))
     }
 );
 
 export const userDelete = createAsyncThunk(
     'user/deleteUser',
-    async (id) => {
+    async (id: number) => {
         // const data = await deleteUser(id);
         // return data;
         return id
@@ -145,7 +174,7 @@ export const userDelete = createAsyncThunk(
 
 export const userCreate = createAsyncThunk(
     'user/createUser',
-    async (data) => {
+    async (data: IUser) => {
         // const data = await createUser(data);
         // return data;
         return await delay(createUser(data))
@@ -155,6 +184,7 @@ export const userCreate = createAsyncThunk(
 export const usersSlice = createSlice({
     name: 'users',
     initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addMatcher(
             (action) => action.type.endsWith('/pending'),
