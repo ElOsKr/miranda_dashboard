@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+interface IProps {
+    variant: boolean;
+}
+
 const UserCard = styled.div`
     box-shadow: 0px 20px 30px #00000014;
     padding: 20px;
@@ -32,7 +36,7 @@ const UserEmail = styled.p`
     margin-bottom: 15px;
 `
 
-const UserEdit = styled.button`
+const UserEdit = styled.button<IProps>`
     background-color: ${props => props.variant? "#f1ebeb" : "#EBF1EF"};
     border: none;
     color: ${props => props.variant? "#581313": "#135846"} ;

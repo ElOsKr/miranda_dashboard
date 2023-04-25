@@ -17,7 +17,13 @@ import{
 import UserLogged from './UserLogged';
 import { useLogin } from '../LoginProvider';
 
-function Navbar(props) {
+interface ILocation {
+    component: JSX.Element,
+    name: string,
+    locationString: string
+}
+
+function Navbar(props: any) {
 
     const login = useLogin()
 
@@ -77,7 +83,7 @@ function Navbar(props) {
                 </TitleLogo>                
             </LogoContainer>
             <ListLinks>
-                {locations.map((location,i) => {
+                {locations.map((location: ILocation, i:number) => {
                     return (
                     <li key={i}>
                         <CircleLink location={location.locationString.split("/",2)[1]} currentLocation={currentLocation.pathname.split("/",2)[1]}/>

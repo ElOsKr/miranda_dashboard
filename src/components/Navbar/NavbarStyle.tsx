@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+interface IProps {
+    location: string,
+    currentLocation: string
+}
+
 const NavbarMain = styled.div`
     min-height: 100%;
     position: relative;
@@ -57,7 +62,7 @@ const ListLinks = styled.ul`
         }
     }
 `
-const CircleLink = styled.span`
+const CircleLink = styled.span<IProps>`
     
     ${props => {
         if(props.location===props.currentLocation){
