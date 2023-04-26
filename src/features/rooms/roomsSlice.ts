@@ -117,16 +117,16 @@ export const createRoom = async (dataRoom: IRoom) => {
 
 interface RoomState{
     rooms: IExistenRoom[],
-    room: IExistenRoom | {},
-    roomCreated: IRoom| {},
+    room: IExistenRoom,
+    roomCreated: IRoom,
     isLoading: boolean,
     hasError: boolean
 }
 
 const initialState: RoomState = {
     rooms: [],
-    room: {},
-    roomCreated: {},
+    room: {} as IExistenRoom,
+    roomCreated: {} as IRoom,
     isLoading: false,
     hasError: false
 }

@@ -31,9 +31,9 @@ import {
 import {
   SlOptionsVertical
 } from 'react-icons/sl'
-import { useDispatch, useSelector } from 'react-redux';
 import { bookingCall, bookingDelete } from '../../features/bookings/bookingsSlice';
 import { Skeleton } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 
 function BookingDescription() {
 
@@ -41,17 +41,17 @@ function BookingDescription() {
 
   const bookingId = useParams();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  let booking = useSelector(state => state.bookings.booking);
+  let booking = useAppSelector(state => state.bookings.booking);
 
-  let isLoading = useSelector(state => state.bookings.isLoading)
+  let isLoading = useAppSelector(state => state.bookings.isLoading)
   
   useEffect(()=>{
-    dispatch(bookingCall(parseInt(bookingId.bookingId)));
+    dispatch(bookingCall(parseInt(bookingId.bookingId!)));
   },[])
 
-  const handleDeleteRoom = (id) => {
+  const handleDeleteRoom = (id: number) => {
     dispatch(bookingDelete(id))
     navigate('/bookings')
   }

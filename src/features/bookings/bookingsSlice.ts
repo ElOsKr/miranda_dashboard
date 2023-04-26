@@ -1,6 +1,30 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import bookings from '../../data/bookings/bookings.json'
 
+interface IBooking {
+    photo: string,
+    id: number,
+    guest: string,
+    orderDate: {
+      date: string,
+      hour: string
+      },
+    checkin: {
+        date: string,
+        hour: string
+      },
+    checkout: {
+        date: string,
+        hour: string
+      },
+    roomId: number,
+    price: number,
+    amenities: string[],
+    typeRoom: string,
+    description: string,
+    status: string
+}
+
 function delay(data: any) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -97,7 +121,7 @@ export const updateBooking = async (bookingId: number) => {
 //     };
 // }
 
-export const createBooking = async (dataBooking) => {
+export const createBooking = async (dataBooking: IBooking) => {
     try{
         console.log(dataBooking)
     }catch(err){
@@ -105,9 +129,16 @@ export const createBooking = async (dataBooking) => {
     };
 }
 
-const initialState = {
+interface BookingState {
+    bookings: IBooking[],
+    booking: IBooking,
+    isLoading: boolean,
+    hasError: boolean
+}
+
+const initialState: BookingState = {
     bookings: [],
-    booking: {},
+    booking: {} as IBooking,
     isLoading: false,
     hasError: false
 }
@@ -146,14 +177,14 @@ export const bookingsInProgressCall = createAsyncThunk(
 
 export const bookingCall = createAsyncThunk(
     'booking/getBooking',
-    async (id) => {
+    async (id: number) => {
         return await delay(getBooking(id))
     }
 );
 
 export const bookingDelete = createAsyncThunk(
     'booking/deleteBooking',
-    async (id) => {
+    async (id: number) => {
         // const data = await deleteBooking(id);
         // return data;
         return id
@@ -163,6 +194,7 @@ export const bookingDelete = createAsyncThunk(
 export const bookingsSlice = createSlice({
     name: 'bookings',
     initialState,
+    reducers: {},
     extraReducers: (builder) => {
         builder.addMatcher(
             (action) => action.type.endsWith('/pending'),

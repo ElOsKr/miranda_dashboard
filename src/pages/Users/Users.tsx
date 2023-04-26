@@ -12,6 +12,16 @@ import { userDelete, usersActiveCall, usersCall, usersInactiveCall } from '../..
 import CharginProgress from '../../components/CharginProgress'
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
+interface IExistenUser {
+  id: string,
+  name: string,
+  photo: string,
+  email: string,
+  description: string,
+  contact: number,
+  status: boolean
+}
+
 function Users() {
 
   const dispatch = useAppDispatch();
@@ -47,7 +57,7 @@ function Users() {
   ]
 
   const cols = [
-    {property: 'image', label: 'Name', display: (row: any) => (
+    {property: 'image', label: 'Name', display: (row: IExistenUser) => (
       <UserContainer>
         <UserImg>
           <img src={row.photo} alt={row.id} />
@@ -67,10 +77,10 @@ function Users() {
       )},
       { property: 'email', label: 'Email' },
       { property: 'description', label: 'Description' },
-      { property: 'contact', label: 'Contact', display: (row: any) => 
+      { property: 'contact', label: 'Contact', display: (row: IExistenUser) => 
           <p><BsFillTelephoneFill /> {row.contact}</p>
       },
-      { property: 'status', label: 'Status', display: (row: any) => 
+      { property: 'status', label: 'Status', display: (row: IExistenUser) => 
           row.status?
             <UserActive>
               Active

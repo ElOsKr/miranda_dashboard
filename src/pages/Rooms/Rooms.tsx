@@ -23,6 +23,16 @@ import { roomDelete, roomsAvailableCall, roomsBookedCall, roomsCall } from '../.
 import CharginProgress from '../../components/CharginProgress'
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
 
+interface IExistenRoom{
+  photo: string,
+  number: string,
+  id: string,
+  type: string
+  price: string,
+  status: boolean,
+  amenities: Array<string>
+}
+
 function Rooms() {
 
   const dispatch = useAppDispatch();
@@ -58,7 +68,7 @@ function Rooms() {
   ]
 
   const cols = [
-    {property: 'image', label: 'Room', display: (row: any) => (
+    {property: 'image', label: 'Room', display: (row: IExistenRoom) => (
         <RoomName>
           <RoomImg>
             <img src={row.photo} alt={row.id} />
@@ -74,13 +84,13 @@ function Rooms() {
         </RoomName>
       )},
       { property: 'type', label: 'Room Type' },
-      { property: 'amenities', label: 'Amenities', display: (row: any) =>
+      { property: 'amenities', label: 'Amenities', display: (row: IExistenRoom) =>
         row.amenities?
           <p>{row.amenities}</p>
         :  
           <NoData>No amenities</NoData>
       },
-      { property: 'price', label: 'Price', display: (row: any) => 
+      { property: 'price', label: 'Price', display: (row: IExistenRoom) => 
         <Price>${row.price} <span>/night</span></Price>
       },
       { property: 'offer', label: 'Offer Price', display: (row: any) => 
@@ -94,7 +104,7 @@ function Rooms() {
               No offer
             </NoData>
       },
-      { property: 'status', label: 'Status', display: (row: any) => 
+      { property: 'status', label: 'Status', display: (row: IExistenRoom) => 
         row.status? 
           <Available>Available</Available>
         :

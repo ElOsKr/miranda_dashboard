@@ -117,16 +117,16 @@ export const createUser = async (dataUser: IUser) => {
 
 interface UserState {
     users: IExistenUser[],
-    user: IExistenUser | {},
-    userCreated: IExistenUser | {},
+    user: IExistenUser,
+    userCreated: IExistenUser,
     isLoading: boolean,
     hasError: boolean
 }
 
 const initialState: UserState = {
     users: [],
-    user: {},
-    userCreated: {},
+    user: {} as IExistenUser,
+    userCreated: {} as IExistenUser,
     isLoading: false,
     hasError: false
 }

@@ -4,7 +4,6 @@ import Select from '../../components/Select/Select'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Table from '../../components/Table/Table'
-import { useSelector, useDispatch } from 'react-redux'
 import { 
   BookingRoom, 
   BookingRoomImg, 
@@ -21,20 +20,45 @@ import {
 } from './BookingsStyle'
 import { bookingDelete, bookingsCall, bookingsCheckInCall, bookingsCheckOutCall, bookingsInProgressCall } from '../../features/bookings/bookingsSlice';
 import CharginProgress from '../../components/CharginProgress'
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks'
+
+interface IBooking {
+  photo: string,
+  id: string,
+  guest: string,
+  orderDate: {
+    date: string,
+    hour: string
+    },
+  checkin: {
+      date: string,
+      hour: string
+    },
+  checkout: {
+      date: string,
+      hour: string
+    },
+  roomId: number,
+  price: number,
+  amenities: string[],
+  typeRoom: string,
+  description: string,
+  status: string
+}
 
 function Bookings() {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const data = useSelector(state => state.bookings.bookings)
+  const data = useAppSelector(state => state.bookings.bookings)
 
-  const isLoading = useSelector(state => state.bookings.isLoading);
+  const isLoading = useAppSelector(state => state.bookings.isLoading);
 
   useEffect(()=>{
       dispatch(bookingsCall());
   },[]);
 
-  const handleDeleteRoom = (id) => {
+  const handleDeleteRoom = (id: number) => {
     dispatch(bookingDelete(id))
   }
 
@@ -62,7 +86,7 @@ function Bookings() {
   ]
 
   const cols = [
-    {property: 'image', label: 'Room', display: (row) => (
+    {property: 'image', label: 'Room', display: (row: IBooking) => (
       <Link to={`/bookings/${row.id}`}>
         <BookingRoom>
           <BookingRoomImg>
@@ -79,22 +103,22 @@ function Bookings() {
         </BookingRoom>
       </Link>
       )},
-      { property: 'orderDate', label: 'Order Date', display: (row) =>
+      { property: 'orderDate', label: 'Order Date', display: (row: IBooking) =>
         <p>{row.orderDate.date} {row.orderDate.hour}</p>
       },
-      { property: 'checkin', label: 'Check In', display: (row) =>
+      { property: 'checkin', label: 'Check In', display: (row: IBooking) =>
         <>
           <p>{row.checkin.date}</p>
           <HourMini>{row.checkin.hour}</HourMini>
         </>
       },
-      { property: 'checkout', label: 'Check Out', display: (row) => 
+      { property: 'checkout', label: 'Check Out', display: (row: IBooking) => 
         <>
           <p>{row.checkout.date}</p>
           <HourMini>{row.checkout.hour}</HourMini>
         </>
       },
-      { property: 'specialRequest', label: 'Special Request', display: (row) => 
+      { property: 'specialRequest', label: 'Special Request', display: (row: any) => 
           row.specialRequest?
             <RequestButton>
               View Notes
@@ -105,7 +129,7 @@ function Bookings() {
             </RequestButtonEmpty>
       },
       { property: 'typeRoom', label: 'Room Type' },
-      { property: 'state', label: 'Status', display: (row) => 
+      { property: 'state', label: 'Status', display: (row: IBooking) => 
         row.status === 'checkIn' ? 
           <CheckIn>Check In</CheckIn>
         :
@@ -114,7 +138,7 @@ function Bookings() {
         :
           <InProgress>In Progress</InProgress>   
       },
-      { property: 'deleteRoom', label: '', display: (row) =>
+      { property: 'deleteRoom', label: '', display: (row: IBooking) =>
         <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
       }
   ]

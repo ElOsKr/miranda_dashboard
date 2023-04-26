@@ -92,14 +92,14 @@ export const createContact = async (dataContact: IContact) => {
 
 interface ContactState {
     contacts: IContact[],
-    contact: IContact | {},
+    contact: IContact,
     isLoading: boolean,
     hasError: boolean
 }
 
 const initialState: ContactState = {
     contacts: [],
-    contact: {},
+    contact: {} as IContact,
     isLoading: false,
     hasError: false
 }
