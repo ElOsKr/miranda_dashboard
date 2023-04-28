@@ -43,6 +43,7 @@ interface IBooking {
   amenities: string[],
   typeRoom: string,
   description: string,
+  specialRequest?: string,
   status: string
 }
 
@@ -118,7 +119,7 @@ function Bookings() {
           <HourMini>{row.checkout.hour}</HourMini>
         </>
       },
-      { property: 'specialRequest', label: 'Special Request', display: (row: any) => 
+      { property: 'specialRequest', label: 'Special Request', display: (row: IBooking) => 
           row.specialRequest?
             <RequestButton>
               View Notes
