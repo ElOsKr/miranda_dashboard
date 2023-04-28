@@ -150,7 +150,7 @@ function BookingDescription() {
               {isLoading?
                 <Skeleton animation="wave" height={30} width={50}/>
                 :
-                booking.amenities?.map((item, i)=>{
+                booking.amenities?.map((item: string, i: number)=>{
                   return <Facilitie key={i}>{item}</Facilitie>
                 })
               }

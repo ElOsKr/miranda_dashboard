@@ -4,7 +4,7 @@ import roomsSlice from '../features/rooms/roomsSlice';
 import usersSlice from '../features/users/usersSlice';
 import contactSlice from '../features/contact/contactSlice';
 
-export const store = configureStore({
+export const store: any = configureStore({
   reducer: {
     bookings: bookingsSlice,
     rooms: roomsSlice,
