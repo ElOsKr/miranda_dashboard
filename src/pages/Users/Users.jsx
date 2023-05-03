@@ -1,23 +1,50 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Select from '../../components/Select/Select'
-import { AddEmployee, ButtonsContainer, MainContainer, OptionsContainer, UserActive, UserContainer, UserImg, UserInactive, UserInfo } from './UsersStyle'
+import { AddEmployee, ButtonsContainer, DeleteButton, MainContainer, OptionsContainer, UserActive, UserContainer, UserImg, UserInactive, UserInfo } from './UsersStyle'
 import Table from '../../components/Table/Table'
 import {
   BsFillTelephoneFill
 } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { userDelete, usersActiveCall, usersCall, usersInactiveCall } from '../../features/users/usersSlice'
+import CharginProgress from '../../components/CharginProgress'
 
 function Users() {
 
-  const tableFilters = [
-    "All Employee",
-    "Active Employee",
-    "Inactive Employee",
-  ]
+  const dispatch = useDispatch();
 
-  const data = require('../../data/users/users.json')
+  const data = useSelector(state => state.users.users)
+
+  const isLoading = useSelector(state => state.users.isLoading)
+
+  useEffect(() => {
+    dispatch(usersCall())
+  },[])
+
+  const handleDeleteUser = (id) => {
+    dispatch(userDelete(id))
+  }
+
+  const handleAllUsers = () => {
+    dispatch(usersCall())
+  }
+
+  const handleActiveUsers = () => {
+    dispatch(usersActiveCall())
+  }
+
+  const handleInactiveUsers = () => {
+    dispatch(usersInactiveCall())
+  }
+
+  const tableFilters = [
+    {name: "All Employee", action: handleAllUsers},
+    {name: "Active Employee", action: (handleActiveUsers)},
+    {name: "Inactive Employee", action: (handleInactiveUsers)},
+  ]
 
   const cols = [
     {property: 'image', label: 'Name', display: (row) => (
@@ -52,25 +79,34 @@ function Users() {
             <UserInactive>
               Inactive
             </UserInactive>
+      },
+      { property: 'deleteRoom', label: '', display: (row) =>
+        <DeleteButton onClick={()=>handleDeleteUser(parseInt(row.id))}>Delete</DeleteButton>
       }
   ]
 
   return (
     <MainContainer>
-      <OptionsContainer>
-        <FilterContainer>
-          <FilterTable filters={tableFilters}/>
-        </FilterContainer>
-        <ButtonsContainer>
-          <AddEmployee>
-          <Link to="/users/newUser">
-              + New Employee
-            </Link>
-          </AddEmployee>
-          <Select />          
-        </ButtonsContainer>
-      </OptionsContainer>
-      <Table data={data} cols={cols} />
+      {isLoading?
+          <CharginProgress />
+        :
+          <>
+            <OptionsContainer>
+              <FilterContainer>
+                <FilterTable filters={tableFilters}/>
+              </FilterContainer>
+              <ButtonsContainer>
+                <AddEmployee data-cy="addEmployee">
+                <Link to="/users/newUser">
+                    + New Employee
+                  </Link>
+                </AddEmployee>
+                <Select />          
+              </ButtonsContainer>
+            </OptionsContainer>
+            <Table data={data} cols={cols} />          
+          </>
+      }
     </MainContainer>
   )
 }

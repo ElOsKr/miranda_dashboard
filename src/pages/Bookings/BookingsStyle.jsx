@@ -96,6 +96,15 @@ const HourMini = styled.p`
     font-weight: 300;
 `
 
+const DeleteButton = styled.button`
+    padding: 5px 10px;
+    color: red;
+    background-color: #FFEDEC;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+`
+
 export {
     MainContainer,
     OptionsContainer,
@@ -107,5 +116,6 @@ export {
     CheckIn,
     CheckOut,
     InProgress,
-    HourMini
+    HourMini,
+    DeleteButton
 }

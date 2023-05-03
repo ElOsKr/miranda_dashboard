@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import FilterTable from '../../components/Table/FilterTable'
 import { FilterContainer } from '../../components/Table/FilterTableStyle'
 import Select from '../../components/Select/Select'
@@ -14,20 +14,48 @@ import {
   Available,
   Booked,
   Price,
-  NoData
+  NoData,
+  DeleteButton
 } from './RoomsStyle'
 import Table from '../../components/Table/Table'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { roomDelete, roomsAvailableCall, roomsBookedCall, roomsCall } from '../../features/rooms/roomsSlice'
+import CharginProgress from '../../components/CharginProgress'
 
 function Rooms() {
 
-  const tableFilters = [
-    "All Rooms",
-    "Available Rooms",
-    "Booked Rooms",
-  ]
+  const dispatch = useDispatch();
 
-  const data = require('../../data/rooms/rooms.json')
+  const data = useSelector(state => state.rooms.rooms)
+
+  const isLoading = useSelector(state => state.rooms.isLoading)
+
+  useEffect(() => {
+    dispatch(roomsCall())
+  },[])
+
+  const handleDeleteRoom = (id) => {
+    dispatch(roomDelete(id))
+  }
+
+  const handleAllRooms = () => {
+    dispatch(roomsCall())
+  }
+
+  const handleAvailableRooms = () => {
+    dispatch(roomsAvailableCall())
+  }
+
+  const handleBookedRooms = () => {
+    dispatch(roomsBookedCall())
+  }
+
+  const tableFilters = [
+    {name: "All Rooms", action: handleAllRooms},
+    {name: "Available Rooms", action: (handleAvailableRooms)},
+    {name: "Booked Rooms", action: (handleBookedRooms)},
+  ]
 
   const cols = [
     {property: 'image', label: 'Room', display: (row) => (
@@ -72,24 +100,33 @@ function Rooms() {
         :
           <Booked>Booked</Booked>  
       },
+      { property: 'deleteRoom', label: '', display: (row) =>
+        <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
+      }
   ]
 
   return (
     <MainContainer>
-      <OptionsContainer>
-        <FilterContainer>
-          <FilterTable filters={tableFilters}/>
-        </FilterContainer>
-        <ButtonsContainer>
-          <AddRoom>
-            <Link to='/rooms/newRoom'>
-              + New Room
-            </Link>
-          </AddRoom>
-          <Select />          
-        </ButtonsContainer>
-      </OptionsContainer>
-      <Table data={data} cols={cols} />
+      {isLoading?
+          <CharginProgress />
+        :
+        <>
+          <OptionsContainer>
+            <FilterContainer>
+              <FilterTable filters={tableFilters}/>
+            </FilterContainer>
+            <ButtonsContainer>
+              <AddRoom>
+                <Link to='/rooms/newRoom'>
+                  + New Room
+                </Link>
+              </AddRoom>
+              <Select />          
+            </ButtonsContainer>
+          </OptionsContainer>
+          <Table data={data} cols={cols} />
+        </>
+      }
     </MainContainer>
   )
 }

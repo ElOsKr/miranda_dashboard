@@ -6,6 +6,7 @@ const MessagesCard = styled.div`
     max-width: 431px;
     padding: 20px;
     background-color: white;
+    transition: all .2s;
 
     &:hover{
         box-shadow: 0px 16px 30px #00000014;

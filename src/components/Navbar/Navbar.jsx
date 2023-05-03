@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom';
 import { CircleLink, CompanyName, Copyright, ListLinks, LogoContainer, LogoLetter, MadeBy, NavbarMain, TitleLogo } from './NavbarStyle';
 import{
@@ -15,12 +15,21 @@ import{
     AiFillContacts
 } from 'react-icons/ai'
 import UserLogged from './UserLogged';
+import { useLogin } from '../LoginProvider';
 
-function Navbar() {
+function Navbar(props) {
 
-    const auth = useState(localStorage.getItem('auth'));
+    const login = useLogin()
 
-    const currentLocation = useLocation()
+    const auth = useState(login.user.isLogged);
+
+    useEffect(()=>{
+        if(login.user.isLogged){
+            props.setClose(false)
+        }
+    },[])
+
+    const currentLocation = useLocation();
 
     if(!auth || currentLocation.pathname==="/login"){
         return null
@@ -71,9 +80,10 @@ function Navbar() {
                 {locations.map((location,i) => {
                     return (
                     <li key={i}>
-                        <CircleLink location={location.locationString} currentLocation={currentLocation.pathname}/>
+                        <CircleLink location={location.locationString.split("/",2)[1]} currentLocation={currentLocation.pathname.split("/",2)[1]}/>
                         <NavLink to={location.locationString} 
                             className= { ( { isActive}) => `${isActive? 'active': ''}`}
+                            data-cy={location.name}
                         >
                             {location.component}
                             {location.name}

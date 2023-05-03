@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
-import { Navigate } from 'react-router-dom';
+import React from 'react'
+import { Navigate, useLocation } from 'react-router-dom';
+import { useLogin } from './LoginProvider';
 
 function RequiredAuth({children}) {
 
-    const [ auth ] = useState(localStorage.getItem('auth'));
+    const auth = useLogin();
+
+    const location = useLocation();
     
-    if(!auth){
+    if(!auth.user.isLogged && location.pathname!=="/login"){
         return <Navigate to="/login"/>
     }
 

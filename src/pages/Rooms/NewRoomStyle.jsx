@@ -6,7 +6,7 @@ const MainContainer = styled.div`
     color: #393939;
 `
 
-const FormRoomContainer = styled.div`
+const FormRoomContainer = styled.form`
     max-width: 850px;
     background-color: white;
     border-radius: 8px;
@@ -85,9 +85,8 @@ const OfferContainer = styled.div`
     }
 `
 
-const FormBtn = styled.button`
+const FormBtn = styled.input`
     cursor: pointer;
-    padding: 10px 20px;
     color: #393939;
     border-radius: 12px;
     border: 1px solid #393939;

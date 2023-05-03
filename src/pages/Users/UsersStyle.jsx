@@ -17,13 +17,14 @@ const AddEmployee = styled.button`
     border: none;
     border-radius: 12px;
     background-color: #135846;
-    padding: 10px 35px;
     color: white;
     font-family: var(--font-Poppins);
     cursor: pointer;
     a{
         text-decoration: none;
-        color: white
+        color: white;
+        display: block;
+        padding: 10px 35px;
     }
 `
 
@@ -70,6 +71,15 @@ const UserInactive = styled.p`
     font-weight: 600;
 `
 
+const DeleteButton = styled.button`
+    padding: 5px 10px;
+    color: red;
+    background-color: #FFEDEC;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+`
+
 export {
     MainContainer,
     OptionsContainer,
@@ -79,5 +89,6 @@ export {
     UserImg,
     UserInfo,
     UserActive,
-    UserInactive
+    UserInactive,
+    DeleteButton
 }

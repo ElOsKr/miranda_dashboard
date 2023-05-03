@@ -31,22 +31,30 @@ import {
 import {
   SlOptionsVertical
 } from 'react-icons/sl'
+import { useDispatch, useSelector } from 'react-redux';
+import { bookingCall, bookingDelete } from '../../features/bookings/bookingsSlice';
+import { Skeleton } from '@mui/material';
 
 function BookingDescription() {
 
-  const bookingId = useParams()
+  const navigate = useNavigate()
 
-  const bookingList = require('../../data/bookings/bookings.json');
+  const bookingId = useParams();
 
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const booking = bookingList.find(booking => booking.id === parseInt(bookingId.bookingId))
+  let booking = useSelector(state => state.bookings.booking);
+
+  let isLoading = useSelector(state => state.bookings.isLoading)
   
   useEffect(()=>{
-    if(!booking){
-      navigate("/bookings")
-    }
+    dispatch(bookingCall(parseInt(bookingId.bookingId)));
   },[])
+
+  const handleDeleteRoom = (id) => {
+    dispatch(bookingDelete(id))
+    navigate('/bookings')
+  }
 
   return (
     <MainContainer>
@@ -54,11 +62,24 @@ function BookingDescription() {
         <DataContainer>
           <UserContainer>
             <UserPhoto>
-              <img src="https://avatars.githubusercontent.com/u/60935066?v=4" alt="aritos20" />
+              {isLoading?
+                <Skeleton variant="rounded" width={156} height={156} animation="wave" />
+              :
+                <img src="https://avatars.githubusercontent.com/u/60935066?v=4" alt="aritos20" />
+              }
             </UserPhoto>
             <UserData>
-              <h2>Aritos20</h2>
-              <p>ID {booking.id}</p>
+              {isLoading?
+                <>
+                  <Skeleton animation="wave" width={50} height={48}/>
+                  <Skeleton animation="wave" width={20}/>              
+                </>
+              :
+                <>
+                  <h2>Aritos20</h2>
+                  <p>ID {booking?.id}</p>                
+                </>
+              }
               <UserContact>
               <TelephoneButton>
                 <BsFillTelephoneFill />
@@ -70,43 +91,80 @@ function BookingDescription() {
             </UserContact>
             </UserData>
             <UserOptions>
-            <SlOptionsVertical />
+            <SlOptionsVertical onClick={() => handleDeleteRoom(booking.id)} />
             </UserOptions>
           </UserContainer>
           <DateContainer>
             <DateDiv>
               <p>Check In</p>
-              <p>{booking.checkin.date} | {booking.checkin.hour}</p>
+              {isLoading?
+                <Skeleton animation="wave" height={30} />
+                :
+                <p>{booking.checkin?.date} | {booking.checkin?.hour}</p>
+              }
+              
             </DateDiv>
             <DateDiv>
               <p>Check Out</p>
-              <p>{booking.checkout.date} | {booking.checkout.hour}</p>
+              {isLoading?
+                <Skeleton animation="wave" height={30} />
+                :
+                <p>{booking.checkout?.date} | {booking.checkout?.hour}</p>
+              }
+              
             </DateDiv>
           </DateContainer>
           <InfoContainer>
             <RoomInfo>
               <Info>
                 <p>Room Info</p>
-                <p>{booking.typeRoom}</p>
+                {isLoading?
+                  <Skeleton animation="wave" height={30} />
+                  :
+                  <p>{booking?.typeRoom}</p>
+                }
+                
               </Info>
               <Info>
                 <p>Price</p>
-                <p>$ {booking.price} <span>/night</span></p>
+                {isLoading?
+                  <Skeleton animation="wave" height={30} />
+                  :
+                  <p>$ {booking?.price} <span>/night</span></p>
+                }
+                
               </Info>
             </RoomInfo>
             <RoomDescription>
-              {booking.description}
+              {isLoading?
+                <>
+                <Skeleton animation="wave" height={30} width={350}/>
+                <Skeleton animation="wave" height={30} width={350}/>
+                </>
+                :
+                booking?.description
+              }
             </RoomDescription>
             <RoomFacilities>
               <p>Facilities</p>
-              {booking.amenities.map((item, i)=>{
-                return <Facilitie key={i}>{item}</Facilitie>
-              })}
+              {isLoading?
+                <Skeleton animation="wave" height={30} width={50}/>
+                :
+                booking.amenities?.map((item, i)=>{
+                  return <Facilitie key={i}>{item}</Facilitie>
+                })
+              }
+
             </RoomFacilities>
           </InfoContainer>
         </DataContainer>
         <PhotoContainer>
-          <img src={booking.photo} alt="roomPhoto" />
+          {isLoading?
+            <Skeleton animation="wave" height={606} sx={{transform: "scaleY(1.5)"}}/>
+            :
+            <img src={booking.photo} alt="roomPhoto" />
+          }
+          
         </PhotoContainer>
       </BookingContainer>
       </MainContainer>

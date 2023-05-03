@@ -8,6 +8,7 @@ const KpiBox = styled.div`
     border-radius: 12px;
     gap: 20px;
     min-width: 300px;
+    transition: all .2s;
 
     &:hover{
         transform: scale(1.02);
