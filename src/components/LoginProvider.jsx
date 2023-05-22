@@ -9,8 +9,8 @@ export const useLogin = () => {
 const reducer = (state,action) => {
     switch (action.type) {
         case 'login':
-            if(action.user.mail === "admin@admin.com" && action.user.pass === "admin"){
-                localStorage.setItem("user", JSON.stringify({mail: action.user.mail, isLogged: true}))
+            if(action.user.token){
+                localStorage.setItem("user", JSON.stringify({mail: action.user.mail,token: action.user.token, isLogged: true}))
                 return {...state, mail: action.user.mail, isLogged: true}
             } else {
                 return {...state, isLogged: false}
