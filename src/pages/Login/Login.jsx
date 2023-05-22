@@ -11,6 +11,19 @@ import {
 import { useLogin } from '../../components/LoginProvider';
 import { toast } from 'react-toastify';
 
+let toastMSG = (msg = "Wrong User") => {
+  toast.error(msg, {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "colored",
+    })
+} 
+
 const loginApi = async(mail,password) => {
   try{
       const response = await fetch(`${process.env.REACT_APP_API_URL}/login`,{
@@ -20,16 +33,7 @@ const loginApi = async(mail,password) => {
           headers: {"Content-type": "application/json;charset=UTF-8"}
       })
       if(!response.ok){
-          toast.error("Wrong user", {
-              position: "top-center",
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "colored",
-              });
+          toastMSG("Wrong User")
       }else{
           const data = await response.json();
           return data;
@@ -57,6 +61,12 @@ function Login(props) {
 
   const handleForm = async (event) =>{
     event.preventDefault();
+    if(mail===""){
+      return toastMSG("Empty Email")
+    }
+    if(pass===""){
+      return toastMSG("Empty Password")
+    }
     const { token } = await loginApi(mail,pass)
     if(!token){
       return

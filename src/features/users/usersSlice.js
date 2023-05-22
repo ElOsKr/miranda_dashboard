@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import users from '../../data/users/users.json'
+import { apiCall } from '../api/apiConnection';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,10 +14,9 @@ function delay(data) {
 
 export const getUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        return data;
+        const response = await apiCall("users","GET");
+        //const data = users
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
     };
