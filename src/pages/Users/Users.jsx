@@ -60,7 +60,7 @@ function Users() {
               #{row.id}
             </p>
             <p>
-              Joined on {new Date().toLocaleString()}
+              Joined on {new Date(row.joined).toLocaleString()}
             </p>
           </UserInfo>          
       </UserContainer>
@@ -81,7 +81,7 @@ function Users() {
             </UserInactive>
       },
       { property: 'deleteRoom', label: '', display: (row) =>
-        <DeleteButton onClick={()=>handleDeleteUser(parseInt(row.id))}>Delete</DeleteButton>
+        <DeleteButton onClick={()=>handleDeleteUser((row.id))}>Delete</DeleteButton>
       }
   ]
 

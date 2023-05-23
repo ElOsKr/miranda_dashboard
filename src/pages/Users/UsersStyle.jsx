@@ -35,8 +35,8 @@ const UserContainer = styled.div`
 `
 
 const UserImg = styled.div`
-    width: 88px;
-    height: 88px;
+    width: 100px;
+    height: 75px;
     img{
         width: 100%;
         height: 100%;

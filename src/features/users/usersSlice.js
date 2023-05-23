@@ -15,7 +15,6 @@ function delay(data) {
 export const getUsers = async () => {
     try{
         const response = await apiCall("users","GET");
-        //const data = users
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -24,10 +23,8 @@ export const getUsers = async () => {
 
 export const getActiveUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        const activeUsers = data.filter((user) => user.status === true)
+        const response = await apiCall("users","GET");
+        const activeUsers = response.filter((user) => user.status === true)
         return activeUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -36,10 +33,8 @@ export const getActiveUsers = async () => {
 
 export const getInactiveUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        const inactiveUsers = data.filter((user) => user.status === false)
+        const response = await apiCall("users","GET");
+        const inactiveUsers = response.filter((user) => user.status === false)
         return inactiveUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -50,45 +45,36 @@ export const getInactiveUsers = async () => {
 
 export const getUser = async (userId) => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users;
-        let user = data.find(({id}) => id===userId);
-        return user;
+        const response = await apiCall(`users/${userId}`,"GET");
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 };
 
-export const updateUser = async (userId) => {
+export const updateUser = async (userId,dataUpdate) => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users;
-        let user = data.find(({id}) => id===userId);
-        return user;
+        const response = await apiCall(`users/${userId}`,"PATCH",dataUpdate);
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 }
 
-// export const deleteUser = async (userId) => {
-//     try{
-//         // const response = await fetch(users);
-//         // const data = await response.json();
-//         const data = users;
-//         const user = data.filter((user) => user.id!==userId);
-//         console.log(user)
-//         return user;
-//     }catch(err){
-//         alert(`Error while procesing data from api ${err}`);
-//     };
-// }
+export const deleteUser = async (userId) => {
+    try{
+        const response = await apiCall(`users/${userId}`,"DELETE");
+        return response;
+    }catch(err){
+        alert(`Error while procesing data from api ${err}`);
+    };
+}
 
 export const createUser = async (dataUser) => {
     try{
+        const response = await apiCall(`users`,"POST",dataUser);
         console.log(dataUser)
-        return (dataUser)
+        return (response)
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
@@ -137,18 +123,16 @@ export const userCall = createAsyncThunk(
 export const userDelete = createAsyncThunk(
     'user/deleteUser',
     async (id) => {
-        // const data = await deleteUser(id);
-        // return data;
-        return id
+        await deleteUser(id);
+        return id;
     }
 );
 
 export const userCreate = createAsyncThunk(
     'user/createUser',
     async (data) => {
-        // const data = await createUser(data);
-        // return data;
-        return await delay(createUser(data))
+        const dataUser = await createUser(data);
+        return dataUser;
     }
 );
 
@@ -185,7 +169,7 @@ export const usersSlice = createSlice({
                 }else if(action.type === userCall.fulfilled.type){
                     state.user = action.payload;
                 }else if(action.type === userDelete.fulfilled.type){
-                    state.users = state.users.filter(room => room.id!==action.payload)
+                    state.users = state.users.filter(user => user.id!==action.payload)
                     console.log("ID Deleted User: "+action.payload)
                 }else if(action.type === userCreate.fulfilled.type){
                     state.userCreated = action.payload;
