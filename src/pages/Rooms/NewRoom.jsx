@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { MainContainer } from '../Users/NewUserStyle'
-import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormRoomContainer, ImgInput, OfferContainer } from './NewRoomStyle'
+import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormRoomContainer, ImgInput } from './NewRoomStyle'
 import { useDispatch } from 'react-redux';
 import { roomCreate } from '../../features/rooms/roomsSlice';
 
@@ -19,12 +19,6 @@ function NewRoom() {
     const [number,setNumber] = useState();
 
     const [discount,setDiscount] = useState();
-
-    const [description,setDescription] = useState();
-
-    const [offer,setOffer] = useState();
-
-    const [cancellation,setCancellation] = useState();
 
     const [amenities,setAmenities] = useState();
 
@@ -56,20 +50,9 @@ function NewRoom() {
         setNumber(e.target.value)
     }
 
-    const handleDescriptionChange = (e) => {
-        setDescription(e.target.value)
-    }
-
-    const handleOfferChange = (e) => {
-        setOffer(e.target.value)
-    }
-
-    const handleCancellationChange = (e) => {
-        setCancellation(e.target.value)
-    }
-
     const handleAmenitiesChange = (e) => {
-        setAmenities(e.target.value)
+        let amenitiesArray = Array.from(e.target.selectedOptions, option => option.value)
+        setAmenities(amenitiesArray)
     }
 
     const handleDiscountChange = (e) => {
@@ -82,17 +65,16 @@ function NewRoom() {
 
         const newRoom = {
             type: type,
-            price: price,
-            number: number,
-            discount: discount,
-            description: description,
-            offer: offer,
-            cancellation: cancellation,
-            amenities: amenities
+            price: parseInt(price),
+            number: parseInt(number),
+            photo: "https://www.hotelcarlemanygirona.com/thumb?src=/media/habitaciones/superior-premium/habitacion-premium-1.jpg&w=600",
+            offer: parseInt(discount),
+            amenities: amenities,
+            status: true
         }
 
         for(let key in newRoom){
-            if(!newRoom[key]){
+            if(!newRoom[key] && newRoom[key]!==0){
                 return alert("Something empty")
             } 
         }
@@ -138,31 +120,16 @@ function NewRoom() {
                     <div>
                         <label htmlFor="type">Type</label>
                         <select name="type" id="type" onChange={handleTypeChange}>
-                            <option value="singleBed">Single Bed</option>
-                            <option value="doubleBed">Double Bed</option>
-                            <option value="doubleSuperior">Double Superior</option>
-                            <option value="suite">Suite</option>    
+                            <option value="Single Bed">Single Bed</option>
+                            <option value="Double Bed">Double Bed</option>
+                            <option value="Double Superior">Double Superior</option>
+                            <option value="Suite">Suite</option>    
                         </select>
                     </div>
                     <div>
                         <label htmlFor="number">Number</label>
                         <input type="number" name="number" id="number" onChange={handleNumberChange}/>
                     </div>
-                    <div>
-                        <label htmlFor="descripion">Description</label>
-                        <textarea name="description" id="description" style={{resize: 'none'}} onChange={handleDescriptionChange}></textarea>
-                    </div>
-                    <OfferContainer>
-                        <label htmlFor="offer">Offer</label>
-                        <div onChange={handleOfferChange}>
-                            <div>
-                                Yes <input type="radio" name="offer" id="yesOffer" />
-                            </div>
-                            <div>
-                                No <input type="radio" name="offer" id="noOffer" />
-                            </div>                            
-                        </div>                
-                    </OfferContainer>
                 </div>
                 <div>
                     <div>
@@ -173,19 +140,16 @@ function NewRoom() {
                         <label htmlFor="discount">Discount</label>
                         <input type="number" name="discount" id="discount" onChange={handleDiscountChange}/>
                     </div>
-                    <div>
-                        <label htmlFor="cancellation">Cancellation</label>
-                        <textarea name="cancellation" id="cancellation" style={{resize: 'none'}} onChange={handleCancellationChange}></textarea>
-                    </div>
-                    <div>
+                </div>
+                <div>
                         <label htmlFor="amenities">Amenities</label>
-                        <select name="amenities" id="amenities" onChange={handleAmenitiesChange} defaultValue="">
-                            <option value="" disabled>Select an option</option>
+                        <select name="amenities" id="amenities" onChange={handleAmenitiesChange} multiple>
                             <option value="tv">TV</option>
                             <option value="bar">Bar</option>
+                            <option value="sauna">Sauna</option>
+                            <option value="jacuzzi">Jacuzzi</option>
                         </select>
                     </div>
-                </div>
             </FormMain>
             <FormFooter>
                 <FormBtn type='submit' value="Create Room" style={{padding: "10px 20px"}} onSubmit={handleSubmit}/>

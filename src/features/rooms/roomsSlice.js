@@ -1,5 +1,5 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
-import rooms from '../../data/rooms/rooms.json'
+import { apiCall } from '../api/apiConnection';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,10 +13,8 @@ function delay(data) {
 
 export const getRooms = async () => {
     try{
-        // const response = await fetch(rooms);
-        // const data = await response.json();
-        const data = rooms
-        return data;
+        const response = await apiCall("rooms","GET");
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
     };
@@ -24,10 +22,8 @@ export const getRooms = async () => {
 
 export const getAvailableRooms = async () => {
     try{
-        // const response = await fetch(rooms);
-        // const data = await response.json();
-        const data = rooms
-        const availableRooms = data.filter((room) => room.status === true)
+        const response = await apiCall("rooms","GET");
+        const availableRooms = response.filter((room) => room.status === true)
         return availableRooms;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -36,10 +32,8 @@ export const getAvailableRooms = async () => {
 
 export const getBookedRooms = async () => {
     try{
-        // const response = await fetch(rooms);
-        // const data = await response.json();
-        const data = rooms
-        const bookedRooms = data.filter((room) => room.status === false)
+        const response = await apiCall("rooms","GET");
+        const bookedRooms = response.filter((room) => room.status === false)
         return bookedRooms;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -51,45 +45,36 @@ export const getBookedRooms = async () => {
 
 export const getRoom = async (roomId) => {
     try{
-        // const response = await fetch(rooms);
-        // const data = await response.json();
-        const data = rooms;
-        let booking = data.find(({id}) => id===roomId);
-        return booking;
+        const response = await apiCall(`rooms/${roomId}`,"GET");
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 };
 
-export const updateRoom = async (roomId) => {
+export const updateRoom = async (roomId,dataUpdate) => {
     try{
-        // const response = await fetch(rooms);
-        // const data = await response.json();
-        const data = rooms;
-        let booking = data.find(({id}) => id===roomId);
-        return booking;
+        const response = await apiCall(`rooms/${roomId}`,"PATCH",dataUpdate);
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 }
 
-// export const deleteRoom = async (roomId) => {
-//     try{
-//         // const response = await fetch(rooms);
-//         // const data = await response.json();
-//         const data = rooms;
-//         const room = data.filter((room) => room.id!==roomId);
-//         console.log(room)
-//         return room;
-//     }catch(err){
-//         alert(`Error while procesing data from api ${err}`);
-//     };
-// }
+export const deleteRoom = async (roomId) => {
+    try{
+        const response = await apiCall(`rooms/${roomId}`,"DELETE");
+        return response;
+    }catch(err){
+        alert(`Error while procesing data from api ${err}`);
+    };
+}
 
 export const createRoom = async (dataRoom) => {
     try{
+        const response = await apiCall(`rooms`,"POST",dataRoom);
         console.log(dataRoom)
-        return (dataRoom)
+        return (response)
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
@@ -138,8 +123,7 @@ export const roomCall = createAsyncThunk(
 export const roomDelete = createAsyncThunk(
     'room/deleteRoom',
     async (id) => {
-        // const data = await deleteRoom(id);
-        // return data;
+        await deleteRoom(id);
         return id
     }
 );
@@ -147,9 +131,8 @@ export const roomDelete = createAsyncThunk(
 export const roomCreate = createAsyncThunk(
     'room/createRoom',
     async (data) => {
-        // const data = await createRoom(data);
-        // return data;
-        return await delay(createRoom(data))
+        const dataRoom = await createRoom(data);
+        return dataRoom;
     }
 );
 

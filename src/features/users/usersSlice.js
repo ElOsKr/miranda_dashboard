@@ -1,5 +1,4 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
-import users from '../../data/users/users.json'
 import { apiCall } from '../api/apiConnection';
 
 function delay(data) {
