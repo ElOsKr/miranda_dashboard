@@ -45,7 +45,9 @@ function Contact() {
   ]
 
   const cols = [
-      { property: 'id', label: 'Id'},
+      { property: 'id', label: 'Id', display: (row) => 
+        <p style={{textOverflow: "ellipsis", maxWidth: 80, overflow: "hidden",whiteSpace: "nowrap"}}>{row.id}</p>
+      },
       { property: 'date', label: 'Date', display: (row) =>
         <p>{new Date().toLocaleString()}</p>
       },
