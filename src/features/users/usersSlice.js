@@ -22,7 +22,7 @@ export const getUsers = async () => {
 
 export const getActiveUsers = async () => {
     try{
-        const response = await apiCall("users","GET");
+        const response = await getUsers();
         const activeUsers = response.filter((user) => user.status === true)
         return activeUsers;
     }catch(err){
@@ -32,7 +32,7 @@ export const getActiveUsers = async () => {
 
 export const getInactiveUsers = async () => {
     try{
-        const response = await apiCall("users","GET");
+        const response = await getUsers();
         const inactiveUsers = response.filter((user) => user.status === false)
         return inactiveUsers;
     }catch(err){

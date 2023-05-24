@@ -15,15 +15,12 @@ function delay(data) {
 
 export const getBookings = async () => {
     try{
-        let bookingsArray = [];
         const response = await apiCall("bookings","GET");
-        response.map(async (booking)=>{
+        response.forEach(async (booking)=>{
             let room = await getRoom(booking.room_Id)
-            booking.typeRoom = room[0].type
-            await bookingsArray.push(booking)
+            booking.typeRoom= room[0].type
         })
-
-        return bookingsArray;
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
     };
@@ -31,10 +28,8 @@ export const getBookings = async () => {
 
 export const getCheckInBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const checkInBookings = data.filter((booking) => booking.status === "checkIn")
+        const response = await getBookings();
+        const checkInBookings = response.filter((booking) => booking.status === "checkIn")
         return checkInBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -43,10 +38,8 @@ export const getCheckInBookings = async () => {
 
 export const getCheckOutBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const checkOutBookings = data.filter((booking) => booking.status === "checkOut")
+        const response = await getBookings();
+        const checkOutBookings = response.filter((booking) => booking.status === "checkOut")
         return checkOutBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -55,10 +48,8 @@ export const getCheckOutBookings = async () => {
 
 export const getInProgressBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const inProgressBookings = data.filter((booking) => booking.status === "inProgress")
+        const response = await getBookings();
+        const inProgressBookings = response.filter((booking) => booking.status === "inProgress")
         return inProgressBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);

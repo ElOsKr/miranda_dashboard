@@ -22,7 +22,7 @@ export const getRooms = async () => {
 
 export const getAvailableRooms = async () => {
     try{
-        const response = await apiCall("rooms","GET");
+        const response = await getRooms();
         const availableRooms = response.filter((room) => room.status === true)
         return availableRooms;
     }catch(err){
@@ -32,7 +32,7 @@ export const getAvailableRooms = async () => {
 
 export const getBookedRooms = async () => {
     try{
-        const response = await apiCall("rooms","GET");
+        const response = await getRooms();
         const bookedRooms = response.filter((room) => room.status === false)
         return bookedRooms;
     }catch(err){

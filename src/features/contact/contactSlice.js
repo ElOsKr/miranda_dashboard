@@ -23,7 +23,7 @@ export const getContacts = async () => {
 
 export const getArchivedContacts = async () => {
     try{
-        const response = await apiCall("contacts","GET");
+        const response = await getContacts();
         const archivedContacts = response.filter((contact) => contact.status === false)
         return archivedContacts;
     }catch(err){
