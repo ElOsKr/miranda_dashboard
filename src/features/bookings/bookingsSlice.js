@@ -1,5 +1,7 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import bookings from '../../data/bookings/bookings.json'
+import { apiCall } from '../api/apiConnection';
+import { getRoom } from '../rooms/roomsSlice';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,10 +15,15 @@ function delay(data) {
 
 export const getBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        return data;
+        let bookingsArray = [];
+        const response = await apiCall("bookings","GET");
+        response.map(async (booking)=>{
+            let room = await getRoom(booking.room_Id)
+            booking.typeRoom = room[0].type
+            await bookingsArray.push(booking)
+        })
+
+        return bookingsArray;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
     };

@@ -1,7 +1,13 @@
 import fetch from 'cross-fetch';
 
 const apiUrl = process.env.REACT_APP_API_URL;
-const {token} = JSON.parse(localStorage.getItem('user'))
+
+let token;
+
+if(localStorage.getItem('user')){
+    token = (JSON.parse(localStorage.getItem('user'))).token    
+}
+
 
 export const apiCall = async (route,method,data = {}) => {
     try{

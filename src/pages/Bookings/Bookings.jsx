@@ -34,7 +34,7 @@ function Bookings() {
       dispatch(bookingsCall());
   },[]);
 
-  const handleDeleteRoom = (id) => {
+  const handleDeleteBooking = (id) => {
     dispatch(bookingDelete(id))
   }
 
@@ -80,18 +80,18 @@ function Bookings() {
       </Link>
       )},
       { property: 'orderDate', label: 'Order Date', display: (row) =>
-        <p>{row.orderDate.date} {row.orderDate.hour}</p>
+        <p>{new Date(row.orderDate).toLocaleString()}</p>
       },
       { property: 'checkin', label: 'Check In', display: (row) =>
         <>
           <p>{row.checkin.date}</p>
-          <HourMini>{row.checkin.hour}</HourMini>
+          <HourMini>{new Date(row.checkin).toLocaleString()}</HourMini>
         </>
       },
       { property: 'checkout', label: 'Check Out', display: (row) => 
         <>
           <p>{row.checkout.date}</p>
-          <HourMini>{row.checkout.hour}</HourMini>
+          <HourMini>{new Date(row.checkout).toLocaleString()}</HourMini>
         </>
       },
       { property: 'specialRequest', label: 'Special Request', display: (row) => 
@@ -115,7 +115,7 @@ function Bookings() {
           <InProgress>In Progress</InProgress>   
       },
       { property: 'deleteRoom', label: '', display: (row) =>
-        <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
+        <DeleteButton onClick={()=>handleDeleteBooking((row.id))}>Delete</DeleteButton>
       }
   ]
   return (
