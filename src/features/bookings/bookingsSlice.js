@@ -60,11 +60,9 @@ export const getInProgressBookings = async () => {
 
 export const getBooking = async (bookingId) => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings;
-        let booking = data.find(({id}) => id===bookingId);
-        return booking;
+        const response = await apiCall(`bookings/${bookingId}`,"GET");
+        const room = await getRoom(response[0].room_Id);
+        return {...response[0], typeRoom: room[0].type};
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
@@ -82,18 +80,14 @@ export const updateBooking = async (bookingId) => {
     };
 }
 
-// export const deleteBooking = async (bookingId) => {
-//     try{
-//         // const response = await fetch(bookings);
-//         // const data = await response.json();
-//         const data = bookings;
-//         const booking = data.filter((booking) => booking.id!==bookingId);
-//         console.log(booking)
-//         return booking;
-//     }catch(err){
-//         alert(`Error while procesing data from api ${err}`);
-//     };
-// }
+export const deleteBooking = async (bookingId) => {
+    try{
+        const response = await apiCall(`bookings/${bookingId}`,"DELETE");
+        return response;
+    }catch(err){
+        alert(`Error while procesing data from api ${err}`);
+    };
+}
 
 export const createBooking = async (dataBooking) => {
     try{
@@ -152,9 +146,8 @@ export const bookingCall = createAsyncThunk(
 export const bookingDelete = createAsyncThunk(
     'booking/deleteBooking',
     async (id) => {
-        // const data = await deleteBooking(id);
-        // return data;
-        return id
+        await deleteBooking(id);
+        return id;
     }
 );
 

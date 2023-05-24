@@ -48,7 +48,7 @@ function BookingDescription() {
   let isLoading = useSelector(state => state.bookings.isLoading)
   
   useEffect(()=>{
-    dispatch(bookingCall(parseInt(bookingId.bookingId)));
+    dispatch(bookingCall((bookingId.bookingId)));
   },[])
 
   const handleDeleteRoom = (id) => {
@@ -76,7 +76,7 @@ function BookingDescription() {
                 </>
               :
                 <>
-                  <h2>Aritos20</h2>
+                  <h2>{booking.guest}</h2>
                   <p>ID {booking?.id}</p>                
                 </>
               }
@@ -100,7 +100,7 @@ function BookingDescription() {
               {isLoading?
                 <Skeleton animation="wave" height={30} />
                 :
-                <p>{booking.checkin?.date} | {booking.checkin?.hour}</p>
+                <p>{new Date(booking.checkin).toLocaleString()}</p>
               }
               
             </DateDiv>
@@ -109,7 +109,7 @@ function BookingDescription() {
               {isLoading?
                 <Skeleton animation="wave" height={30} />
                 :
-                <p>{booking.checkout?.date} | {booking.checkout?.hour}</p>
+                <p>{new Date(booking.checkout).toLocaleString()}</p>
               }
               
             </DateDiv>
