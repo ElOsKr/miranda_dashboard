@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import { toast } from 'react-toastify';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -35,6 +36,16 @@ export const apiCall = async (route,method,data = {}) => {
         const dataResponse = await response.json();
         return dataResponse.data;
     }catch(error){
+        toast.error("Error connecting with the API, trying to reconnect", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            })
         throw error
     }
 }

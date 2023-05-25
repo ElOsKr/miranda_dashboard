@@ -18,11 +18,12 @@ export const getBookings = async () => {
         const response = await apiCall("bookings","GET");
         response.forEach(async (booking)=>{
             let room = await getRoom(booking.room_Id)
-            booking.typeRoom= room[0].type
+            booking.typeRoom = room[0].type
         })
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err;
     };
 };
 
@@ -109,7 +110,11 @@ const initialState = {
 export const bookingsCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getBookings())
+        try{
+            return await delay(getBookings())
+        }catch (e){
+            throw e
+        }
     }
 );
 
@@ -139,7 +144,11 @@ export const bookingsInProgressCall = createAsyncThunk(
 export const bookingCall = createAsyncThunk(
     'booking/getBooking',
     async (id) => {
-        return await delay(getBooking(id))
+        try{
+            return await delay(getBooking(id))
+        }catch (e){
+            throw e
+        }
     }
 );
 

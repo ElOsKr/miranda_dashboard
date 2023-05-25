@@ -30,9 +30,22 @@ function Bookings() {
 
   const isLoading = useSelector(state => state.bookings.isLoading);
 
+  const hasError = useSelector(state => state.bookings.hasError)
+
   useEffect(()=>{
+    try{
       dispatch(bookingsCall());
+    }catch (e){
+      console.log(e)
+      setTimeout(dispatch(bookingsCall()),5000)
+    }
   },[]);
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(bookingsCall()),5000)
+    }
+  },[hasError])
 
   const handleDeleteBooking = (id) => {
     dispatch(bookingDelete(id))
@@ -120,7 +133,7 @@ function Bookings() {
   ]
   return (
     <MainContainer>
-      {isLoading?
+      {isLoading || hasError?
         <CharginProgress />   
         :
         <>
