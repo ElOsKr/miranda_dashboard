@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import { apiCall } from '../api/apiConnection';
+import { toast } from 'react-toastify';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -17,6 +18,7 @@ export const getUsers = async () => {
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
@@ -27,6 +29,7 @@ export const getActiveUsers = async () => {
         return activeUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -37,6 +40,7 @@ export const getInactiveUsers = async () => {
         return inactiveUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -65,7 +69,8 @@ export const deleteUser = async (userId) => {
         const response = await apiCall(`users/${userId}`,"DELETE");
         return response;
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -73,9 +78,20 @@ export const createUser = async (dataUser) => {
     try{
         const response = await apiCall(`users`,"POST",dataUser);
         console.log(dataUser)
+        toast.success("User created", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            })
         return (response)
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -92,21 +108,33 @@ const initialState = {
 export const usersCall = createAsyncThunk(
     'users/getUsers',
     async () => {
-        return await delay(getUsers())
+        try{
+            return await delay(getUsers())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const usersActiveCall = createAsyncThunk(
     'users/getActiveUsers',
     async () => {
-        return await delay(getActiveUsers())
+        try{
+            return await delay(getActiveUsers())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const usersInactiveCall = createAsyncThunk(
     'users/getInactiveUsers',
     async () => {
-        return await delay(getInactiveUsers())
+        try{
+            return await delay(getInactiveUsers())
+        }catch(e){
+            throw e
+        }  
     }
 );
 
@@ -122,16 +150,24 @@ export const userCall = createAsyncThunk(
 export const userDelete = createAsyncThunk(
     'user/deleteUser',
     async (id) => {
-        await deleteUser(id);
-        return id;
+        try{
+            await deleteUser(id);
+            return id;            
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const userCreate = createAsyncThunk(
     'user/createUser',
     async (data) => {
-        const dataUser = await createUser(data);
-        return dataUser;
+        try{
+            const dataUser = await createUser(data);
+            return dataUser;
+        }catch(e){
+            throw e
+        }
     }
 );
 

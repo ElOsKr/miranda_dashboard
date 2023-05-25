@@ -18,6 +18,7 @@ export const getContacts = async () => {
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
@@ -28,6 +29,7 @@ export const getArchivedContacts = async () => {
         return archivedContacts;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -90,14 +92,22 @@ const initialState = {
 export const contactsCall = createAsyncThunk(
     'contacts/getContacts',
     async () => {
-        return await delay(getContacts())
+        try{
+            return await delay(getContacts())
+        }catch(e){
+            throw e
+        }  
     }
 );
 
 export const contactsArchivedCall = createAsyncThunk(
     'contacts/getContacts',
     async () => {
-        return await delay(getArchivedContacts())
+        try{
+            return await delay(getArchivedContacts())
+        }catch(e){
+            throw e
+        }
     }
 );
 

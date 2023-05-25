@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { userCreate } from '../../features/users/usersSlice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function NewUser() {
 
@@ -27,7 +29,7 @@ function NewUser() {
 
     const [status, setStatus] = useState();
 
-    const [ aux , setAux ] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         if(img){
@@ -87,12 +89,25 @@ function NewUser() {
 
         for(let key in newUser){
             if(!newUser[key]){
-                return alert("Something empty")
+                return toast.error("Something is empty in the creation of the user", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    })
             } 
         }
-
-        dispatch(userCreate(newUser))
-        setAux(true)
+        try{
+            dispatch(userCreate(newUser))
+            navigate('/users')
+        }catch(e){
+            console.log(e)
+        }
+        
     }
 
   return (
@@ -149,11 +164,6 @@ function NewUser() {
             <FormFooter>
                 <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit} data-cy="submit"/>
             </FormFooter>
-                {!aux?
-                    null
-                    :
-                    <p data-cy="done" style={{textAlign: 'center'}}>User created</p>
-                }
         </FormUserContainer>
     </MainContainer>
   )

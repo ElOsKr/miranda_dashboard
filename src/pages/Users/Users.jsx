@@ -20,9 +20,17 @@ function Users() {
 
   const isLoading = useSelector(state => state.users.isLoading)
 
+  const hasError = useSelector(state => state.users.hasError)
+
   useEffect(() => {
     dispatch(usersCall())
   },[])
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(usersCall()),5000)
+    }
+  },[hasError])
 
   const handleDeleteUser = (id) => {
     dispatch(userDelete(id))
@@ -87,7 +95,7 @@ function Users() {
 
   return (
     <MainContainer>
-      {isLoading?
+      {isLoading|| hasError?
           <CharginProgress />
         :
           <>

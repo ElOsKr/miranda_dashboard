@@ -27,9 +27,17 @@ function Contact() {
 
   const isLoading = useSelector(state => state.contacts.isLoading);
 
+  const hasError = useSelector(state => state.contacts.hasError);
+
   useEffect(()=>{
       dispatch(contactsCall());
   },[]);
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(contactsCall()), 5000);
+    }
+  },[hasError]);
 
   const handleAllContacts = () => {
     dispatch(contactsCall())
@@ -77,7 +85,7 @@ function Contact() {
       },
   ]
 
-  if(isLoading){
+  if(isLoading|| hasError){
     return(
       <MainContainer>
         <CharginProgress />

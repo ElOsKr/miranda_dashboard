@@ -34,6 +34,7 @@ export const getCheckInBookings = async () => {
         return checkInBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -44,6 +45,7 @@ export const getCheckOutBookings = async () => {
         return checkOutBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -54,6 +56,7 @@ export const getInProgressBookings = async () => {
         return inProgressBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -86,7 +89,8 @@ export const deleteBooking = async (bookingId) => {
         const response = await apiCall(`bookings/${bookingId}`,"DELETE");
         return response;
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -121,21 +125,33 @@ export const bookingsCall = createAsyncThunk(
 export const bookingsCheckInCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getCheckInBookings())
+        try{
+            return await delay(getCheckInBookings())
+        }catch (e){
+            throw e
+        }
     }
 );
 
 export const bookingsCheckOutCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getCheckOutBookings())
+        try{
+            return await delay(getCheckOutBookings())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const bookingsInProgressCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getInProgressBookings())
+        try{
+            return await delay(getInProgressBookings())
+        }catch(e){
+            throw e
+        }
     }
 );
 
@@ -155,8 +171,12 @@ export const bookingCall = createAsyncThunk(
 export const bookingDelete = createAsyncThunk(
     'booking/deleteBooking',
     async (id) => {
-        await deleteBooking(id);
-        return id;
+        try{
+            await deleteBooking(id);
+            return id;
+        }catch (e){
+            throw e
+        }
     }
 );
 
