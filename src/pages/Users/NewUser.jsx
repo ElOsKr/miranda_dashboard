@@ -2,7 +2,7 @@ import React from 'react'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormUserContainer, MainContainer, StatusContainer } from './NewUserStyle'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userCreate } from '../../features/users/usersSlice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -30,6 +30,8 @@ function NewUser() {
     const [status, setStatus] = useState();
 
     const navigate = useNavigate()
+
+    const hasError = useSelector(state => state.users.hasError)
 
     useEffect(() => {
         if(img){
@@ -98,12 +100,14 @@ function NewUser() {
                     draggable: true,
                     progress: undefined,
                     theme: "colored",
-                    })
+                })
             } 
         }
         try{
             dispatch(userCreate(newUser))
-            navigate('/users')
+            if(!hasError){
+                navigate('/users')
+            }
         }catch(e){
             console.log(e)
         }

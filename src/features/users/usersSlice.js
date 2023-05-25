@@ -87,7 +87,7 @@ export const createUser = async (dataUser) => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-            })
+        })
         return (response)
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);

@@ -46,10 +46,18 @@ function BookingDescription() {
   let booking = useSelector(state => state.bookings.booking);
 
   let isLoading = useSelector(state => state.bookings.isLoading)
+
+  let hasError = useSelector(state => state.bookings.hasError);
   
   useEffect(()=>{
     dispatch(bookingCall((bookingId.bookingId)));
   },[])
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(bookingCall((bookingId.bookingId))),5000)
+    }
+  },[hasError])
 
   const handleDeleteRoom = (id) => {
     dispatch(bookingDelete(id))
@@ -62,14 +70,14 @@ function BookingDescription() {
         <DataContainer>
           <UserContainer>
             <UserPhoto>
-              {isLoading?
+              {isLoading||hasError?
                 <Skeleton variant="rounded" width={156} height={156} animation="wave" />
               :
                 <img src="https://avatars.githubusercontent.com/u/60935066?v=4" alt="aritos20" />
               }
             </UserPhoto>
             <UserData>
-              {isLoading?
+              {isLoading||hasError?
                 <>
                   <Skeleton animation="wave" width={50} height={48}/>
                   <Skeleton animation="wave" width={20}/>              
@@ -97,7 +105,7 @@ function BookingDescription() {
           <DateContainer>
             <DateDiv>
               <p>Check In</p>
-              {isLoading?
+              {isLoading||hasError?
                 <Skeleton animation="wave" height={30} />
                 :
                 <p>{new Date(booking.checkin).toLocaleString()}</p>
@@ -106,7 +114,7 @@ function BookingDescription() {
             </DateDiv>
             <DateDiv>
               <p>Check Out</p>
-              {isLoading?
+              {isLoading||hasError?
                 <Skeleton animation="wave" height={30} />
                 :
                 <p>{new Date(booking.checkout).toLocaleString()}</p>
@@ -118,7 +126,7 @@ function BookingDescription() {
             <RoomInfo>
               <Info>
                 <p>Room Info</p>
-                {isLoading?
+                {isLoading||hasError?
                   <Skeleton animation="wave" height={30} />
                   :
                   <p>{booking?.typeRoom}</p>
@@ -127,7 +135,7 @@ function BookingDescription() {
               </Info>
               <Info>
                 <p>Price</p>
-                {isLoading?
+                {isLoading||hasError?
                   <Skeleton animation="wave" height={30} />
                   :
                   <p>$ {booking?.price} <span>/night</span></p>
@@ -136,7 +144,7 @@ function BookingDescription() {
               </Info>
             </RoomInfo>
             <RoomDescription>
-              {isLoading?
+              {isLoading||hasError?
                 <>
                 <Skeleton animation="wave" height={30} width={350}/>
                 <Skeleton animation="wave" height={30} width={350}/>
@@ -147,7 +155,7 @@ function BookingDescription() {
             </RoomDescription>
             <RoomFacilities>
               <p>Facilities</p>
-              {isLoading?
+              {isLoading||hasError?
                 <Skeleton animation="wave" height={30} width={50}/>
                 :
                 booking.amenities?.map((item, i)=>{
@@ -159,7 +167,7 @@ function BookingDescription() {
           </InfoContainer>
         </DataContainer>
         <PhotoContainer>
-          {isLoading?
+          {isLoading||hasError?
             <Skeleton animation="wave" height={606} sx={{transform: "scaleY(1.5)"}}/>
             :
             <img src={booking.photo} alt="roomPhoto" />

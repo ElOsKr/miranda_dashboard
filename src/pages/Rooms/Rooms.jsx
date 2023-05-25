@@ -31,9 +31,17 @@ function Rooms() {
 
   const isLoading = useSelector(state => state.rooms.isLoading)
 
+  const hasError = useSelector(state => state.rooms.hasError)
+
   useEffect(() => {
     dispatch(roomsCall())
   },[])
+
+  useEffect(() => {
+    if(hasError){
+      setTimeout(()=>dispatch(roomsCall()),5000)
+    }
+  },[hasError])
 
   const handleDeleteRoom = (id) => {
     dispatch(roomDelete(id))
@@ -109,7 +117,7 @@ function Rooms() {
 
   return (
     <MainContainer>
-      {isLoading?
+      {isLoading|| hasError?
           <CharginProgress />
         :
         <>

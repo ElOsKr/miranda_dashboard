@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import { apiCall } from '../api/apiConnection';
+import { toast } from 'react-toastify';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -17,6 +18,7 @@ export const getRooms = async () => {
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
@@ -27,6 +29,7 @@ export const getAvailableRooms = async () => {
         return availableRooms;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -37,6 +40,7 @@ export const getBookedRooms = async () => {
         return bookedRooms;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -48,7 +52,8 @@ export const getRoom = async (roomId) => {
         const response = await apiCall(`rooms/${roomId}`,"GET");
         return response;
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
@@ -57,7 +62,7 @@ export const updateRoom = async (roomId,dataUpdate) => {
         const response = await apiCall(`rooms/${roomId}`,"PATCH",dataUpdate);
         return response;
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
     };
 }
 
@@ -65,8 +70,10 @@ export const deleteRoom = async (roomId) => {
     try{
         const response = await apiCall(`rooms/${roomId}`,"DELETE");
         return response;
+        
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -74,9 +81,20 @@ export const createRoom = async (dataRoom) => {
     try{
         const response = await apiCall(`rooms`,"POST",dataRoom);
         console.log(dataRoom)
+        toast.success("User created", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        })
         return (response)
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -93,21 +111,33 @@ const initialState = {
 export const roomsCall = createAsyncThunk(
     'rooms/getRooms',
     async () => {
-        return await delay(getRooms())
+        try{
+            return await delay(getRooms())
+        }catch(e){
+            throw e
+        } 
     }
 );
 
 export const roomsAvailableCall = createAsyncThunk(
     'rooms/getAvailableRooms',
     async () => {
-        return await delay(getAvailableRooms())
+        try{
+            return await delay(getAvailableRooms())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const roomsBookedCall = createAsyncThunk(
     'rooms/getBookedRooms',
     async () => {
-        return await delay(getBookedRooms())
+        try{
+            return await delay(getBookedRooms())
+        }catch(e){
+            throw e
+        }
     }
 );
 
@@ -116,23 +146,35 @@ export const roomsBookedCall = createAsyncThunk(
 export const roomCall = createAsyncThunk(
     'room/getRoom',
     async (id) => {
-        return await delay(getRoom(id))
+        try{
+            return await delay(getRoom(id))
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const roomDelete = createAsyncThunk(
     'room/deleteRoom',
     async (id) => {
-        await deleteRoom(id);
-        return id
+        try{
+            await deleteRoom(id);
+            return id
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const roomCreate = createAsyncThunk(
     'room/createRoom',
     async (data) => {
-        const dataRoom = await createRoom(data);
-        return dataRoom;
+        try{
+            const dataRoom = await createRoom(data);
+            return dataRoom;
+        }catch(e){
+            throw e
+        }
     }
 );
 

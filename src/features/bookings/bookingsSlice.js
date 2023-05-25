@@ -68,7 +68,8 @@ export const getBooking = async (bookingId) => {
         const room = await getRoom(response[0].room_Id);
         return {...response[0], typeRoom: room[0].type};
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 

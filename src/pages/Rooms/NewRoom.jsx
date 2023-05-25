@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import { MainContainer } from '../Users/NewUserStyle'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormRoomContainer, ImgInput } from './NewRoomStyle'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { roomCreate } from '../../features/rooms/roomsSlice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function NewRoom() {
 
@@ -21,6 +23,10 @@ function NewRoom() {
     const [discount,setDiscount] = useState();
 
     const [amenities,setAmenities] = useState();
+
+    const hasError = useSelector(state => state.rooms.hasError)
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         if(img.length>0){
@@ -75,11 +81,27 @@ function NewRoom() {
 
         for(let key in newRoom){
             if(!newRoom[key] && newRoom[key]!==0){
-                return alert("Something empty")
+                return toast.error("Something is empty in the creation of the room", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
             } 
         }
-
-        dispatch(roomCreate(newRoom))
+        try{
+            dispatch(roomCreate(newRoom))
+            if(!hasError){
+                navigate("/rooms")
+            }
+        }catch(e){
+            console.log(e)
+        }
+        
     }
 
   return (
