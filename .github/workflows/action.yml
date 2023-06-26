@@ -5,6 +5,16 @@ on:
     branches:
       - master
 jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+        with:
+          build: npm run build
+          start: npm start
   run:
     runs-on: ubuntu-latest
     env:
@@ -14,7 +24,13 @@ jobs:
         - uses: actions/checkout@v3
 
         - name: Install dependencies
-          run: yarn
+          run: yarn install
+
+        - name: Run Lint
+          run: yarn run lint
+
+        - name: Run tests
+        run: yarn test
 
         - name: Build
           run: yarn build
