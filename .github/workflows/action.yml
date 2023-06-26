@@ -29,3 +29,4 @@ jobs:
             folder: ./build
             bucket: oscarmirandadashboard
             bucket-region: eu-west-3
+            private: true
