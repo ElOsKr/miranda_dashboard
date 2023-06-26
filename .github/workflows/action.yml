@@ -1,4 +1,4 @@
-name: Dashboard Update
+name: Dashboard Deploy
 on:
   pull_request:
   push:
