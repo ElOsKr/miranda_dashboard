@@ -23,10 +23,10 @@ jobs:
 
         - name: Deploy
         - uses: ./.github/actions/s3upload-action
-          with:
-            keyid: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            accesskey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            region: "eu-west-3"
-            filepath: "."
-            bucket: "s3://oscarmirandadashboard"
-            options: "--recursive"
+            with:
+              keyid: ${{ secrets.AWS_ACCESS_KEY_ID }}
+              accesskey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              region: "eu-west-3"
+              filepath: "."
+              bucket: "s3://oscarmirandadashboard"
+              options: "--recursive"
