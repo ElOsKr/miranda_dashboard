@@ -29,8 +29,3 @@ jobs:
             folder: ./build
             bucket: oscarmirandadashboard
             bucket-region: eu-west-3
-            invalidation: /
-            delete-removed: true
-            no-cache: true
-            private: true
-            files-to-include: ".*/*,*/*,**"
