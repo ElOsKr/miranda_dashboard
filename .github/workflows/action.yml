@@ -24,11 +24,13 @@ jobs:
           run: yarn build
 
         - name: Deploy
-        - uses: ./.github/actions/s3upload-action
+          uses: reggionick/s3-deploy@v3
           with:
-            keyid: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            accesskey: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            region: "eu-west-3"
-            filepath: "."
-            bucket: "s3://oscarmirandadashboard"
-            options: "--recursive"
+            folder: ./build
+            bucket: oscarmirandadashboard
+            bucket-region: eu-west-3
+            invalidation: /
+            delete-removed: true
+            no-cache: true
+            private: true
+            files-to-include: ".*/*,*/*,**"
