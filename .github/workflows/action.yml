@@ -27,7 +27,7 @@ jobs:
         - name: Cypress test
           uses: cypress-io/github-action@v5
           with:
-            build: npm run build
+            build: CI=false npm run build
             start: npm start
         - name: Deploy app build to s3 bucket
           run: aws s3 sync ./build/ s3://oscarmirandadashboard --delete
