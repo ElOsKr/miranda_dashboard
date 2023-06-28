@@ -50,7 +50,7 @@ function Login(props) {
     <MainContainer>
       <Form onSubmit={handleForm}>
         <Message>Email: admin@admin.com</Message>
-        <Message>Password: oscar</Message>
+        <Message>Password: admin</Message>
         <Label htmlFor="mail">Email</Label>
         <Input type="text" name="mail" id="mail" onChange={handleMail} data-cy="mail"/>
         <br/>
