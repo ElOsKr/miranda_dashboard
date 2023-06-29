@@ -117,7 +117,6 @@ function Bookings() {
               View Notes
             </RequestButtonEmpty>
       },
-      { property: 'typeRoom', label: 'Room Type' },
       { property: 'state', label: 'Status', display: (row) => 
         row.status === 'checkIn' ? 
           <CheckIn>Check In</CheckIn>
@@ -127,7 +126,7 @@ function Bookings() {
         :
           <InProgress>In Progress</InProgress>   
       },
-      { property: 'deleteRoom', label: '', display: (row) =>
+      { property: 'deleteRoom', label: 'Action', display: (row) =>
         <DeleteButton onClick={()=>handleDeleteBooking((row.id))}>Delete</DeleteButton>
       }
   ]

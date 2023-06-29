@@ -1,5 +1,4 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
-import bookings from '../../data/bookings/bookings.json'
 import { apiCall } from '../api/apiConnection';
 import { getRoom } from '../rooms/roomsSlice';
 
@@ -16,10 +15,6 @@ function delay(data) {
 export const getBookings = async () => {
     try{
         const response = await apiCall("bookings","GET");
-        response.forEach(async (booking)=>{
-            let room = await getRoom(booking.room_Id)
-            booking.typeRoom = room[0].type
-        })
         return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
@@ -77,9 +72,9 @@ export const updateBooking = async (bookingId) => {
     try{
         // const response = await fetch(bookings);
         // const data = await response.json();
-        const data = bookings;
-        let booking = data.find(({id}) => id===bookingId);
-        return booking;
+        // const data = bookings;
+        // let booking = data.find(({id}) => id===bookingId);
+        return bookingId;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };

@@ -6,7 +6,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 let token;
 
 if(localStorage.getItem('user')){
-    token = (JSON.parse(localStorage.getItem('user'))).token    
+    token = (JSON.parse(localStorage.getItem('user'))).token
+    console.log(token)    
 }
 
 
