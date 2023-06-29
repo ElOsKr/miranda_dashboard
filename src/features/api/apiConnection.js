@@ -3,14 +3,6 @@ import { toast } from 'react-toastify';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
-let token;
-
-if(localStorage.getItem('user')){
-    token = (JSON.parse(localStorage.getItem('user'))).token
-    console.log(token)    
-}
-
-
 export const apiCall = async (route,method,data = {}) => {
     try{
         let response;
@@ -19,7 +11,7 @@ export const apiCall = async (route,method,data = {}) => {
                 method: method,
                 mode: 'cors',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${(JSON.parse(localStorage.getItem('user'))).token}`,
                 }
             })
         }else{
@@ -27,7 +19,7 @@ export const apiCall = async (route,method,data = {}) => {
                 method: method,
                 mode: 'cors',
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${(JSON.parse(localStorage.getItem('user'))).token}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
