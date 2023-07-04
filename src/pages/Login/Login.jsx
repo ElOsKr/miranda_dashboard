@@ -6,7 +6,10 @@ import {
   Label,
   Input,
   Button,
-  Message
+  Message,
+  LogoContainer,
+  TitleLogo,
+  LogoLetter
 } from './LoginStyle';
 import { useLogin } from '../../components/LoginProvider';
 import { toast } from 'react-toastify';
@@ -47,9 +50,9 @@ function Login(props) {
 
   const login = useLogin()
 
-  const [mail, setMail] = useState("");
+  const [mail, setMail] = useState("admin@admin.com");
 
-  const [pass, setPass] = useState("");
+  const [pass, setPass] = useState("admin");
 
   const navigate = useNavigate()
 
@@ -92,13 +95,22 @@ function Login(props) {
   return (
     <MainContainer>
       <Form onSubmit={handleForm}>
+        <LogoContainer>
+            <LogoLetter>
+                H
+            </LogoLetter>
+            <TitleLogo>
+                <p>Hotel</p>
+                <p>Miranda</p>
+          </TitleLogo>                
+        </LogoContainer>
         <Message>Email: admin@admin.com</Message>
         <Message>Password: admin</Message>
         <Label htmlFor="mail">Email</Label>
-        <Input type="text" name="mail" id="mail" onChange={handleMail} data-cy="mail"/>
+        <Input type="text" name="mail" id="mail" onChange={handleMail} data-cy="mail" value={mail}/>
         <br/>
         <Label htmlFor="password">Password</Label>
-        <Input type="password" name="password" id="password" onChange={handlePass} data-cy="password"/>
+        <Input type="password" name="password" id="password" onChange={handlePass} data-cy="password" value={pass}/>
         <Button type="submit" value="Enter" onClick={handleForm} name='submit' data-cy="submit"/>
       </Form>
     </MainContainer>

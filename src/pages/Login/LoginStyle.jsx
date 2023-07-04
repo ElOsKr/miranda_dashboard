@@ -26,6 +26,7 @@ const Form = styled.form`
 
 const Message = styled.h2`
     margin-bottom: 30px;
+    font-size: 15px;
 `
 
 const Label = styled.label`
@@ -51,6 +52,37 @@ const Button = styled.input`
     border: 1px solid black;
     cursor: pointer;
     border-radius: 10px;
+    transition: all .3s;
+    &:hover{
+        transform: scale(1.2);
+    }
+`
+
+const LogoContainer = styled.div`
+    display: flex;
+    font-family: 'Archivo';
+    align-content: center;
+    gap: 20px;
+    margin: 20px auto;
+
+`
+
+const TitleLogo = styled.div`
+    font-size: 20px;
+    align-self: center;
+    font-weight: 400;
+    text-align: start;
+    p:first-child{
+        font-weight: 700;
+    }
+
+`
+
+const LogoLetter = styled.div`
+    font-size: 50px;
+    font-weight: 700;
+    padding: 10px 20px;
+    box-shadow: 0px 10px 14px rgba(139, 139, 139, 0.25);
 `
 
 export {
@@ -59,6 +91,8 @@ export {
     Message,
     Label,
     Input,
-    Button
-
+    Button,
+    LogoContainer,
+    TitleLogo,
+    LogoLetter
 };
