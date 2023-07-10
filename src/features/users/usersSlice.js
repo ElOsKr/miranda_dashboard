@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
-import users from '../../data/users/users.json'
+import { apiCall } from '../api/apiConnection';
+import { toast } from 'react-toastify';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,36 +14,33 @@ function delay(data) {
 
 export const getUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        return data;
+        const response = await apiCall("users","GET");
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
 export const getActiveUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        const activeUsers = data.filter((user) => user.status === true)
+        const response = await getUsers();
+        const activeUsers = response.filter((user) => user.status === true)
         return activeUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
 export const getInactiveUsers = async () => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users
-        const inactiveUsers = data.filter((user) => user.status === false)
+        const response = await getUsers();
+        const inactiveUsers = response.filter((user) => user.status === false)
         return inactiveUsers;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -50,47 +48,50 @@ export const getInactiveUsers = async () => {
 
 export const getUser = async (userId) => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users;
-        let user = data.find(({id}) => id===userId);
-        return user;
+        const response = await apiCall(`users/${userId}`,"GET");
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 };
 
-export const updateUser = async (userId) => {
+export const updateUser = async (userId,dataUpdate) => {
     try{
-        // const response = await fetch(users);
-        // const data = await response.json();
-        const data = users;
-        let user = data.find(({id}) => id===userId);
-        return user;
+        const response = await apiCall(`users/${userId}`,"PATCH",dataUpdate);
+        return response;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 }
 
-// export const deleteUser = async (userId) => {
-//     try{
-//         // const response = await fetch(users);
-//         // const data = await response.json();
-//         const data = users;
-//         const user = data.filter((user) => user.id!==userId);
-//         console.log(user)
-//         return user;
-//     }catch(err){
-//         alert(`Error while procesing data from api ${err}`);
-//     };
-// }
+export const deleteUser = async (userId) => {
+    try{
+        const response = await apiCall(`users/${userId}`,"DELETE");
+        return response;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
+    };
+}
 
 export const createUser = async (dataUser) => {
     try{
+        const response = await apiCall(`users`,"POST",dataUser);
         console.log(dataUser)
-        return (dataUser)
+        toast.success("User created", {
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        })
+        return (response)
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -107,21 +108,33 @@ const initialState = {
 export const usersCall = createAsyncThunk(
     'users/getUsers',
     async () => {
-        return await delay(getUsers())
+        try{
+            return await delay(getUsers())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const usersActiveCall = createAsyncThunk(
     'users/getActiveUsers',
     async () => {
-        return await delay(getActiveUsers())
+        try{
+            return await delay(getActiveUsers())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const usersInactiveCall = createAsyncThunk(
     'users/getInactiveUsers',
     async () => {
-        return await delay(getInactiveUsers())
+        try{
+            return await delay(getInactiveUsers())
+        }catch(e){
+            throw e
+        }  
     }
 );
 
@@ -137,18 +150,24 @@ export const userCall = createAsyncThunk(
 export const userDelete = createAsyncThunk(
     'user/deleteUser',
     async (id) => {
-        // const data = await deleteUser(id);
-        // return data;
-        return id
+        try{
+            await deleteUser(id);
+            return id;            
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const userCreate = createAsyncThunk(
     'user/createUser',
     async (data) => {
-        // const data = await createUser(data);
-        // return data;
-        return await delay(createUser(data))
+        try{
+            const dataUser = await createUser(data);
+            return dataUser;
+        }catch(e){
+            throw e
+        }
     }
 );
 
@@ -185,7 +204,7 @@ export const usersSlice = createSlice({
                 }else if(action.type === userCall.fulfilled.type){
                     state.user = action.payload;
                 }else if(action.type === userDelete.fulfilled.type){
-                    state.users = state.users.filter(room => room.id!==action.payload)
+                    state.users = state.users.filter(user => user.id!==action.payload)
                     console.log("ID Deleted User: "+action.payload)
                 }else if(action.type === userCreate.fulfilled.type){
                     state.userCreated = action.payload;

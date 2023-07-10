@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
 import contacts from '../../data/contact/contact.json'
+import { apiCall } from '../api/apiConnection';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,24 +14,22 @@ function delay(data) {
 
 export const getContacts = async () => {
     try{
-        // const response = await fetch(contacts);
-        // const data = await response.json();
-        const data = contacts
-        return data;
+        const response = await apiCall("contacts","GET");
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
 export const getArchivedContacts = async () => {
     try{
-        // const response = await fetch(contacts);
-        // const data = await response.json();
-        const data = contacts
-        const archivedContacts = data.filter((contact) => contact.status === "archived")
+        const response = await getContacts();
+        const archivedContacts = response.filter((contact) => contact.status === false)
         return archivedContacts;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -93,14 +92,22 @@ const initialState = {
 export const contactsCall = createAsyncThunk(
     'contacts/getContacts',
     async () => {
-        return await delay(getContacts())
+        try{
+            return await delay(getContacts())
+        }catch(e){
+            throw e
+        }  
     }
 );
 
 export const contactsArchivedCall = createAsyncThunk(
     'contacts/getContacts',
     async () => {
-        return await delay(getArchivedContacts())
+        try{
+            return await delay(getArchivedContacts())
+        }catch(e){
+            throw e
+        }
     }
 );
 

@@ -2,8 +2,10 @@ import React from 'react'
 import { FormBtn, FormFooter, FormHeader, FormMain, FormPhoto, FormUserContainer, MainContainer, StatusContainer } from './NewUserStyle'
 import { useState } from 'react'
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userCreate } from '../../features/users/usersSlice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function NewUser() {
 
@@ -25,11 +27,11 @@ function NewUser() {
 
     const [job, setJob] = useState();
 
-    const [functions , setFunctions] = useState();
-
     const [status, setStatus] = useState();
 
-    const [ aux , setAux ] = useState(false)
+    const navigate = useNavigate()
+
+    const hasError = useSelector(state => state.users.hasError)
 
     useEffect(() => {
         if(img){
@@ -67,10 +69,6 @@ function NewUser() {
         setJob(event.target.value)
     }
 
-    const handleFunctionsChange = (event) => {
-        setFunctions(event.target.value)
-    }
-
     const handleStatusChange = (event) => {
         setStatus(event.target.value)
     }
@@ -79,25 +77,41 @@ function NewUser() {
         
         e.preventDefault();
 
+        let isStatus = (status === "true");
         const newUser = {
             name: name,
             password: password,
+            photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png",
             email: email,
-            phone: phone,
-            startDate: startDate,
-            job: job,
-            functions: functions,
-            status: status
+            contact: phone,
+            joined: startDate,
+            description: job,
+            status: isStatus
         }
 
         for(let key in newUser){
             if(!newUser[key]){
-                return alert("Something empty")
+                return toast.error("Something is empty in the creation of the user", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
             } 
         }
-
-        dispatch(userCreate(newUser))
-        setAux(true)
+        try{
+            dispatch(userCreate(newUser))
+            if(!hasError){
+                navigate('/users')
+            }
+        }catch(e){
+            console.log(e)
+        }
+        
     }
 
   return (
@@ -130,7 +144,7 @@ function NewUser() {
                     <label htmlFor="startDate">Start Date</label>
                     <input type="datetime-local" name="startDate" id="startDate" onChange={handleStartDateChange} data-cy="startDate"/>
                 </div>
-                <div style={{marginRight: "75px"}}>
+                <div style={{marginRight: "150px"}}>
                     <label htmlFor="job">Job</label> 
                     <select name="job" id="job" onChange={handleJobChange} defaultValue="" data-cy="job">
                         <option value="" disabled>Select an option</option>
@@ -138,17 +152,15 @@ function NewUser() {
                         <option value="receptionist">Receptionist</option>
                         <option value="roomService">Room Service</option>
                     </select>  
-                    <label htmlFor="Description">Functions description</label>
-                    <textarea style={{resize: 'none'}} onChange={handleFunctionsChange} data-cy="functions"></textarea>
                     <label htmlFor="status">Status</label>
                     <StatusContainer onChange={handleStatusChange}>
                         <div>
                            <label htmlFor="status">Active</label>
-                            <input type="radio" name="status" id="active" data-cy="active"/> 
+                            <input type="radio" name="status" id="active" data-cy="active" value={true}/> 
                         </div>
                         <div>
                             <label htmlFor="status">Inactive</label> 
-                            <input type="radio" name="status" id="inactive" />  
+                            <input type="radio" name="status" id="inactive" value={false}/>  
                         </div>                      
                     </StatusContainer>
                 </div>
@@ -156,11 +168,6 @@ function NewUser() {
             <FormFooter>
                 <FormBtn type='submit' value="Create User" style={{padding: "10px 20px"}} onSubmit={handleSubmit} data-cy="submit"/>
             </FormFooter>
-                {!aux?
-                    null
-                    :
-                    <p data-cy="done" style={{textAlign: 'center'}}>User created</p>
-                }
         </FormUserContainer>
     </MainContainer>
   )

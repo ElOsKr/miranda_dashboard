@@ -1,5 +1,6 @@
 import { createAsyncThunk , createSlice } from '@reduxjs/toolkit'
-import bookings from '../../data/bookings/bookings.json'
+import { apiCall } from '../api/apiConnection';
+import { getRoom } from '../rooms/roomsSlice';
 
 function delay(data) {
     return new Promise((resolve) => {
@@ -13,48 +14,44 @@ function delay(data) {
 
 export const getBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        return data;
+        const response = await apiCall("bookings","GET");
+        return response;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err;
     };
 };
 
 export const getCheckInBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const checkInBookings = data.filter((booking) => booking.status === "checkIn")
+        const response = await getBookings();
+        const checkInBookings = response.filter((booking) => booking.status === "checkIn")
         return checkInBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
 export const getCheckOutBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const checkOutBookings = data.filter((booking) => booking.status === "checkOut")
+        const response = await getBookings();
+        const checkOutBookings = response.filter((booking) => booking.status === "checkOut")
         return checkOutBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
 export const getInProgressBookings = async () => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings
-        const inProgressBookings = data.filter((booking) => booking.status === "inProgress")
+        const response = await getBookings();
+        const inProgressBookings = response.filter((booking) => booking.status === "inProgress")
         return inProgressBookings;
     }catch(err){
         console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 }
 
@@ -62,13 +59,12 @@ export const getInProgressBookings = async () => {
 
 export const getBooking = async (bookingId) => {
     try{
-        // const response = await fetch(bookings);
-        // const data = await response.json();
-        const data = bookings;
-        let booking = data.find(({id}) => id===bookingId);
-        return booking;
+        const response = await apiCall(`bookings/${bookingId}`,"GET");
+        const room = await getRoom(response[0].room_Id);
+        return {...response[0], typeRoom: room[0].type};
     }catch(err){
-        alert(`Error while procesing data from api ${err}`);
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
     };
 };
 
@@ -76,26 +72,23 @@ export const updateBooking = async (bookingId) => {
     try{
         // const response = await fetch(bookings);
         // const data = await response.json();
-        const data = bookings;
-        let booking = data.find(({id}) => id===bookingId);
-        return booking;
+        // const data = bookings;
+        // let booking = data.find(({id}) => id===bookingId);
+        return bookingId;
     }catch(err){
         alert(`Error while procesing data from api ${err}`);
     };
 }
 
-// export const deleteBooking = async (bookingId) => {
-//     try{
-//         // const response = await fetch(bookings);
-//         // const data = await response.json();
-//         const data = bookings;
-//         const booking = data.filter((booking) => booking.id!==bookingId);
-//         console.log(booking)
-//         return booking;
-//     }catch(err){
-//         alert(`Error while procesing data from api ${err}`);
-//     };
-// }
+export const deleteBooking = async (bookingId) => {
+    try{
+        const response = await apiCall(`bookings/${bookingId}`,"DELETE");
+        return response;
+    }catch(err){
+        console.log(`Error while procesing data from api ${err}`);
+        throw err
+    };
+}
 
 export const createBooking = async (dataBooking) => {
     try{
@@ -117,28 +110,44 @@ const initialState = {
 export const bookingsCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getBookings())
+        try{
+            return await delay(getBookings())
+        }catch (e){
+            throw e
+        }
     }
 );
 
 export const bookingsCheckInCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getCheckInBookings())
+        try{
+            return await delay(getCheckInBookings())
+        }catch (e){
+            throw e
+        }
     }
 );
 
 export const bookingsCheckOutCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getCheckOutBookings())
+        try{
+            return await delay(getCheckOutBookings())
+        }catch(e){
+            throw e
+        }
     }
 );
 
 export const bookingsInProgressCall = createAsyncThunk(
     'bookings/getBookings',
     async () => {
-        return await delay(getInProgressBookings())
+        try{
+            return await delay(getInProgressBookings())
+        }catch(e){
+            throw e
+        }
     }
 );
 
@@ -147,16 +156,23 @@ export const bookingsInProgressCall = createAsyncThunk(
 export const bookingCall = createAsyncThunk(
     'booking/getBooking',
     async (id) => {
-        return await delay(getBooking(id))
+        try{
+            return await delay(getBooking(id))
+        }catch (e){
+            throw e
+        }
     }
 );
 
 export const bookingDelete = createAsyncThunk(
     'booking/deleteBooking',
     async (id) => {
-        // const data = await deleteBooking(id);
-        // return data;
-        return id
+        try{
+            await deleteBooking(id);
+            return id;
+        }catch (e){
+            throw e
+        }
     }
 );
 

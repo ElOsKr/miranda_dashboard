@@ -27,9 +27,17 @@ function Contact() {
 
   const isLoading = useSelector(state => state.contacts.isLoading);
 
+  const hasError = useSelector(state => state.contacts.hasError);
+
   useEffect(()=>{
       dispatch(contactsCall());
   },[]);
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(contactsCall()), 5000);
+    }
+  },[hasError]);
 
   const handleAllContacts = () => {
     dispatch(contactsCall())
@@ -45,7 +53,9 @@ function Contact() {
   ]
 
   const cols = [
-      { property: 'id', label: 'Id'},
+      { property: 'id', label: 'Id', display: (row) => 
+        <p style={{textOverflow: "ellipsis", maxWidth: 80, overflow: "hidden",whiteSpace: "nowrap"}}>{row.id}</p>
+      },
       { property: 'date', label: 'Date', display: (row) =>
         <p>{new Date().toLocaleString()}</p>
       },
@@ -75,7 +85,7 @@ function Contact() {
       },
   ]
 
-  if(isLoading){
+  if(isLoading|| hasError){
     return(
       <MainContainer>
         <CharginProgress />

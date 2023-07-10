@@ -13,6 +13,8 @@ import Users from './pages/Users/Users';
 import NewUser from './pages/Users/NewUser';
 import BookingDescription from './pages/Bookings/BookingDescription';
 import LoginProvider from './components/LoginProvider';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -46,6 +48,7 @@ function App() {
             </RequiredAuth>
           </div>            
         </BrowserRouter>
+        <ToastContainer/>
       </div>      
     </LoginProvider>
 

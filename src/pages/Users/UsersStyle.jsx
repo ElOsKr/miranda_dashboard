@@ -35,12 +35,12 @@ const UserContainer = styled.div`
 `
 
 const UserImg = styled.div`
-    width: 88px;
-    height: 88px;
+    width: 100px;
+    height: 75px;
     img{
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: "cover";
     }
 `
 
@@ -52,6 +52,10 @@ const UserInfo = styled.div`
         &:first-child{
             color: #212121;
             font-weight: 600;
+        }
+
+        &:nth-child(2n){
+            font-size: 10px;
         }
 
         &:nth-child(2n+1){

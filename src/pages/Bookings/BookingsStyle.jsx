@@ -16,7 +16,7 @@ const BookingRoom = styled.div`
 `
 
 const BookingRoomImg = styled.div`
-    width: 50px;
+    width: 70px;
     height: 50px;
     img{
         width: 100%;
@@ -28,7 +28,7 @@ const BookingRoomImg = styled.div`
 const GuestInfo = styled.div`
 
     p:nth-child(2n){
-        font-size: 14px;
+        font-size: 8px;
         color: #799283;
     }
 `

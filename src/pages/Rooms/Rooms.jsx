@@ -31,9 +31,17 @@ function Rooms() {
 
   const isLoading = useSelector(state => state.rooms.isLoading)
 
+  const hasError = useSelector(state => state.rooms.hasError)
+
   useEffect(() => {
     dispatch(roomsCall())
   },[])
+
+  useEffect(() => {
+    if(hasError){
+      setTimeout(()=>dispatch(roomsCall()),5000)
+    }
+  },[hasError])
 
   const handleDeleteRoom = (id) => {
     dispatch(roomDelete(id))
@@ -76,7 +84,9 @@ function Rooms() {
       { property: 'type', label: 'Room Type' },
       { property: 'amenities', label: 'Amenities', display: (row) =>
         row.amenities?
-          <p>{row.amenities}</p>
+          row.amenities.map((amenitie)=>{
+            return <span key={amenitie}>{amenitie}&nbsp;</span>
+          })
         :  
           <NoData>No amenities</NoData>
       },
@@ -87,7 +97,7 @@ function Rooms() {
           row.offer?
             <OfferPrice>
               <p>{row.offer}%</p>
-              <p>{row.price-(row.price*(row.offer/100))}</p>
+              <p>{(row.price-(row.price*(row.offer/100))).toFixed(2)}</p>
             </OfferPrice>
           :
             <NoData>
@@ -101,13 +111,13 @@ function Rooms() {
           <Booked>Booked</Booked>  
       },
       { property: 'deleteRoom', label: '', display: (row) =>
-        <DeleteButton onClick={()=>handleDeleteRoom(parseInt(row.id))}>Delete</DeleteButton>
+        <DeleteButton onClick={()=>handleDeleteRoom((row.id))}>Delete</DeleteButton>
       }
   ]
 
   return (
     <MainContainer>
-      {isLoading?
+      {isLoading|| hasError?
           <CharginProgress />
         :
         <>

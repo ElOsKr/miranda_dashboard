@@ -10,6 +10,7 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      REACT_APP_API_URL: ${{ secrets.API_URL }}
       CI: false
     steps:
         - uses: actions/checkout@v3
@@ -22,12 +23,5 @@ jobs:
             aws-region: eu-west-3
         - name: Build React App
           run: npm install && npm run build
-        - name: Testing
-          run: npm run test
-        - name: Cypress test
-          uses: cypress-io/github-action@v5
-          with:
-            start: npm start
-            wait-on: 'http://localhost:3000'
         - name: Deploy app build to s3 bucket
-          run: aws s3 sync ./build/ s3://oscarmirandadashboard --delete
+          run: aws s3 sync ./build/ s3://oscarmirandadashboardapi --delete

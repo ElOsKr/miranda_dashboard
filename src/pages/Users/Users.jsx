@@ -20,9 +20,17 @@ function Users() {
 
   const isLoading = useSelector(state => state.users.isLoading)
 
+  const hasError = useSelector(state => state.users.hasError)
+
   useEffect(() => {
     dispatch(usersCall())
   },[])
+
+  useEffect(()=>{
+    if(hasError){
+      setTimeout(()=>dispatch(usersCall()),5000)
+    }
+  },[hasError])
 
   const handleDeleteUser = (id) => {
     dispatch(userDelete(id))
@@ -60,7 +68,7 @@ function Users() {
               #{row.id}
             </p>
             <p>
-              Joined on {new Date().toLocaleString()}
+              Joined on {new Date(row.joined).toLocaleString()}
             </p>
           </UserInfo>          
       </UserContainer>
@@ -81,13 +89,13 @@ function Users() {
             </UserInactive>
       },
       { property: 'deleteRoom', label: '', display: (row) =>
-        <DeleteButton onClick={()=>handleDeleteUser(parseInt(row.id))}>Delete</DeleteButton>
+        <DeleteButton onClick={()=>handleDeleteUser((row.id))}>Delete</DeleteButton>
       }
   ]
 
   return (
     <MainContainer>
-      {isLoading?
+      {isLoading|| hasError?
           <CharginProgress />
         :
           <>
