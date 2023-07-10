@@ -13,7 +13,7 @@ describe('Test login', () => {
   })
 
   it("Check login not succesful", () => {
-    cy.get('[data-cy="mail"]').type('a')
+    cy.get('[data-cy="mail"]').type('ab')
     cy.get('[data-cy="password"]').type('a')
     cy.get('[data-cy="submit"]').click()
     cy.url().should('eq','http://localhost:3000/miranda_dashboard/login')
